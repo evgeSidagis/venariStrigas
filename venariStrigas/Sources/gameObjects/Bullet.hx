@@ -18,6 +18,8 @@ class Bullet extends Entity
 	var lifeTime:Float=0;
 	var totalLifeTime:Float=3;
 
+	public var damage: Int = 20;
+
 	public function new() 
 	{
 		super();

@@ -23,7 +23,6 @@ import format.tmx.Data.TmxObject;
 import kha.input.KeyCode;
 import com.framework.utils.Input;
 import com.collision.platformer.CollisionEngine;
-import gameObjects.ChivitoBoy;
 import com.loading.basicResources.TilesheetLoader;
 import com.loading.basicResources.SpriteSheetLoader;
 import com.gEngine.display.Layer;
@@ -40,13 +39,14 @@ import gameObjects.Kyubey;
 import gameObjects.Bullet;
 import gameObjects.Ball;
 import gameObjects.Rocket;
+import gameObjects.Enemy;
+import gameObjects.Pawn;
 import GlobalGameData.GGD;
 import com.gEngine.display.StaticLayer;
 import com.loading.basicResources.SparrowLoader;
 
 class GameState extends State {
 	var worldMap:Tilemap;
-	var chivito:ChivitoBoy;
 	var simulationLayer:Layer;
 	var touchJoystick:VirtualGamepad;
 	var dialogCollision:CollisionGroup;
@@ -59,7 +59,7 @@ class GameState extends State {
 	var scoreDisplay:Text;
 	var score:Int = 0;
 	var hudLayer:StaticLayer;
-	
+
 	
 
 	var kyubey:Kyubey;
@@ -78,6 +78,7 @@ class GameState extends State {
 		atlas.add(new TilesheetLoader("level1b", 32, 32, 0));
 		atlas.add(new SparrowLoader("homurarpg", "homurarpg_xml"));
 		atlas.add(new SparrowLoader("coobie", "coobie_xml"));
+		atlas.add(new SparrowLoader("pawn","pawn_xml"));
 		resources.add(new ImageLoader("Hydra"));
 		resources.add(new ImageLoader("bullet"));
 		resources.add(new ImageLoader("rocket"));
@@ -113,35 +114,14 @@ class GameState extends State {
 		player = new Homura(100,1200, simulationLayer);
 		
 		addChild(player);
-
-		//createTouchJoystick();
 		
 		GGD.player = player;
 		GGD.simulationLayer = simulationLayer;
-
-		//stage.defaultCamera().postProcess=new ShFilmGrain(Blend.blendDefault());
 	}
 
-	/*function createTouchJoystick() {
-		touchJoystick = new VirtualGamepad();
-		touchJoystick.addKeyButton(XboxJoystick.LEFT_DPAD, KeyCode.Left);
-		touchJoystick.addKeyButton(XboxJoystick.RIGHT_DPAD, KeyCode.Right);
-		touchJoystick.addKeyButton(XboxJoystick.UP_DPAD, KeyCode.Up);
-		touchJoystick.addKeyButton(XboxJoystick.A, KeyCode.Space);
-		touchJoystick.addKeyButton(XboxJoystick.X, KeyCode.X);
-		touchJoystick.notify(chivito.onAxisChange, chivito.onButtonChange);
-
-		var gamepad = Input.i.getGamepad(0);
-		gamepad.notify(chivito.onAxisChange, chivito.onButtonChange);
-		
-	}
-*/
 
 	function parseMapObjects(layerTilemap:Tilemap, object:TmxObject) {
 		switch (object.objectType){
-			case OTTile(gid):
-				var kyubey = new Kyubey(object.x-60,object.y-50,simulationLayer);
-				addChild(kyubey);
 			case OTRectangle:
 				if(object.type=="dialog"){
 					var text=object.properties.get("text");
@@ -149,20 +129,35 @@ class GameState extends State {
 					dialogCollision.add(dialog.collider);
 					addChild(dialog);
 				}
+				if(object.type=="kyu"){
+					var kyubey = new Kyubey(object.x-10,object.y,simulationLayer);
+					addChild(kyubey);
+				}
+				if(object.type=="en"){
+					var pawn = new Pawn(object.x,object.y,simulationLayer,enemyCollisions);
+					addChild(pawn);
+				}
 			default:
 		}
 	}
 
 	public function playerVsBalls(a:ICollider,b:ICollider) {
 		//SoundManager.stopMusic();
-		changeState(new GameOver(score+""));
+		//changeState(new GameOver(score+""));
 	} 
-	public function bulletVsBall(a:ICollider,b:ICollider) {
-		var ball:Ball=cast b.userData;
-		ball.damage();
+	public function bulletVsEnemy(a:ICollider,b:ICollider) {
+		var pawn: Pawn=cast b.userData;
 		var bullet:Bullet=cast a.userData;
+
+		pawn.die();
 		bullet.die();
-		scoreDisplay.text=score+"";
+	}
+
+	public function rocketVsEnemy(a:ICollider,b:ICollider) {
+		var pawn: Pawn=cast b.userData;
+		var rocket:Rocket=cast a.userData;
+		pawn.damage(rocket.damage);
+		rocket.die();
 	}
 
 	override function update(dt:Float) {
@@ -170,21 +165,29 @@ class GameState extends State {
 		stage.defaultCamera().scale=1;
 	
 		CollisionEngine.collide(player.collision,worldMap.collision);
-		CollisionEngine.overlap(dialogCollision,player.collision,dialogVsPlayer);
-		stage.defaultCamera().setTarget(player.collision.x, player.collision.y);
+		CollisionEngine.collide(enemyCollisions,worldMap.collision);
 
-		CollisionEngine.overlap(player.rocketLauncher.rocketCollisions,enemyCollisions,bulletVsBall);
-		CollisionEngine.overlap(player.gun.bulletsCollisions,enemyCollisions,bulletVsBall);
+		CollisionEngine.overlap(dialogCollision,player.collision,dialogVsPlayer);
+		
+		CollisionEngine.overlap(player.rocketLauncher.rocketCollisions,enemyCollisions,rocketVsEnemy);
+		CollisionEngine.overlap(player.gun.bulletsCollisions,enemyCollisions,bulletVsEnemy);
+		
 		CollisionEngine.overlap(player.collision,enemyCollisions,playerVsBalls);
 		
+		stage.defaultCamera().setTarget(player.collision.x, player.collision.y-150);
+
 		if (Input.i.isKeyCodePressed(KeyCode.Return)) {
 			changeState(new GameOver(score + ""));
         }
 
 	}
-	function dialogVsPlayer(dialogCollision:ICollider,chivitoCollision:ICollider) {
+	function dialogVsPlayer(dialogCollision:ICollider,collision:ICollider) {
 		var dialog:Dialog=cast dialogCollision.userData;
 		dialog.showText(simulationLayer);
+	}
+
+	function doomVsPlayer(doomCollision:ICollider, playerCollision:ICollider) {
+
 	}
 	
 	#if DEBUGDRAW

@@ -19,7 +19,10 @@ class Rocket extends Entity
 	var lifeTime:Float=0;
 	var totalLifeTime:Float=3;
 	var direction:FastVector2;
-	public var damage:Int = 40;
+	
+	public var damage:Int = 50;
+
+	public var radius:Int = 50;
 
 	public function new() 
 	{

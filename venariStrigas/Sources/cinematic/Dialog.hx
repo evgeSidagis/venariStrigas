@@ -12,11 +12,12 @@ class Dialog extends Entity {
 	public var collider:CollisionBox;
 	public var displayText:Text;
     public var showingText:Bool = false;
-    public var playerInside:Bool=false;
+    public var playerInside:Bool= false;
     public var sequence:SequenceCode;
     public var currentLetter:Int=0;
+    public var id: Int;
 
-	public function new(text:String, x:Float, y:Float, width:Float, height:Float) {
+	public function new(text:String, x:Float, y:Float, width:Float, height:Float, did: Int) {
 		super();
 		this.text = text;
 		collider = new CollisionBox();
@@ -30,6 +31,7 @@ class Dialog extends Entity {
 		displayText.x = x;
         displayText.y = y;
         sequence=new SequenceCode();
+        id = did;
     }
     override function update(dt:Float) {
         super.update(dt);

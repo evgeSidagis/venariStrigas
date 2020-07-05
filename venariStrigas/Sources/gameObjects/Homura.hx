@@ -38,12 +38,21 @@ class Homura extends Entity
 	var rocketRecoil:Int = 0;
 	var shootingRocket:Bool;
 
+	public var health:Int = 100;
+
 	var firstJump:Bool = false;
 	var secondJump:Bool = false;
 
 	var isAir: Bool = false;
 	var jump: Int = 0;
-	
+
+	var isHurt: Bool = false;
+	var hurtCounter: Int = 0;
+
+	public var isNotAlive: Bool = false;
+	var doubleJumpEnabled: Bool = false;
+	var launcherEnabled: Bool = false;
+
 	public function new(X:Float, Y:Float,layer:Layer) 
 	{
 		super();
@@ -77,8 +86,7 @@ class Homura extends Entity
 		rocketLauncher = new RocketLauncher();
 		addChild(rocketLauncher);
 		display.smooth = false;
-		
-
+	
 		shootingPistol = false;
 		pistolRecoil = 0;
 		shootingRocket = false;
@@ -86,40 +94,46 @@ class Homura extends Entity
 	}
 	override function update(dt:Float ):Void
 	{
-		collision.velocityX = 0;
-		isOnAir();
+		checkAlive();
 
-		if(Input.i.isKeyCodeDown(KeyCode.Left)) {
-			move(-SPEED);
-		}
-		if(Input.i.isKeyCodeDown(KeyCode.Right)){
-			move(SPEED);
-		}
-		if(Input.i.isKeyCodePressed(KeyCode.Space) && shootingPistol != true && shootingRocket != true){
-			beginJump();
-		}
-		if(collision.velocityX !=0 || collision.velocityY !=0){
-			direction.setFrom(new FastVector2(collision.velocityX,collision.velocityY));
-			direction.setFrom(direction.normalized());
-		}else{
-			direction.y=-1;
-		}
+		if(!isNotAlive){
+			collision.velocityX = 0;
+			
+			isOnAir();
 
-		if(Input.i.isKeyCodePressed(KeyCode.Z)){
-			shootPistol();
-		}
-		if(shootingPistol)
-		{ 
-			recoilPistol();
-		}
-		if(Input.i.isKeyCodePressed(KeyCode.X)){
-			prepareRocket();
-		}
-		if(shootingRocket)
-		{
-			launchRocket();
-		}
+			ifHurt();
 
+			if(Input.i.isKeyCodeDown(KeyCode.Left)) {
+				move(-SPEED);
+			}
+			if(Input.i.isKeyCodeDown(KeyCode.Right)){
+				move(SPEED);
+			}
+			if(Input.i.isKeyCodePressed(KeyCode.Space) && shootingPistol != true && shootingRocket != true){
+				beginJump();
+			}
+			if(collision.velocityX !=0 || collision.velocityY !=0){
+				direction.setFrom(new FastVector2(collision.velocityX,collision.velocityY));
+				direction.setFrom(direction.normalized());
+			}else{
+				direction.y=-1;
+			}
+
+			if(Input.i.isKeyCodePressed(KeyCode.Z)){
+				shootPistol();
+			}
+			if(shootingPistol)
+			{ 
+				recoilPistol();
+			}
+			if(Input.i.isKeyCodePressed(KeyCode.X) && launcherEnabled){
+				prepareRocket();
+			}
+			if(shootingRocket)
+			{
+				launchRocket();
+			}
+		}
 		collision.update(dt);
 		super.update(dt);
 
@@ -141,8 +155,22 @@ class Homura extends Entity
 	override function render() {
 		display.x=collision.x;
 		display.y=collision.y;
-	
-		if(shootingPistol == true)
+		
+		if(isNotAlive){
+			display.offsetY=0;
+			display.timeline.playAnimation("dies_");	
+			display.timeline.frameRate=1/10;
+			if(direction.x >= 0){
+				display.scaleX=1;
+				display.offsetX= 0;
+			
+			}else{
+				display.scaleX=-1;
+				display.offsetX= 94;
+			}
+			display.timeline.frameRate=1/10;	
+		}
+		else if(shootingPistol == true)
 		{	
 			display.offsetY=0;
 			display.timeline.playAnimation("gun_");	
@@ -170,6 +198,19 @@ class Homura extends Entity
 					display.offsetX= 110;
 				}
 				display.timeline.frameRate=1/15;		
+		}else if(isHurt){
+			display.offsetY=0;
+			display.timeline.playAnimation("hurt_");	
+			display.timeline.frameRate=1/30;
+			if(direction.x >= 0){
+				display.scaleX=1;
+				display.offsetX= 0;
+				
+			}else{
+				display.scaleX=-1;
+				display.offsetX= 94;
+			}
+			display.timeline.frameRate=1/15;
 		}
 		else if(notWalking()){
 			display.offsetY = 0;
@@ -214,7 +255,13 @@ class Homura extends Entity
 	}
 
 	inline function beginJump(){
-		if(this.jump < 2) {
+		var aux = 0;
+		if(doubleJumpEnabled){
+			aux = 2;
+		}else{
+			aux = 1;
+		}
+		if(this.jump < aux) {
 			collision.velocityY=-750;
 			this.jump++;
 		}
@@ -258,5 +305,35 @@ class Homura extends Entity
 			rocketRecoil = 0;
 			shootingRocket = false;
 		}
+	}
+
+	inline function ifHurt(){
+		if(isHurt){
+			hurtCounter++;
+		}
+		if(hurtCounter >= 15){
+			isHurt = false;
+			hurtCounter == 0;
+		}
+	}
+
+	public function damage(dmg: Int){
+		isHurt = true;
+		health -= dmg;
+	}
+
+	inline function checkAlive(){
+		if (health<=0){
+			collision.velocityX = 0;
+			isNotAlive = true;
+		}
+	}
+
+	public function enableRocket(){
+		launcherEnabled = true;
+	}
+
+	public function enableDoubleJump(){
+		doubleJumpEnabled = true;
 	}
 }

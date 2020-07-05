@@ -3,6 +3,8 @@ package gameObjects;
 import com.gEngine.GEngine;
 import com.framework.Simulation;
 import gameObjects.Enemy;
+import gameObjects.Sword;
+import GlobalGameData.GGD;
 import com.gEngine.display.Layer;
 import kha.input.KeyCode;
 import com.framework.utils.Input;
@@ -17,19 +19,30 @@ class Pawn extends Entity
 {
 	static private inline var SPEED:Float = 250;
 	
-	var direction:FastVector2;
 	var display:Sprite;
     public var collision:CollisionBox;
     public var collisionGroup:CollisionGroup;
 	public var x(get,null):Float;
 	public var y(get,null):Float;
 	public var width(get,null):Float;
-    public var height(get,null):Float;
-    
+	public var height(get,null):Float;
+	
+	public var sword:Sword;
+	public var dir:FastVector2;
+	
 	var screenWidth:Int;
-    var screenHeight:Int;
+	var screenHeight:Int;
+	
+	var canJump: Bool = true;
 
-    var health:Int = 50;
+	var health:Int = 50;
+	
+	var isPreparingAttack: Bool = false;
+	var isAttacking: Bool = false;
+	var attackRespite: Int = 0;
+	var attackCharge: Int = 60;
+
+	var currentCharge: Int = 0;
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
@@ -39,7 +52,7 @@ class Pawn extends Entity
 		screenWidth = GEngine.i.width;
 		screenHeight = GEngine.i.height;
 		
-		direction=new FastVector2(1,0);
+		dir=new FastVector2(1,0);
 		display= new Sprite("pawn");
 		display.timeline.playAnimation("stand_");
 		display.timeline.frameRate=1/11;
@@ -50,17 +63,46 @@ class Pawn extends Entity
 		collision.width=80;
 		collision.height=110;
 
+		collision.userData=this;
+
 		collision.x=X;
 		collision.y=Y;
 
 		collision.accelerationY = 2000;
 		collision.maxVelocityX = 500;
 		collision.maxVelocityY = 800;
+		
+		sword = new Sword();
+		addChild(sword);
 
         col.add(collision);
 	}
 	override function update(dt:Float ):Void
 	{
+		var target:Homura = GGD.player;
+		
+
+		if(isPreparingAttack){
+			collision.velocityX = 0;
+			currentCharge++;
+		}
+		if(currentCharge == attackCharge){
+			isPreparingAttack = false;
+			isAttacking = true;
+			sword.swing(collision.x,collision.y,dir.x,dir.y);
+			attackRespite++;
+		}
+		if(attackRespite == 1){
+			attackRespite = 0;
+			isAttacking = false;
+			currentCharge = 0;
+		}
+		if((target.y - collision.y <= 200 && target.y - collision.y >= -200) && 
+			(target.x - collision.x <= 400 && target.x - collision.x >= -400) || health < 50)
+		{
+			move(target);
+		}
+			
 		collision.update(dt);
 		super.update(dt);
 
@@ -83,34 +125,39 @@ class Pawn extends Entity
 		display.x=collision.x;
 		display.y=collision.y;
 	
-		if(notWalking()){
-			display.offsetY = 0;
-			display.timeline.playAnimation("stand_");
-			if(direction.x>=0){
+		if(isAttacking){
+			display.timeline.playAnimation("attack_");
+			if(dir.x >=0){
 				display.scaleX= 1;
 				display.offsetX= -10;
 			
 			}else{
-				display.scaleX=- 1;
+				display.scaleX= -1;
+				display.offsetX= 94;
+			}	
+		}else if(notWalking()){
+			display.offsetY = 0;
+			display.timeline.playAnimation("stand_");
+			if(dir.x>=0){
+				display.scaleX= 1;
+				display.offsetX= -10;
+			
+			}else{
+				display.scaleX= -1;
 				display.offsetX= 94;
 			}	
 		}else{
 			display.timeline.playAnimation("run_");
 			
-			if(direction.x >= 0){
-				display.scaleX=1;
-				display.offsetY = 10;
+			if(dir.x >= 0){
+				display.scaleX= 1;
 				display.offsetX= -10;
 			}else{
-				display.scaleX=-1;
-				display.offsetY = 10;
+				display.scaleX= -1;
 				display.offsetX= 94;
 			}
 		}
 		super.render();
-	}
-	inline function walking45() {
-		return direction.x!=0 && direction.y!=0;
 	}
 	inline function notWalking(){
 		return collision.velocityX==0 &&collision.velocityY==0;
@@ -122,5 +169,35 @@ class Pawn extends Entity
             collision.removeFromParent();
             display.removeFromParent();
         }
-    }
+	}
+	
+	public function attack(){
+		if (attackRespite == 0){
+			isPreparingAttack = true;
+		}
+	}
+
+	inline function move(target: Homura){
+		if(!isAttacking && !isPreparingAttack){
+			dir = new FastVector2(target.x-(collision.x+collision.width*0.5),0);
+
+			dir.setFrom(dir.normalized());
+			dir.setFrom(dir.mult(SPEED));
+
+			collision.velocityX=dir.x;
+
+			if(target.y < collision.y && canJump){
+				collision.velocityY = -750;
+				canJump = false;
+			}
+			if(!isAttacking && collision.velocityY > 0 && canJump) {
+				collision.velocityY = -1000;
+				canJump = false;
+			}
+			if(!isAttacking && collision.velocityY == 0){
+				canJump = true;
+			}
+
+		}
+	}
 }

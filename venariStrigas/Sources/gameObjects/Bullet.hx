@@ -59,6 +59,5 @@ class Bullet extends Entity
 		collision.velocityY = 0;
 		bulletsCollision.add(collision);
 		GGD.simulationLayer.addChild(display);
-		
 	}
 }

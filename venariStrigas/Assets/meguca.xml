@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:3a6f1b1dec152a6abc861cf418798d5a:fd6e0b1860b949437828d021c1fad91b:a91bae216721cae12b9c262db28f3a5a$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="meguca.png" width="59" height="1440">
+    <sprite n="Flying head-0.png" x="1" y="1" w="57" h="88"/>
+    <sprite n="Flying head-1.png" x="1" y="91" w="57" h="88"/>
+    <sprite n="Flying head-2.png" x="1" y="721" w="57" h="88"/>
+    <sprite n="Flying head-3.png" x="1" y="811" w="57" h="88"/>
+    <sprite n="Flying head-4.png" x="1" y="901" w="57" h="88"/>
+    <sprite n="Flying head-5.png" x="1" y="991" w="57" h="88"/>
+    <sprite n="Flying head-6.png" x="1" y="1081" w="57" h="88"/>
+    <sprite n="Flying head-7.png" x="1" y="1171" w="57" h="88"/>
+    <sprite n="Flying head-8.png" x="1" y="1261" w="57" h="88"/>
+    <sprite n="Flying head-9.png" x="1" y="1351" w="57" h="88"/>
+    <sprite n="Flying head-10.png" x="1" y="181" w="57" h="88"/>
+    <sprite n="Flying head-11.png" x="1" y="271" w="57" h="88"/>
+    <sprite n="Flying head-12.png" x="1" y="361" w="57" h="88"/>
+    <sprite n="Flying head-13.png" x="1" y="451" w="57" h="88"/>
+    <sprite n="Flying head-14.png" x="1" y="541" w="57" h="88"/>
+    <sprite n="Flying head-15.png" x="1" y="631" w="57" h="88"/>
+</TextureAtlas>

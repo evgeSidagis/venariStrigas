@@ -20,20 +20,20 @@ verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
 <TextureAtlas imagePath="meguca.png" width="59" height="1440">
-    <sprite n="Flying head-0.png" x="1" y="1" w="57" h="88"/>
-    <sprite n="Flying head-1.png" x="1" y="91" w="57" h="88"/>
-    <sprite n="Flying head-2.png" x="1" y="721" w="57" h="88"/>
-    <sprite n="Flying head-3.png" x="1" y="811" w="57" h="88"/>
-    <sprite n="Flying head-4.png" x="1" y="901" w="57" h="88"/>
-    <sprite n="Flying head-5.png" x="1" y="991" w="57" h="88"/>
-    <sprite n="Flying head-6.png" x="1" y="1081" w="57" h="88"/>
-    <sprite n="Flying head-7.png" x="1" y="1171" w="57" h="88"/>
-    <sprite n="Flying head-8.png" x="1" y="1261" w="57" h="88"/>
-    <sprite n="Flying head-9.png" x="1" y="1351" w="57" h="88"/>
-    <sprite n="Flying head-10.png" x="1" y="181" w="57" h="88"/>
-    <sprite n="Flying head-11.png" x="1" y="271" w="57" h="88"/>
-    <sprite n="Flying head-12.png" x="1" y="361" w="57" h="88"/>
-    <sprite n="Flying head-13.png" x="1" y="451" w="57" h="88"/>
-    <sprite n="Flying head-14.png" x="1" y="541" w="57" h="88"/>
-    <sprite n="Flying head-15.png" x="1" y="631" w="57" h="88"/>
+    <SubTexture name="Meguca_0" x="1" y="1" width="57" height="88"/>
+    <SubTexture name="Meguca_1" x="1" y="91" width="57" height="88"/>
+    <SubTexture name="Meguca_2" x="1" y="721" width="57" height="88"/>
+    <SubTexture name="Meguca_3" x="1" y="811" width="57" height="88"/>
+    <SubTexture name="Meguca_4" x="1" y="901" width="57" height="88"/>
+    <SubTexture name="Meguca_5" x="1" y="991" width="57" height="88"/>
+    <SubTexture name="Meguca_6" x="1" y="1081" width="57" height="88"/>
+    <SubTexture name="Meguca_7" x="1" y="1171" width="57" height="88"/>
+    <SubTexture name="Meguca_8" x="1" y="1261" width="57" height="88"/>
+    <SubTexture name="Meguca_9" x="1" y="1351" width="57" height="88"/>
+    <SubTexture name="Meguca_10" x="1" y="181" width="57" height="88"/>
+    <SubTexture name="Meguca_11" x="1" y="271" width="57" height="88"/>
+    <SubTexture name="Meguca_12" x="1" y="361" width="57" height="88"/>
+    <SubTexture name="Meguca_13" x="1" y="451" width="57" height="88"/>
+    <SubTexture name="Meguca_14" x="1" y="541" width="57" height="88"/>
+    <SubTexture name="Meguca_15" x="1" y="631" width="57" height="88"/>
 </TextureAtlas>

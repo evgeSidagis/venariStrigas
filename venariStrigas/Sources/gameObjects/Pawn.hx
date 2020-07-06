@@ -15,7 +15,7 @@ import com.framework.utils.Entity;
 import com.collision.platformer.Sides;
 import com.collision.platformer.CollisionGroup;
 
-class Pawn extends Entity
+class Pawn extends Enemy
 {
 	static private inline var SPEED:Float = 250;
 	
@@ -34,8 +34,6 @@ class Pawn extends Entity
 	var screenHeight:Int;
 	
 	var canJump: Bool = true;
-
-	var health:Int = 50;
 	
 	var isPreparingAttack: Bool = false;
 	var isAttacking: Bool = false;
@@ -47,7 +45,8 @@ class Pawn extends Entity
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
 		super();
-        collisionGroup=col;
+		collisionGroup=col;
+		health = 50;
 
 		screenWidth = GEngine.i.width;
 		screenHeight = GEngine.i.height;
@@ -91,11 +90,14 @@ class Pawn extends Entity
 			isAttacking = true;
 			sword.swing(collision.x,collision.y,dir.x,dir.y);
 			attackRespite++;
+			currentCharge = 0;
 		}
-		if(attackRespite == 1){
+		if(attackRespite>0&&attackRespite<15){
+			attackRespite++;
+		}
+		if(attackRespite == 15){
 			attackRespite = 0;
 			isAttacking = false;
-			currentCharge = 0;
 		}
 		if((target.y - collision.y <= 200 && target.y - collision.y >= -200) && 
 			(target.x - collision.x <= 400 && target.x - collision.x >= -400) || health < 50)
@@ -163,7 +165,7 @@ class Pawn extends Entity
 		return collision.velocityX==0 &&collision.velocityY==0;
     }
     
-    public function damage(dmg: Int): Void {
+    override function damage(dmg: Int): Void {
         health -= dmg;
         if (health <= 0){
             collision.removeFromParent();

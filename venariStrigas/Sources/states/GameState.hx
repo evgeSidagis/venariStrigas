@@ -1,5 +1,6 @@
 package states;
 
+import js.html.audio.ChannelMergerNode;
 import com.collision.platformer.CollisionTileMap;
 import com.loading.basicResources.FontLoader;
 import com.collision.platformer.ICollider;
@@ -28,6 +29,7 @@ import com.loading.basicResources.SpriteSheetLoader;
 import com.gEngine.GEngine;
 import com.gEngine.display.Layer;
 import com.loading.basicResources.DataLoader;
+import com.loading.basicResources.SoundLoader;
 import com.collision.platformer.Tilemap;
 import com.loading.basicResources.JoinAtlas;
 import com.loading.Resources;
@@ -35,6 +37,7 @@ import com.framework.utils.State;
 import cinematic.Doom;
 import cinematic.Dialog;
 import com.loading.basicResources.FontLoader;
+import com.soundLib.SoundManager;
 import com.gEngine.display.Text;
 import gameObjects.Homura;
 import gameObjects.Kyubey;
@@ -44,6 +47,7 @@ import gameObjects.Rocket;
 import gameObjects.Enemy;
 import gameObjects.Pawn;
 import gameObjects.Swing;
+import gameObjects.Meguca;
 
 import GlobalGameData.GGD;
 import com.gEngine.display.StaticLayer;
@@ -61,12 +65,14 @@ class GameState extends State {
 	var backgroundLayer:Layer;
 	var background:Sprite;
 	var enemyCollisions:CollisionGroup;
+	var megucaCollisions:CollisionGroup;
 	
 	var scoreDisplay:Text;
 	var score: Int = 0;
 	var healthDisplay:Text;
 	var health: Int = 100;
 	var hudLayer: StaticLayer;
+	var soulGem: Sprite;
 	var kyubey: Kyubey;
 
 	
@@ -97,14 +103,17 @@ class GameState extends State {
 		atlas.add(new SparrowLoader("homurarpg", "homurarpg_xml"));
 		atlas.add(new SparrowLoader("coobie", "coobie_xml"));
 		atlas.add(new SparrowLoader("pawn","pawn_xml"));
+		atlas.add(new SparrowLoader("meguca","meguca_xml"));
 		resources.add(new ImageLoader("Hydra"));
 		resources.add(new ImageLoader("bullet"));
 		resources.add(new ImageLoader("rocket"));
 		resources.add(new ImageLoader("darkBg1"));
-		resources.add(new ImageLoader("city"));
+		resources.add(new ImageLoader("city2"));
 		resources.add(new ImageLoader("gun_hit"));
 		resources.add(new ImageLoader("blowing"));
 		resources.add(new ImageLoader("Swing"));
+		resources.add(new ImageLoader("Soulgem"));
+		resources.add(new SoundLoader("Decretum"));
 
 		atlas.add(new FontLoader("Kenney_Pixel",24));
 		atlas.add(new FontLoader(Assets.fonts.Kenney_ThickName, 30));
@@ -113,24 +122,32 @@ class GameState extends State {
 
 	override function init() {
 
-		backgroundLayer = new Layer();
-		background = new Sprite("city");
+		backgroundLayer = new StaticLayer();
+		background = new Sprite("darkBg1");
 		backgroundLayer.addChild(background);
 		stage.addChild(backgroundLayer);
+		SoundManager.playMusic("Decretum",true);
 
 		stageColor(0.5, .5, 0.5);
 		dialogCollision = new CollisionGroup();
 		doomCollision = new CollisionGroup();
 		enemyCollisions = new CollisionGroup();
+		megucaCollisions = new CollisionGroup();
 		simulationLayer = new Layer();
 		stage.addChild(simulationLayer);
 
-		worldMap = new Tilemap("SecondAreaD_tmx", 1);
+		worldMap = new Tilemap("FirstAreaD_tmx", 1);
 		worldMap.init(function(layerTilemap, tileLayer) {
 			if (!tileLayer.properties.exists("noCollision") && !tileLayer.properties.exists("cCol")) {
 				layerTilemap.createCollisions(tileLayer);
 			}
 			var spr = new Sprite("level1b");
+			var color:Int = tileLayer.tintColor;
+			var red = (color & 0xFF0000) >> 16;
+			var green = (color & 0x00FF00) >> 8;
+			var blue = (color & 0x0000FF);
+			spr.colorMultiplication(red/255,green/255,blue/255,1);
+
 			simulationLayer.addChild(layerTilemap.createDisplay(tileLayer,spr));
 		}, parseMapObjects);
 		
@@ -152,10 +169,17 @@ class GameState extends State {
 		hudLayer.addChild(scoreDisplay);
 		scoreDisplay.text = "0";
 		healthDisplay=new Text(Assets.fonts.Kenney_ThickName);
-		healthDisplay.x = GEngine.virtualWidth / 2 + 40;
-		healthDisplay.y = 30;
+		healthDisplay.x = GEngine.virtualWidth / 2;
+		healthDisplay.y = 600;
 		healthDisplay.text = Std.string(player.health);
 		hudLayer.addChild(healthDisplay);
+		
+		soulGem = new Sprite("Soulgem");
+		soulGem.x = GEngine.virtualWidth / 2 - 40;
+		soulGem.y = 600 - 10;
+		soulGem.scaleX = 2;
+		soulGem.scaleY = 2;
+		hudLayer.addChild(soulGem);
 	}
 
 
@@ -178,6 +202,10 @@ class GameState extends State {
 					pawns.push(pawn);
 					addChild(pawn);
 				}
+				if(object.type=="fen"){
+					var meguca = new Meguca(object.x,object.y,simulationLayer,megucaCollisions);
+					addChild(meguca);
+				}
 				if(object.type=="doom"){
 					var doom = new Doom(object.x,object.y,object.width,object.height);
 					doomCollision.add(doom.collider);
@@ -187,8 +215,6 @@ class GameState extends State {
 					player = new Homura(object.x,object.y, simulationLayer);
 					addChild(player);
 					GGD.player = player;
-					player.enableDoubleJump();
-					player.enableRocket();
 				}
 				if(object.type=="end"){
 					//DoSomething();
@@ -268,7 +294,7 @@ class GameState extends State {
 		
 		CollisionEngine.overlap(player.collision,enemyCollisions,playerVsEnemy);
 
-		stage.defaultCamera().setTarget(player.collision.x, player.collision.y-150);
+		stage.defaultCamera().setTarget(player.collision.x, player.collision.y);
 
 		if (Input.i.isKeyCodePressed(KeyCode.Return)) {
 			changeState(new GameOver(score + ""));

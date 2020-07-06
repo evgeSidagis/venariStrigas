@@ -12,10 +12,6 @@ import com.framework.utils.Entity;
 import com.collision.platformer.Sides;
 
 
-/**
- * ...
- * @author 
- */
 class Homura extends Entity
 {
 	static private inline var SPEED:Float = 500;
@@ -112,7 +108,7 @@ class Homura extends Entity
 			if(Input.i.isKeyCodePressed(KeyCode.Space) && shootingPistol != true && shootingRocket != true){
 				beginJump();
 			}
-			if(collision.velocityX !=0 || collision.velocityY !=0){
+			if(collision.velocityX !=0){
 				direction.setFrom(new FastVector2(collision.velocityX,collision.velocityY));
 				direction.setFrom(direction.normalized());
 			}else{
@@ -237,9 +233,6 @@ class Homura extends Entity
 			}
 		}
 		super.render();
-	}
-	inline function walking45() {
-		return direction.x!=0 && direction.y!=0;
 	}
 	inline function notWalking(){
 		return collision.velocityX==0 &&collision.velocityY==0;

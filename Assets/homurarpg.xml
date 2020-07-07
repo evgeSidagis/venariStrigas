@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:c03629851850af030d3b38db75632c36:73b0a2926eec7adf16e9d97117c205b9:2ffc42bdd9a4ee6f748887eeb4dd91af$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+width  => sprite width (may be trimmed)
+height  => sprite height (may be trimmed)
+pivotX => x pos of the pivot point (relative to sprite width)
+pivotY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="homurarpg.png" width="977" height="1217">
+    <SubTexture name="dies_0" x="415" y="240" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_1" x="532" y="240" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_2" x="265" y="589" width="115" height="115" pivotX="0.373913" pivotY="0.469565"/>
+    <SubTexture name="dies_3" x="265" y="706" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_4" x="265" y="823" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_5" x="265" y="940" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_6" x="265" y="1057" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_7" x="382" y="357" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_8" x="382" y="474" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_9" x="499" y="357" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_10" x="649" y="240" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_11" x="766" y="240" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_12" x="265" y="355" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="dies_13" x="265" y="472" width="115" height="115" pivotX="0.373913" pivotY="0.478261"/>
+    <SubTexture name="gun_0" x="1" y="1" width="148" height="112" pivotX="0.236486" pivotY="0.491071"/>
+    <SubTexture name="gun_1" x="1" y="115" width="148" height="112" pivotX="0.236486" pivotY="0.491071"/>
+    <SubTexture name="gun_2" x="151" y="1" width="148" height="112" pivotX="0.236486" pivotY="0.491071"/>
+    <SubTexture name="gun_3" x="1" y="229" width="148" height="112" pivotX="0.236486" pivotY="0.491071"/>
+    <SubTexture name="gun_4" x="151" y="115" width="148" height="112" pivotX="0.236486" pivotY="0.491071"/>
+    <SubTexture name="hurt_0" x="883" y="240" width="93" height="112" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="hurt_1" x="883" y="354" width="93" height="112" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="hurt_2" x="382" y="1087" width="112" height="93" pivotX="0.5" pivotY="0.5" rotated="true"/>
+    <SubTexture name="hurt_3" x="864" y="468" width="112" height="93" pivotX="0.5" pivotY="0.5" rotated="true"/>
+    <SubTexture name="hurt_4" x="609" y="549" width="112" height="93" pivotX="0.5" pivotY="0.5" rotated="true"/>
+    <SubTexture name="idle_0" x="382" y="591" width="94" height="122" pivotX="0.425532" pivotY="0.5"/>
+    <SubTexture name="idle_1" x="616" y="357" width="122" height="94" pivotX="0.425532" pivotY="0.5" rotated="true"/>
+    <SubTexture name="idle_2" x="382" y="715" width="94" height="122" pivotX="0.425532" pivotY="0.5"/>
+    <SubTexture name="idle_3" x="740" y="357" width="122" height="94" pivotX="0.425532" pivotY="0.5" rotated="true"/>
+    <SubTexture name="idle_4" x="382" y="839" width="94" height="122" pivotX="0.425532" pivotY="0.5"/>
+    <SubTexture name="idle_5" x="382" y="963" width="94" height="122" pivotX="0.425532" pivotY="0.5"/>
+    <SubTexture name="idle_6" x="616" y="453" width="122" height="94" pivotX="0.425532" pivotY="0.5" rotated="true"/>
+    <SubTexture name="idle_7" x="740" y="453" width="122" height="94" pivotX="0.425532" pivotY="0.5" rotated="true"/>
+    <SubTexture name="lmg_0" x="719" y="659" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="lmg_1" x="827" y="673" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="lmg_2" x="588" y="862" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="lmg_3" x="696" y="767" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="lmg_4" x="696" y="875" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="lmg_5" x="804" y="781" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="lmg_6" x="804" y="889" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="lmg_7" x="588" y="970" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="lmg_8" x="696" y="983" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="lmg_9" x="804" y="997" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="lmg_10" x="588" y="754" width="106" height="106" pivotX="0.5" pivotY="0.471698"/>
+    <SubTexture name="rpg_0" x="301" y="125" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_1" x="431" y="125" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_2" x="135" y="353" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_3" x="135" y="468" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_4" x="135" y="583" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_5" x="135" y="698" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_6" x="135" y="813" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_7" x="135" y="928" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_8" x="135" y="1043" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_9" x="285" y="240" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_10" x="561" y="125" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_11" x="691" y="125" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="rpg_12" x="821" y="125" width="128" height="113" pivotX="0.5" pivotY="0.5"/>
+    <SubTexture name="run_0" x="499" y="474" width="108" height="108" pivotX="0.5" pivotY="0.462963"/>
+    <SubTexture name="run_1" x="723" y="549" width="108" height="108" pivotX="0.5" pivotY="0.462963"/>
+    <SubTexture name="run_2" x="499" y="584" width="108" height="108" pivotX="0.5" pivotY="0.462963"/>
+    <SubTexture name="run_3" x="478" y="694" width="108" height="108" pivotX="0.5" pivotY="0.462963"/>
+    <SubTexture name="run_4" x="478" y="804" width="108" height="108" pivotX="0.5" pivotY="0.462963"/>
+    <SubTexture name="run_5" x="478" y="914" width="108" height="108" pivotX="0.5" pivotY="0.462963"/>
+    <SubTexture name="run_6" x="833" y="563" width="108" height="108" pivotX="0.5" pivotY="0.462963"/>
+    <SubTexture name="run_7" x="609" y="644" width="108" height="108" pivotX="0.5" pivotY="0.462963"/>
+    <SubTexture name="spec_0" x="496" y="1024" width="68" height="106" pivotX="0.588235" pivotY="0.5"/>
+    <SubTexture name="spec_1" x="566" y="1078" width="106" height="68" pivotX="0.588235" pivotY="0.5" rotated="true"/>
+    <SubTexture name="spec_2" x="496" y="1148" width="106" height="68" pivotX="0.588235" pivotY="0.5" rotated="true"/>
+    <SubTexture name="spec_3" x="604" y="1148" width="106" height="68" pivotX="0.588235" pivotY="0.5" rotated="true"/>
+    <SubTexture name="spec_4" x="712" y="1091" width="68" height="106" pivotX="0.588235" pivotY="0.5"/>
+    <SubTexture name="spec_5" x="782" y="1105" width="106" height="68" pivotX="0.588235" pivotY="0.5" rotated="true"/>
+    <SubTexture name="spec_6" x="890" y="1105" width="68" height="106" pivotX="0.588235" pivotY="0.5"/>
+</TextureAtlas>

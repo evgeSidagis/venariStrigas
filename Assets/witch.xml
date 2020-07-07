@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:9b22d0fc85ed97c6d54fe6013641b155:e1cc87ec32688f190e76d54008a98da7:fc1ee4900b7fdbaa018685f98b787359$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="witch.png" width="992" height="112">
+    <sprite n="What-0.png" x="1" y="1" w="122" h="110"/>
+    <sprite n="What-1.png" x="125" y="1" w="122" h="110"/>
+    <sprite n="What-2.png" x="249" y="1" w="122" h="110"/>
+    <sprite n="What-3.png" x="373" y="1" w="122" h="110"/>
+    <sprite n="What-4.png" x="497" y="1" w="122" h="110"/>
+    <sprite n="What-5.png" x="621" y="1" w="122" h="110"/>
+    <sprite n="What-6.png" x="745" y="1" w="122" h="110"/>
+    <sprite n="What-7.png" x="869" y="1" w="122" h="110"/>
+</TextureAtlas>

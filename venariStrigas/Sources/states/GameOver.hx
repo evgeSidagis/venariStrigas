@@ -45,9 +45,9 @@ class GameOver extends State {
     var targetPosition:FastVector2;
     override function update(dt:Float) {
         super.update(dt);
-        /*if(Input.i.isKeyCodePressed(KeyCode.Return)){
-            changeState(new GameState()); 
-        }*/
+        if(Input.i.isKeyCodePressed(KeyCode.Return)){
+            changeState(new Intro()); 
+        }
 
     }
 }

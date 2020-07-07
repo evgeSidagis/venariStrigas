@@ -89,14 +89,22 @@ class GameState extends State {
 
 	var pawns: Array<Pawn> = new Array<Pawn>();
 	var dialogCounter: Int = 1;
+
+	var room : String;
+	var fromRoom : String;
+	var endings:CollisionGroup;
 	
 	public function new(room:String, fromRoom:String = null) {
 		super();
+		this.room = room;
+		this.fromRoom = fromRoom;
 	}
 
 	override function load(resources:Resources) {
-		resources.add(new DataLoader(Assets.blobs.FirstAreaD_tmxName));
-		resources.add(new DataLoader(Assets.blobs.SecondAreaD_tmxName));
+		//resources.add(new DataLoader(room+"_tmx"));
+		//resources.add(new DataLoader(Assets.blobs.SecondAreaD_tmxName));
+		resources.add(new DataLoader("BossArea_tmx"));
+	
 		var atlas = new JoinAtlas(2048, 2048);
 
 		atlas.add(new TilesheetLoader("level1b", 32, 32, 0));
@@ -104,16 +112,18 @@ class GameState extends State {
 		atlas.add(new SparrowLoader("coobie", "coobie_xml"));
 		atlas.add(new SparrowLoader("pawn","pawn_xml"));
 		atlas.add(new SparrowLoader("meguca","meguca_xml"));
-		resources.add(new ImageLoader("Hydra"));
 		resources.add(new ImageLoader("bullet"));
 		resources.add(new ImageLoader("rocket"));
-		resources.add(new ImageLoader("darkBg1"));
-		resources.add(new ImageLoader("city2"));
+		resources.add(new ImageLoader("FirstAreaDBg"));
+		resources.add(new ImageLoader("SecondAreaDBg"));
+		resources.add(new ImageLoader("BossAreaBg"));
+		resources.add(new SoundLoader("FirstAreaDM"));
+		resources.add(new SoundLoader("SecondAreaDM"));
+		resources.add(new SoundLoader("BossAreaM"));
 		resources.add(new ImageLoader("gun_hit"));
 		resources.add(new ImageLoader("blowing"));
 		resources.add(new ImageLoader("Swing"));
 		resources.add(new ImageLoader("Soulgem"));
-		resources.add(new SoundLoader("Decretum"));
 
 		atlas.add(new FontLoader("Kenney_Pixel",24));
 		atlas.add(new FontLoader(Assets.fonts.Kenney_ThickName, 30));
@@ -123,20 +133,21 @@ class GameState extends State {
 	override function init() {
 
 		backgroundLayer = new StaticLayer();
-		background = new Sprite("darkBg1");
+		background = new Sprite("BossAreaBg");
 		backgroundLayer.addChild(background);
 		stage.addChild(backgroundLayer);
-		SoundManager.playMusic("Decretum",true);
+		SoundManager.playMusic("BossAreaM",false);
 
 		stageColor(0.5, .5, 0.5);
 		dialogCollision = new CollisionGroup();
 		doomCollision = new CollisionGroup();
 		enemyCollisions = new CollisionGroup();
 		megucaCollisions = new CollisionGroup();
+		endings = new CollisionGroup();
 		simulationLayer = new Layer();
 		stage.addChild(simulationLayer);
 
-		worldMap = new Tilemap("FirstAreaD_tmx", 1);
+		worldMap = new Tilemap("BossArea_tmx", 1);
 		worldMap.init(function(layerTilemap, tileLayer) {
 			if (!tileLayer.properties.exists("noCollision") && !tileLayer.properties.exists("cCol")) {
 				layerTilemap.createCollisions(tileLayer);
@@ -212,12 +223,23 @@ class GameState extends State {
 					addChild(doom);
 				}
 				if(object.type=="start"){
-					player = new Homura(object.x,object.y, simulationLayer);
-					addChild(player);
-					GGD.player = player;
+					if(player==null){
+						player = new Homura(object.x,object.y, simulationLayer);
+						addChild(player);
+						GGD.player = player;
+					}else{
+						player.collision.x = object.x;
+						player.collision.y = object.y;
+					}
 				}
 				if(object.type=="end"){
-					//DoSomething();
+					var end = new CollisionBox();
+					end.x = object.x;
+					end.y = object.y;
+					end.width = object.width;
+					end.height = object.height;
+					end.userData = object.properties.get("goTo");
+					endings.add(end);
 				}
 			default:
 		}
@@ -279,6 +301,17 @@ class GameState extends State {
 		playexplosion = true;
 	}
 
+	public function homuraVsEnd(a:ICollider,b:ICollider){
+		if(Input.i.isKeyCodePressed(KeyCode.Return)){
+			SoundManager.stopMusic();
+			if(a.userData != "endScreen"){
+				changeState(new GameState(a.userData,room));
+			}else{
+				changeState(new Ending());
+			}
+		}
+	}
+
 	override function update(dt:Float) {
 		super.update(dt);
 		stage.defaultCamera().scale=1;
@@ -293,12 +326,13 @@ class GameState extends State {
 		CollisionEngine.overlap(player.gun.bulletsCollisions,enemyCollisions,bulletVsEnemy);
 		
 		CollisionEngine.overlap(player.collision,enemyCollisions,playerVsEnemy);
+		CollisionEngine.overlap(player.collision,endings,homuraVsEnd);
 
 		stage.defaultCamera().setTarget(player.collision.x, player.collision.y);
 
-		if (Input.i.isKeyCodePressed(KeyCode.Return)) {
-			changeState(new GameOver(score + ""));
-		}
+		if(Input.i.isKeyCodePressed(KeyCode.R)){
+            changeState(new Intro());
+        }
 		
 
 		if(playGunHit){
@@ -320,6 +354,10 @@ class GameState extends State {
 				explosion.removeFromParent();
 				explosion.removeFromParent();
 			}
+		}
+
+		if(player.health <= 0){
+			changeState(new GameOver());
 		}
 		
 	}

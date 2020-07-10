@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="level1b" tilewidth="32" tileheight="32" tilecount="135" columns="9">
   <image source="level1b.png" width="288" height="480"/>
  </tileset>
- <layer id="1" name="Capa de patrones 1" width="64" height="32" tintcolor="#432d41">
+ <layer id="1" name="Capa de patrones 1" width="64" height="32" tintcolor="#ff00ea">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -66,7 +66,7 @@ to hell and back.</property>
    </properties>
   </object>
  </objectgroup>
- <layer id="3" name="Capa de patrones 2" width="64" height="32" tintcolor="#372739">
+ <layer id="3" name="Capa de patrones 2" width="64" height="32" tintcolor="#ff00ea">
   <properties>
    <property name="cCol" value=""/>
   </properties>

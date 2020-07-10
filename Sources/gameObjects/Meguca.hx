@@ -37,13 +37,17 @@ class Meguca extends Enemy
 	var attackCharge: Int = 60;
 
 	var currentCharge: Int = 0;
+
+	var changeDirection: Int = 90;
+
+	var changeCounter = 0;
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
 		super();
         collisionGroup=col;
 
-        health=30;
+        health=1;
 
 		screenWidth = GEngine.i.width;
 		screenHeight = GEngine.i.height;
@@ -52,39 +56,26 @@ class Meguca extends Enemy
 		display= new Sprite("meguca");
 		display.timeline.playAnimation("Meguca_");
 		display.timeline.frameRate=1/15;
+		display.scaleX = 0.5;
+		display.scaleY = 0.5;
 		
         layer.addChild(display);
         
 		collision=new CollisionBox();
-		collision.width=80;
-		collision.height=110;
+		collision.width=40;
+		collision.height=40;
 
 		collision.userData=this;
 
 		collision.x=X;
 		collision.y=Y;
 
+		collision.velocityX = -300;
+
         col.add(collision);
 	}
 	override function update(dt:Float ):Void
 	{
-		//var target:Homura = GGD.player;
-		
-
-		if(isPreparingAttack){
-			collision.velocityX = 0;
-			currentCharge++;
-		}
-		if(currentCharge == attackCharge){
-			isPreparingAttack = false;
-			isAttacking = true;
-			attackRespite++;
-		}
-		if(attackRespite == 1){
-			attackRespite = 0;
-			isAttacking = false;
-			currentCharge = 0;
-		}
 		move();
 	
 		collision.update(dt);
@@ -109,37 +100,22 @@ class Meguca extends Enemy
 		display.x=collision.x;
 		display.y=collision.y;
 		display.timeline.playAnimation("Meguca_");	
-		if(dir.x >= 0){
-			display.scaleX= 1;
-			display.offsetX= -10;
+		if(collision.velocityX >= 0){
+			display.scaleX= 0.5;
+			display.offsetX= 0;
 		}else{
-			display.scaleX= -1;
-			display.offsetX= 94;
+			display.scaleX= -0.5;
+			display.offsetX= 47;
 		}
 		super.render();
 	}
     
-    override function damage(dmg: Int): Void {
-        health -= dmg;
-        if (health <= 0){
-            collision.removeFromParent();
-            display.removeFromParent();
-        }
-	}
 	
-	public function attack(){
-		if (attackRespite == 0){
-			isPreparingAttack = true;
-		}
-	}
-
 	inline function move(){
-		if(!isAttacking && !isPreparingAttack){
-			
-			dir.setFrom(dir.normalized());
-			dir.setFrom(dir.mult(SPEED));
-
-			collision.velocityX=dir.x;
+		changeCounter++;
+		if(changeDirection == changeCounter){
+			collision.velocityX= collision.velocityX*-1;
+			changeCounter = 0;
 		}
 	}
 }

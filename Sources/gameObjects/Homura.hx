@@ -49,6 +49,10 @@ class Homura extends Entity
 	var doubleJumpEnabled: Bool = false;
 	var launcherEnabled: Bool = false;
 
+	public var controlEnabled: Bool = true;
+
+	var returnControl: Int = 0;
+
 	public function new(X:Float, Y:Float,layer:Layer) 
 	{
 		super();
@@ -91,8 +95,12 @@ class Homura extends Entity
 	override function update(dt:Float ):Void
 	{
 		checkAlive();
-
-		if(!isNotAlive){
+		returnControl++;
+		if(returnControl == 30){
+			returnControl = 0;
+			this.controlEnabled = true;
+		}
+		if(!isNotAlive && this.controlEnabled){
 			collision.velocityX = 0;
 			
 			isOnAir();
@@ -247,7 +255,7 @@ class Homura extends Entity
 		}
 	}
 
-	inline function beginJump(){
+	public function beginJump(){
 		var aux = 0;
 		if(doubleJumpEnabled){
 			aux = 2;
@@ -329,4 +337,8 @@ class Homura extends Entity
 	public function enableDoubleJump(){
 		doubleJumpEnabled = true;
 	}
+
+	public function removeControl(){
+		this.controlEnabled = false;
+	};
 }

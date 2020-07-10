@@ -20,12 +20,12 @@ verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
 <TextureAtlas imagePath="witch.png" width="992" height="112">
-    <sprite n="What-0.png" x="1" y="1" w="122" h="110"/>
-    <sprite n="What-1.png" x="125" y="1" w="122" h="110"/>
-    <sprite n="What-2.png" x="249" y="1" w="122" h="110"/>
-    <sprite n="What-3.png" x="373" y="1" w="122" h="110"/>
-    <sprite n="What-4.png" x="497" y="1" w="122" h="110"/>
-    <sprite n="What-5.png" x="621" y="1" w="122" h="110"/>
-    <sprite n="What-6.png" x="745" y="1" w="122" h="110"/>
-    <sprite n="What-7.png" x="869" y="1" w="122" h="110"/>
+    <SubTexture name="witch_0" x="1" y="1" width="122" height="110"/>
+    <SubTexture name="witch_1" x="125" y="1" width="122" height="110"/>
+    <SubTexture name="witch_2" x="249" y="1" width="122" height="110"/>
+    <SubTexture name="witch_3" x="373" y="1" width="122" height="110"/>
+    <SubTexture name="witch_4" x="497" y="1" width="122" height="110"/>
+    <SubTexture name="witch_5" x="621" y="1" width="122" height="110"/>
+    <SubTexture name="witch_6" x="745" y="1" width="122" height="110"/>
+    <SubTexture name="witch_7" x="869" y="1" width="122" height="110"/>
 </TextureAtlas>

@@ -1,5 +1,6 @@
 package states;
 
+import kha.audio2.ResamplingAudioChannel;
 import js.html.audio.ChannelMergerNode;
 import com.collision.platformer.CollisionTileMap;
 import com.loading.basicResources.FontLoader;
@@ -48,6 +49,7 @@ import gameObjects.Enemy;
 import gameObjects.Pawn;
 import gameObjects.Swing;
 import gameObjects.Meguca;
+import gameObjects.Raganos;
 
 import GlobalGameData.GGD;
 import com.gEngine.display.StaticLayer;
@@ -67,16 +69,12 @@ class GameState extends State {
 	var enemyCollisions:CollisionGroup;
 	var megucaCollisions:CollisionGroup;
 	
-	var scoreDisplay:Text;
-	var score: Int = 0;
 	var healthDisplay:Text;
 	var health: Int = 100;
 	var hudLayer: StaticLayer;
 	var soulGem: Sprite;
 	var kyubey: Kyubey;
 
-	
-	
 	var gunHit: Sprite;
 	var playGunHit: Bool = false;
 	var gunHitDuration: Int = 1;
@@ -93,6 +91,12 @@ class GameState extends State {
 	var room : String;
 	var fromRoom : String;
 	var endings:CollisionGroup;
+
+	var temporalSprites: Array<Sprite> = new Array<Sprite>();
+	var purgeSprites: Int = 0;
+	var teleportCollision: CollisionGroup;
+
+	var bossCollision: CollisionGroup;
 	
 	public function new(room:String, fromRoom:String = null) {
 		super();
@@ -102,8 +106,8 @@ class GameState extends State {
 
 	override function load(resources:Resources) {
 		//resources.add(new DataLoader(room+"_tmx"));
-		//resources.add(new DataLoader(Assets.blobs.SecondAreaD_tmxName));
-		resources.add(new DataLoader("BossArea_tmx"));
+		resources.add(new DataLoader(Assets.blobs.BossArea_tmxName));
+		//resources.add(new DataLoader("SecondAreaD_tmx"));
 	
 		var atlas = new JoinAtlas(2048, 2048);
 
@@ -112,6 +116,7 @@ class GameState extends State {
 		atlas.add(new SparrowLoader("coobie", "coobie_xml"));
 		atlas.add(new SparrowLoader("pawn","pawn_xml"));
 		atlas.add(new SparrowLoader("meguca","meguca_xml"));
+		atlas.add(new SparrowLoader("witch","witch_xml"));
 		resources.add(new ImageLoader("bullet"));
 		resources.add(new ImageLoader("rocket"));
 		resources.add(new ImageLoader("FirstAreaDBg"));
@@ -133,20 +138,25 @@ class GameState extends State {
 	override function init() {
 
 		backgroundLayer = new StaticLayer();
+		//background = new Sprite(room+"Bg");
 		background = new Sprite("BossAreaBg");
 		backgroundLayer.addChild(background);
 		stage.addChild(backgroundLayer);
-		SoundManager.playMusic("BossAreaM",false);
+		//SoundManager.playMusic(room+"M",true);
+		SoundManager.playMusic("BossAreaM",true);
 
 		stageColor(0.5, .5, 0.5);
 		dialogCollision = new CollisionGroup();
 		doomCollision = new CollisionGroup();
 		enemyCollisions = new CollisionGroup();
 		megucaCollisions = new CollisionGroup();
+		bossCollision = new CollisionGroup();
+		teleportCollision = new CollisionGroup();
 		endings = new CollisionGroup();
 		simulationLayer = new Layer();
 		stage.addChild(simulationLayer);
 
+		worldMap = new Tilemap(room+"_tmx", 1);
 		worldMap = new Tilemap("BossArea_tmx", 1);
 		worldMap.init(function(layerTilemap, tileLayer) {
 			if (!tileLayer.properties.exists("noCollision") && !tileLayer.properties.exists("cCol")) {
@@ -164,21 +174,11 @@ class GameState extends State {
 		
 		stage.defaultCamera().limits(0, 0, worldMap.widthIntTiles * 32 , worldMap.heightInTiles * 32);
 
-		//player = new Homura(100,200, simulationLayer);
-		
-		//addChild(player);
-		
-		//GGD.player = player;
 		GGD.simulationLayer = simulationLayer;
 
 
-		hudLayer = new StaticLayer(); // layer independent from the camera psition
+		hudLayer = new StaticLayer();
 		stage.addChild(hudLayer);
-		scoreDisplay = new Text(Assets.fonts.Kenney_ThickName);
-		scoreDisplay.x = GEngine.virtualWidth / 2;
-		scoreDisplay.y = 30;
-		hudLayer.addChild(scoreDisplay);
-		scoreDisplay.text = "0";
 		healthDisplay=new Text(Assets.fonts.Kenney_ThickName);
 		healthDisplay.x = GEngine.virtualWidth / 2;
 		healthDisplay.y = 600;
@@ -241,6 +241,18 @@ class GameState extends State {
 					end.userData = object.properties.get("goTo");
 					endings.add(end);
 				}
+				if(object.type=="teleport"){
+					var end = new CollisionBox();
+					end.x = object.x;
+					end.y = object.y;
+					end.width = object.width;
+					end.height = object.height;
+					teleportCollision.add(end);
+				}
+				if(object.type == "boss"){
+					var raganos = new Raganos(object.x,object.y,simulationLayer,bossCollision);
+					addChild(raganos); 
+				}
 			default:
 		}
 	}
@@ -251,12 +263,25 @@ class GameState extends State {
 		CollisionEngine.overlap(player.collision,pawn.sword.swordCollisions,playerVsSword);
 	} 
 
+	public function playerVsMeguca(a:ICollider, b:ICollider){
+		var meguca: Meguca = cast a.userData;
+		if(player.controlEnabled){
+			player.removeControl();
+			player.collision.velocityX = meguca.collision.velocityX;
+			player.beginJump();
+		}
+	}
+
 	inline function playerVsSword(a: ICollider, b: ICollider){
 		var swing: Swing = cast a.userData;
 		player.damage(swing.damage);
 		health -= swing.damage;
 		swing.die();
 		healthDisplay.text = health + "";
+	}
+
+	inline function playerVsTeleport(a: ICollider, b:ICollider){
+		player.collision.y = 20;
 	}
 
 	public function bulletVsEnemy(a:ICollider,b:ICollider) {
@@ -270,9 +295,8 @@ class GameState extends State {
 		gunHit.x = pawn.collision.x;
 		gunHit.y = pawn.collision.y;
 		
+		temporalSprites.push(gunHit);
 		simulationLayer.addChild(gunHit);
-		playGunHit = true;
-		
 	}
 
 	public function rocketVsEnemy(a:ICollider,b:ICollider) {
@@ -296,9 +320,8 @@ class GameState extends State {
 		explosion = new Sprite("blowing");
 		explosion.x = pawn.collision.x;
 		explosion.y = pawn.collision.y;
-		
+		temporalSprites.push(explosion);
 		simulationLayer.addChild(explosion);
-		playexplosion = true;
 	}
 
 	public function homuraVsEnd(a:ICollider,b:ICollider){
@@ -321,12 +344,14 @@ class GameState extends State {
 
 		CollisionEngine.overlap(dialogCollision,player.collision,dialogVsPlayer);
 		CollisionEngine.overlap(doomCollision,player.collision,doomVsPlayer);
+		CollisionEngine.overlap(teleportCollision,player.collision,playerVsTeleport);
 		
 		CollisionEngine.overlap(player.rocketLauncher.rocketCollisions,enemyCollisions,rocketVsEnemy);
 		CollisionEngine.overlap(player.gun.bulletsCollisions,enemyCollisions,bulletVsEnemy);
 		
 		CollisionEngine.overlap(player.collision,enemyCollisions,playerVsEnemy);
 		CollisionEngine.overlap(player.collision,endings,homuraVsEnd);
+		CollisionEngine.overlap(player.collision,megucaCollisions,playerVsMeguca);
 
 		stage.defaultCamera().setTarget(player.collision.x, player.collision.y);
 
@@ -334,25 +359,11 @@ class GameState extends State {
             changeState(new Intro());
         }
 		
-
-		if(playGunHit){
-			playAnimHit++;
-			if(playAnimHit == gunHitDuration){
-				playGunHit = false;
-				playAnimHit = 0;
-				gunHit.removeFromParent();
-				gunHit.removeFromParent();
-				gunHit.removeFromParent();
-			}
-		}
-		if(playexplosion){
-			playExplosionWhile++;
-			if(playExplosionWhile == explosionDuration){
-				playexplosion = false;
-				playExplosionWhile = 0;
-				explosion.removeFromParent();
-				explosion.removeFromParent();
-				explosion.removeFromParent();
+		purgeSprites++;
+		if(purgeSprites == 30){
+			purgeSprites = 0;
+			for(s in temporalSprites){
+				s.removeFromParent();
 			}
 		}
 
@@ -375,6 +386,7 @@ class GameState extends State {
 	function doomVsPlayer(doomCollision:ICollider, playerCollision:ICollider) {
 		var doom:Doom=cast doomCollision.userData;
 		doom.showText(simulationLayer);
+		changeState(new GameOver());
 	}
 	
 	#if DEBUGDRAW

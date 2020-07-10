@@ -35,7 +35,8 @@ class GameOver extends State {
         image.y=100;
         stage.addChild(image);
         var scoreDisplay=new Text(Assets.fonts.Kenney_ThickName);
-        scoreDisplay.text="Your score is "+score;
+        scoreDisplay.text="You have failed in your quest to find Madoka.
+        Try again.";
         scoreDisplay.x=GEngine.virtualWidth/2-scoreDisplay.width()*0.5;
         scoreDisplay.y=GEngine.virtualHeight/2;
         scoreDisplay.color=Color.Red;

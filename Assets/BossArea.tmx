@@ -41,7 +41,7 @@
  </layer>
  <objectgroup id="2" name="Capa de Objetos 1">
   <object id="2" type="boss" x="820" y="286" width="176" height="342"/>
-  <object id="3" type="teleport" x="360" y="864" width="1110" height="160"/>
+  <object id="3" type="teleport" x="360" y="1021" width="1114" height="3"/>
   <object id="4" type="dialog" x="125.667" y="350.333" width="69" height="86">
    <properties>
     <property name="text" value="This must be the witch lair"/>

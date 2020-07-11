@@ -1,22 +1,16 @@
 package gameObjects;
 
 import com.gEngine.GEngine;
-import com.framework.Simulation;
 import com.gEngine.display.Layer;
 import kha.input.KeyCode;
-import com.framework.utils.Input;
 import com.collision.platformer.CollisionBox;
 import com.gEngine.display.Sprite;
 import kha.math.FastVector2;
 import com.framework.utils.Entity;
 import com.collision.platformer.CollisionGroup;
+import GlobalGameData.GGD;
 
-
-/**
- * ...
- * @author 
- */
-class Raganos extends Entity
+class Raganos extends Enemy
 {
 	var direction:FastVector2;
 	var display:Sprite;
@@ -28,10 +22,16 @@ class Raganos extends Entity
 	public var height(get,null):Float;
 	var screenWidth:Int;
 	var screenHeight:Int;
+
+	var bossStage: Int = 1;
+
+	var arm: Arm;
+
+	var tripleShotTimer: Int = 0;
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
-        
+        health = 1000;
 		super();
         collisionGroup = col;
 
@@ -52,7 +52,10 @@ class Raganos extends Entity
 		collision.x=X;
         collision.y=Y;
         
-        collision.userData=this;
+		collision.userData=this;
+		
+		arm=new Arm();
+		addChild(arm);
 
         col.add(collision);
 
@@ -60,6 +63,17 @@ class Raganos extends Entity
 	}
 	override function update(dt:Float ):Void
 	{
+		var target:Homura = GGD.player;
+		tripleShotTimer++;
+		if(bossStage == 1){
+			if(tripleShotTimer == 180){
+				tripleShotTimer = 0;
+				arm.shoot(this.collision.x,this.collision.y+this.collision.y/2-30,-1,0);
+				arm.shoot(this.collision.x,this.collision.y+this.collision.y/2-30,-1,1);
+				arm.shoot(this.collision.x,this.collision.y+this.collision.y/2-30,-1,-1);
+			}
+		}
+
 		collision.velocityX=0;
 		collision.velocityY=0;
 		collision.update(dt);
@@ -84,5 +98,13 @@ class Raganos extends Entity
 		display.x=collision.x;
 		display.y=collision.y;
 		super.render();
+	}
+
+	override function damage(dmg: Int): Void {
+        health -= dmg;
+        if (health <= 0){
+            collision.removeFromParent();
+            display.removeFromParent();
+        }
 	}
 }

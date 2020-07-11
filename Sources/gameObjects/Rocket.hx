@@ -17,7 +17,7 @@ class Rocket extends Entity
 	public var collision:CollisionBox;
 	var display:Sprite;
 	var lifeTime:Float=0;
-	var totalLifeTime:Float=3;
+	var totalLifeTime:Float=1;
 	var direction:FastVector2;
 	
 	public var damage:Int = 50;
@@ -46,7 +46,7 @@ class Rocket extends Entity
 	}
 	override function update(dt:Float) {
 		lifeTime+=dt;
-		if(lifeTime>totalLifeTime){
+		if(lifeTime>=totalLifeTime){
 			die();
 		}
 		collision.update(dt);
@@ -62,7 +62,7 @@ class Rocket extends Entity
 		}
 		super.update(dt);
 	}
-	public function shoot(x:Float, y:Float,dirX:Float,dirY:Float,bulletsCollision:CollisionGroup):Void
+	public function shoot(x:Float, y:Float,dirX:Float,dirY:Float):Void
 	{
 		lifeTime=0;
 		collision.x=x;
@@ -71,7 +71,7 @@ class Rocket extends Entity
 		collision.velocityY = 0;
 		direction.setFrom(new FastVector2(collision.velocityX,collision.velocityY));
 		direction.setFrom(direction.normalized());
-		bulletsCollision.add(collision);
+		GGD.rockets.add(collision);
 		GGD.simulationLayer.addChild(display);
 		
 	}

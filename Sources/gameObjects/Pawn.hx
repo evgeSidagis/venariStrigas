@@ -1,12 +1,10 @@
 package gameObjects;
 
 import com.gEngine.GEngine;
-import com.framework.Simulation;
 import gameObjects.Enemy;
 import gameObjects.Sword;
 import GlobalGameData.GGD;
 import com.gEngine.display.Layer;
-import kha.input.KeyCode;
 import com.framework.utils.Input;
 import com.collision.platformer.CollisionBox;
 import com.gEngine.display.Sprite;

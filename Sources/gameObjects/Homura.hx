@@ -1,5 +1,6 @@
 package gameObjects;
 
+import GlobalGameData.GGD;
 import com.gEngine.GEngine;
 import com.framework.Simulation;
 import com.gEngine.display.Layer;
@@ -46,8 +47,6 @@ class Homura extends Entity
 	var hurtCounter: Int = 0;
 
 	public var isNotAlive: Bool = false;
-	var doubleJumpEnabled: Bool = false;
-	var launcherEnabled: Bool = false;
 
 	public var controlEnabled: Bool = true;
 
@@ -130,7 +129,7 @@ class Homura extends Entity
 			{ 
 				recoilPistol();
 			}
-			if(Input.i.isKeyCodePressed(KeyCode.X) && launcherEnabled){
+			if(Input.i.isKeyCodePressed(KeyCode.X) && GGD.launcherEnabled){
 				prepareRocket();
 			}
 			if(shootingRocket)
@@ -257,7 +256,7 @@ class Homura extends Entity
 
 	public function beginJump(){
 		var aux = 0;
-		if(doubleJumpEnabled){
+		if(GGD.doubleJumpEnabled){
 			aux = 2;
 		}else{
 			aux = 1;
@@ -330,13 +329,6 @@ class Homura extends Entity
 		}
 	}
 
-	public function enableRocket(){
-		launcherEnabled = true;
-	}
-
-	public function enableDoubleJump(){
-		doubleJumpEnabled = true;
-	}
 
 	public function removeControl(){
 		this.controlEnabled = false;

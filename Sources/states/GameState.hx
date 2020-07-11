@@ -43,13 +43,13 @@ import com.gEngine.display.Text;
 import gameObjects.Homura;
 import gameObjects.Kyubey;
 import gameObjects.Bullet;
-import gameObjects.Ball;
 import gameObjects.Rocket;
 import gameObjects.Enemy;
 import gameObjects.Pawn;
 import gameObjects.Swing;
 import gameObjects.Meguca;
 import gameObjects.Raganos;
+import gameObjects.Projectile;
 
 import GlobalGameData.GGD;
 import com.gEngine.display.StaticLayer;
@@ -97,6 +97,9 @@ class GameState extends State {
 	var teleportCollision: CollisionGroup;
 
 	var bossCollision: CollisionGroup;
+	var bullets: CollisionGroup;
+	var rockets: CollisionGroup;
+	var projectiles: CollisionGroup;
 	
 	public function new(room:String, fromRoom:String = null) {
 		super();
@@ -129,6 +132,7 @@ class GameState extends State {
 		resources.add(new ImageLoader("blowing"));
 		resources.add(new ImageLoader("Swing"));
 		resources.add(new ImageLoader("Soulgem"));
+		resources.add(new ImageLoader("Proj"));
 
 		atlas.add(new FontLoader("Kenney_Pixel",24));
 		atlas.add(new FontLoader(Assets.fonts.Kenney_ThickName, 30));
@@ -152,11 +156,16 @@ class GameState extends State {
 		megucaCollisions = new CollisionGroup();
 		bossCollision = new CollisionGroup();
 		teleportCollision = new CollisionGroup();
+
+		bullets = new CollisionGroup();
+		rockets = new CollisionGroup();
+		projectiles = new CollisionGroup();
+
 		endings = new CollisionGroup();
 		simulationLayer = new Layer();
 		stage.addChild(simulationLayer);
 
-		worldMap = new Tilemap(room+"_tmx", 1);
+		//worldMap = new Tilemap(room+"_tmx", 1);
 		worldMap = new Tilemap("BossArea_tmx", 1);
 		worldMap.init(function(layerTilemap, tileLayer) {
 			if (!tileLayer.properties.exists("noCollision") && !tileLayer.properties.exists("cCol")) {
@@ -175,6 +184,9 @@ class GameState extends State {
 		stage.defaultCamera().limits(0, 0, worldMap.widthIntTiles * 32 , worldMap.heightInTiles * 32);
 
 		GGD.simulationLayer = simulationLayer;
+		GGD.bullets = bullets;
+		GGD.rockets = rockets;
+		GGD.projectiles = projectiles;
 
 
 		hudLayer = new StaticLayer();
@@ -227,9 +239,14 @@ class GameState extends State {
 						player = new Homura(object.x,object.y, simulationLayer);
 						addChild(player);
 						GGD.player = player;
+						
 					}else{
 						player.collision.x = object.x;
 						player.collision.y = object.y;
+					}
+					if(room!="FirstAreaD"){
+						GGD.launcherEnabled = true;
+						GGD.doubleJumpEnabled = true;
 					}
 				}
 				if(object.type=="end"){
@@ -335,6 +352,62 @@ class GameState extends State {
 		}
 	}
 
+	function dialogVsPlayer(dialogCollision:ICollider,collision:ICollider) {
+		var dialog:Dialog=cast dialogCollision.userData;
+		dialog.showText(simulationLayer);
+		if(dialog.id == 1){
+			GGD.doubleJumpEnabled = true;
+		}
+		if(dialog.id == 2){
+			GGD.launcherEnabled = true;                                                                           
+		}
+	}
+
+	function doomVsPlayer(doomCollision:ICollider, playerCollision:ICollider) {
+		var doom:Doom=cast doomCollision.userData;
+		doom.showText(simulationLayer);
+		changeState(new GameOver());
+	}
+
+	public function bulletVsBoss(a:ICollider,b:ICollider) {
+		var boss:Raganos=cast b.userData;
+		var bullet:Bullet=cast a.userData;
+
+		boss.damage(bullet.damage);
+		bullet.die();
+
+		gunHit = new Sprite("gun_hit");
+		gunHit.x = boss.collision.x;
+		gunHit.y = boss.collision.y;
+		
+		temporalSprites.push(gunHit);
+		simulationLayer.addChild(gunHit);
+	}
+
+	public function rocketVsBoss(a:ICollider,b:ICollider) {
+		var boss:Raganos=cast b.userData;
+		var rocket:Rocket=cast a.userData;
+
+		boss.damage(rocket.damage);
+		rocket.die();
+
+		var x: Float = boss.collision.x;
+		var y: Float = boss.collision.y;
+		
+		explosion = new Sprite("blowing");
+		explosion.x = boss.collision.x;
+		explosion.y = boss.collision.y;
+		temporalSprites.push(explosion);
+		simulationLayer.addChild(explosion);
+	}
+
+	function playerVsProjectile(a:ICollider,b:ICollider){
+		var projectile:Projectile = cast a.userData;
+		player.damage(projectile.damage);
+		projectile.die();
+	}
+
+
 	override function update(dt:Float) {
 		super.update(dt);
 		stage.defaultCamera().scale=1;
@@ -346,12 +419,16 @@ class GameState extends State {
 		CollisionEngine.overlap(doomCollision,player.collision,doomVsPlayer);
 		CollisionEngine.overlap(teleportCollision,player.collision,playerVsTeleport);
 		
-		CollisionEngine.overlap(player.rocketLauncher.rocketCollisions,enemyCollisions,rocketVsEnemy);
-		CollisionEngine.overlap(player.gun.bulletsCollisions,enemyCollisions,bulletVsEnemy);
+		CollisionEngine.overlap(GGD.rockets,enemyCollisions,rocketVsEnemy);
+		CollisionEngine.overlap(GGD.bullets,enemyCollisions,bulletVsEnemy);
 		
 		CollisionEngine.overlap(player.collision,enemyCollisions,playerVsEnemy);
 		CollisionEngine.overlap(player.collision,endings,homuraVsEnd);
 		CollisionEngine.overlap(player.collision,megucaCollisions,playerVsMeguca);
+
+		CollisionEngine.overlap(GGD.rockets, bossCollision, rocketVsBoss);
+		CollisionEngine.overlap(GGD.bullets, bossCollision, bulletVsBoss);
+		CollisionEngine.overlap(GGD.projectiles,player.collision,playerVsProjectile);
 
 		stage.defaultCamera().setTarget(player.collision.x, player.collision.y);
 
@@ -370,31 +447,16 @@ class GameState extends State {
 		if(player.health <= 0){
 			changeState(new GameOver());
 		}
-		
-	}
-	function dialogVsPlayer(dialogCollision:ICollider,collision:ICollider) {
-		var dialog:Dialog=cast dialogCollision.userData;
-		dialog.showText(simulationLayer);
-		if(dialog.id == 1){
-			player.enableDoubleJump();
-		}
-		if(dialog.id == 2){
-			player.enableRocket();                                                                             
-		}
+		healthDisplay.text = player.health + "";
 	}
 
-	function doomVsPlayer(doomCollision:ICollider, playerCollision:ICollider) {
-		var doom:Doom=cast doomCollision.userData;
-		doom.showText(simulationLayer);
-		changeState(new GameOver());
-	}
 	
 	#if DEBUGDRAW
-	override function draw(framebuffer:kha.Canvas) {
+	/*override function draw(framebuffer:kha.Canvas) {
 		super.draw(framebuffer);
 		var camera=stage.defaultCamera();
 		CollisionEngine.renderDebug(framebuffer,camera);
-	}
+	}*/
 	#end
 	override function destroy() {
 		super.destroy();

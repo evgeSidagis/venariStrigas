@@ -22,7 +22,7 @@ class Intro extends State {
     }
     override function init() {
         intro=new Sprite("Intro");
-        SoundManager.playMusic("Inevitabilis",false);
+        //SoundManager.playMusic("Inevitabilis",false);
         stage.addChild(intro);
     }
     override function update(dt:Float) {

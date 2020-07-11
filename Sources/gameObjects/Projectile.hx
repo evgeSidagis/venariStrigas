@@ -1,7 +1,5 @@
 package gameObjects;
 
-import js.lib.Float32Array;
-import com.collision.platformer.CollisionGroup;
 import GlobalGameData.GGD;
 import com.gEngine.helper.RectangleDisplay;
 import com.collision.platformer.CollisionBox;
@@ -13,9 +11,9 @@ class Projectile extends Entity
 	public var collision:CollisionBox;
 	var display:Sprite;
 	var lifeTime:Float=0;
-	var totalLifeTime:Float=1;
+	var totalLifeTime:Float=2;
 
-	public var damage: Int = 40;
+	public var damage: Int = 10;
 
 	public function new() 
 	{
@@ -52,8 +50,8 @@ class Projectile extends Entity
 		lifeTime=0;
 		collision.x=x;
 		collision.y=y;
-		collision.velocityX = 600*dirX;
-		collision.velocityY = 600*dirY;
+		collision.velocityX = 500*dirX;
+		collision.velocityY = 500*dirY;
 		GGD.projectiles.add(collision);
 		GGD.simulationLayer.addChild(display);
 	}

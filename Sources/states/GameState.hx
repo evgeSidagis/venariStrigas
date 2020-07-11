@@ -63,17 +63,25 @@ class GameState extends State {
 	var doomCollision: CollisionGroup;
 	var screenWidth:Int;
 	var screenHeight:Int;
+
 	var player:Homura;
+	var raganos:Raganos;
+
 	var backgroundLayer:Layer;
 	var background:Sprite;
 	var enemyCollisions:CollisionGroup;
 	var megucaCollisions:CollisionGroup;
 	
+	//Displays
 	var healthDisplay:Text;
+	var bossDisplay:Text;
+	var bossHealth: Int = 0;
 	var health: Int = 100;
 	var hudLayer: StaticLayer;
 	var soulGem: Sprite;
-	var kyubey: Kyubey;
+	var pistolIcon:Sprite;
+	var rocketIcon:Sprite;
+	var specialIcon:Sprite;
 
 	var gunHit: Sprite;
 	var playGunHit: Bool = false;
@@ -100,6 +108,8 @@ class GameState extends State {
 	var bullets: CollisionGroup;
 	var rockets: CollisionGroup;
 	var projectiles: CollisionGroup;
+
+
 	
 	public function new(room:String, fromRoom:String = null) {
 		super();
@@ -133,6 +143,9 @@ class GameState extends State {
 		resources.add(new ImageLoader("Swing"));
 		resources.add(new ImageLoader("Soulgem"));
 		resources.add(new ImageLoader("Proj"));
+		resources.add(new ImageLoader("PistolIcon"));
+		resources.add(new ImageLoader("RocketIcon"));
+		resources.add(new ImageLoader("SpecialIcon"));
 
 		atlas.add(new FontLoader("Kenney_Pixel",24));
 		atlas.add(new FontLoader(Assets.fonts.Kenney_ThickName, 30));
@@ -147,7 +160,7 @@ class GameState extends State {
 		backgroundLayer.addChild(background);
 		stage.addChild(backgroundLayer);
 		//SoundManager.playMusic(room+"M",true);
-		SoundManager.playMusic("BossAreaM",true);
+		//SoundManager.playMusic("BossAreaM",true);
 
 		stageColor(0.5, .5, 0.5);
 		dialogCollision = new CollisionGroup();
@@ -198,11 +211,37 @@ class GameState extends State {
 		hudLayer.addChild(healthDisplay);
 		
 		soulGem = new Sprite("Soulgem");
+		pistolIcon = new Sprite("PistolIcon");
+		rocketIcon = new Sprite("RocketIcon");
+		specialIcon = new Sprite("SpecialIcon");
+		//setUpHealthIcon
 		soulGem.x = GEngine.virtualWidth / 2 - 40;
-		soulGem.y = 600 - 10;
+		soulGem.y = 590;
 		soulGem.scaleX = 2;
 		soulGem.scaleY = 2;
 		hudLayer.addChild(soulGem);
+
+		//setUpPistolicon
+		pistolIcon.x = 20;
+		pistolIcon.y = 590;
+		hudLayer.addChild(pistolIcon);
+		//setUpRocketIcon
+		rocketIcon.x = 80;
+		rocketIcon.y = 590;
+		hudLayer.addChild(rocketIcon);
+		//setUpSpecialIcon
+		specialIcon.x = 140;
+		specialIcon.y = 590;
+		hudLayer.addChild(specialIcon);
+
+		//setUpBossHealth
+		if(raganos != null && raganos.health>0){
+			bossDisplay=new Text(Assets.fonts.Kenney_ThickName);
+			bossDisplay.x = GEngine.virtualWidth / 2;
+			bossDisplay.y = 100;
+			bossDisplay.text = Std.string(raganos.health);
+			hudLayer.addChild(bossDisplay);
+		}
 	}
 
 
@@ -267,7 +306,7 @@ class GameState extends State {
 					teleportCollision.add(end);
 				}
 				if(object.type == "boss"){
-					var raganos = new Raganos(object.x,object.y,simulationLayer,bossCollision);
+					raganos = new Raganos(object.x,object.y,simulationLayer,bossCollision);
 					addChild(raganos); 
 				}
 			default:
@@ -448,6 +487,7 @@ class GameState extends State {
 			changeState(new GameOver());
 		}
 		healthDisplay.text = player.health + "";
+		bossDisplay.text = raganos.health + "";
 	}
 
 	

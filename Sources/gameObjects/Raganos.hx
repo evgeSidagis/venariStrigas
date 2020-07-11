@@ -23,15 +23,24 @@ class Raganos extends Enemy
 	var screenWidth:Int;
 	var screenHeight:Int;
 
+	var originX: Float;
+	var originY: Float;
+
 	var bossStage: Int = 1;
 
 	var arm: Arm;
 
 	var tripleShotTimer: Int = 0;
+	var xAngle:Float = -1;
+	var yAngle:Float = 0;
+	var followCounter:Int = 0;
+
+	var leftToRightX:Bool = true;
+	var leftToRightY:Bool = true;
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
-        health = 1000;
+        health = 1500;
 		super();
         collisionGroup = col;
 
@@ -57,20 +66,39 @@ class Raganos extends Enemy
 		arm=new Arm();
 		addChild(arm);
 
-        col.add(collision);
+		col.add(collision);
+		
+		originX = X+collision.width/2;
+		originY = Y+collision.height/2;
 
 		layer.addChild(display);
 	}
 	override function update(dt:Float ):Void
 	{
-		var target:Homura = GGD.player;
-		tripleShotTimer++;
-		if(bossStage == 1){
-			if(tripleShotTimer == 180){
-				tripleShotTimer = 0;
-				arm.shoot(this.collision.x,this.collision.y+this.collision.y/2-30,-1,0);
-				arm.shoot(this.collision.x,this.collision.y+this.collision.y/2-30,-1,1);
-				arm.shoot(this.collision.x,this.collision.y+this.collision.y/2-30,-1,-1);
+		if(health>0){
+			var target:Homura = GGD.player;
+			tripleShotTimer++;
+			checkStage();
+			if(bossStage == 1){
+				if(tripleShotTimer % 180 == 0){
+					tripleShotHorizontal(1);
+					tripleShotHorizontal(-1);
+					tripleShotVertical(1);
+					tripleShotVertical(-1);
+				}
+			}
+			if(bossStage == 2){
+				followShot();
+			}
+
+			if(bossStage == 3){
+				if(tripleShotTimer % 180 == 0){
+					tripleShotHorizontal(1);
+					tripleShotHorizontal(-1);
+					tripleShotVertical(1);
+					tripleShotVertical(-1);
+				}
+				followShot();
 			}
 		}
 
@@ -106,5 +134,56 @@ class Raganos extends Enemy
             collision.removeFromParent();
             display.removeFromParent();
         }
+	}
+
+	function tripleShotHorizontal(dirX: Float){
+		arm.shoot(originX,originY,dirX,0);
+		arm.shoot(originX,originY,dirX,0.5);
+		arm.shoot(originX,originY,dirX,-0.5);
+	}
+
+	function tripleShotVertical(dirY: Float){
+		arm.shoot(originX,originY,0,dirY);
+		arm.shoot(originX,originY,0.5,dirY);
+		arm.shoot(originX,originY,-0.5,dirY);
+	}
+
+	function checkStage(){
+		if (health<=1000&&health>500){
+			bossStage = 2;
+		}
+		if (health<=500){
+			bossStage = 3;
+		}
+	}
+
+	function followShot(){
+		followCounter++;
+		if(followCounter%7 == 0){
+			arm.shoot(originX,originY,xAngle,yAngle);
+			//SetDirectionsCorrectly
+			if(xAngle >= 1){
+				leftToRightX = false;
+			}
+			if(xAngle <= -1){
+				leftToRightX = true;
+			}
+			if(yAngle >= 1){
+				leftToRightY = true;
+			}
+			if(yAngle <= -1){
+				leftToRightY = false;
+			}
+			if(leftToRightX){
+				xAngle+=0.05;
+			}else{
+				xAngle-=0.05;
+			}
+			if(leftToRightY){
+				yAngle-=0.05;
+			}else{
+				yAngle+=0.05;
+			}
+		}
 	}
 }

@@ -14,8 +14,7 @@ class Arm extends Entity
 	public function shoot(aX:Float, aY:Float,dirX:Float,dirY:Float):Void
 	{
 		var projectile:Projectile=cast recycle(Projectile);
-		var randomAngleY:Float = Random.getRandomIn(-0.05,0.05);
-		projectile.shoot(aX,aY,dirX,randomAngleY);
+		projectile.shoot(aX,aY,dirX,dirY);
 	}
 	
 }

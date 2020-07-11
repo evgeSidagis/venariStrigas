@@ -77,30 +77,30 @@ class Pawn extends Enemy
 	override function update(dt:Float ):Void
 	{
 		var target:Homura = GGD.player;
-		
-
-		if(isPreparingAttack){
-			collision.velocityX = 0;
-			currentCharge++;
-		}
-		if(currentCharge == attackCharge){
-			isPreparingAttack = false;
-			isAttacking = true;
-			sword.swing(collision.x,collision.y,dir.x,dir.y);
-			attackRespite++;
-			currentCharge = 0;
-		}
-		if(attackRespite>0&&attackRespite<15){
-			attackRespite++;
-		}
-		if(attackRespite == 15){
-			attackRespite = 0;
-			isAttacking = false;
-		}
-		if((target.y - collision.y <= 200 && target.y - collision.y >= -200) && 
-			(target.x - collision.x <= 400 && target.x - collision.x >= -400) || health < 50)
-		{
-			move(target);
+		if(health>0){
+			if(isPreparingAttack){
+				collision.velocityX = 0;
+				currentCharge++;
+			}
+			if(currentCharge == attackCharge){
+				isPreparingAttack = false;
+				isAttacking = true;
+				sword.swing(collision.x,collision.y,dir.x,dir.y);
+				attackRespite++;
+				currentCharge = 0;
+			}
+			if(attackRespite>0&&attackRespite<15){
+				attackRespite++;
+			}
+			if(attackRespite == 15){
+				attackRespite = 0;
+				isAttacking = false;
+			}
+			if((target.y - collision.y <= 200 && target.y - collision.y >= -200) && 
+				(target.x - collision.x <= 400 && target.x - collision.x >= -400) || health < 50)
+			{
+				move(target);
+			}
 		}
 			
 		collision.update(dt);

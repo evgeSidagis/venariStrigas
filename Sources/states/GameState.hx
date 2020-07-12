@@ -58,9 +58,7 @@ import com.loading.basicResources.SparrowLoader;
 class GameState extends State {
 	var worldMap:Tilemap;
 	var simulationLayer:Layer;
-	var touchJoystick:VirtualGamepad;
-	var dialogCollision:CollisionGroup;
-	var doomCollision: CollisionGroup;
+
 	var screenWidth:Int;
 	var screenHeight:Int;
 
@@ -69,8 +67,6 @@ class GameState extends State {
 
 	var backgroundLayer:Layer;
 	var background:Sprite;
-	var enemyCollisions:CollisionGroup;
-	var megucaCollisions:CollisionGroup;
 	
 	//Displays
 	var healthDisplay:Text;
@@ -83,32 +79,30 @@ class GameState extends State {
 	var rocketIcon:Sprite;
 	var specialIcon:Sprite;
 
-	var gunHit: Sprite;
-	var playGunHit: Bool = false;
-	var gunHitDuration: Int = 1;
-	var playAnimHit: Int = 0;
-
-	var explosion: Sprite;
-	var playexplosion: Bool = false;
-	var explosionDuration: Int = 3;
-	var playExplosionWhile: Int = 0;
-
+	//enemyArrays
 	var pawns: Array<Pawn> = new Array<Pawn>();
+	var megucas: Array<Meguca> = new Array<Meguca>();
 	var dialogCounter: Int = 1;
 
+	//rooms
 	var room : String;
 	var fromRoom : String;
 	var endings:CollisionGroup;
 
+	//temporalSprites a purgar
 	var temporalSprites: Array<Sprite> = new Array<Sprite>();
 	var purgeSprites: Int = 0;
+	
+	//Collisions
 	var teleportCollision: CollisionGroup;
-
 	var bossCollision: CollisionGroup;
 	var bullets: CollisionGroup;
 	var rockets: CollisionGroup;
 	var projectiles: CollisionGroup;
-
+	var dialogCollision:CollisionGroup;
+	var doomCollision: CollisionGroup;
+	var enemyCollisions:CollisionGroup;
+	var megucaCollisions:CollisionGroup;
 
 	
 	public function new(room:String, fromRoom:String = null) {
@@ -118,8 +112,8 @@ class GameState extends State {
 	}
 
 	override function load(resources:Resources) {
-		//resources.add(new DataLoader(room+"_tmx"));
-		resources.add(new DataLoader(Assets.blobs.BossArea_tmxName));
+		resources.add(new DataLoader(room+"_tmx"));
+		//resources.add(new DataLoader(Assets.blobs.BossArea_tmxName));
 		//resources.add(new DataLoader("SecondAreaD_tmx"));
 	
 		var atlas = new JoinAtlas(2048, 2048);
@@ -155,11 +149,11 @@ class GameState extends State {
 	override function init() {
 
 		backgroundLayer = new StaticLayer();
-		//background = new Sprite(room+"Bg");
-		background = new Sprite("BossAreaBg");
+		background = new Sprite(room+"Bg");
+		//background = new Sprite("BossAreaBg");
 		backgroundLayer.addChild(background);
 		stage.addChild(backgroundLayer);
-		//SoundManager.playMusic(room+"M",true);
+		SoundManager.playMusic(room+"M",true);
 		//SoundManager.playMusic("BossAreaM",true);
 
 		stageColor(0.5, .5, 0.5);
@@ -178,8 +172,8 @@ class GameState extends State {
 		simulationLayer = new Layer();
 		stage.addChild(simulationLayer);
 
-		//worldMap = new Tilemap(room+"_tmx", 1);
-		worldMap = new Tilemap("BossArea_tmx", 1);
+		worldMap = new Tilemap(room+"_tmx", 1);
+		//worldMap = new Tilemap("BossArea_tmx", 1);
 		worldMap.init(function(layerTilemap, tileLayer) {
 			if (!tileLayer.properties.exists("noCollision") && !tileLayer.properties.exists("cCol")) {
 				layerTilemap.createCollisions(tileLayer);
@@ -228,11 +222,11 @@ class GameState extends State {
 		//setUpRocketIcon
 		rocketIcon.x = 80;
 		rocketIcon.y = 590;
-		hudLayer.addChild(rocketIcon);
+		//hudLayer.addChild(rocketIcon);
 		//setUpSpecialIcon
 		specialIcon.x = 140;
 		specialIcon.y = 590;
-		hudLayer.addChild(specialIcon);
+		//hudLayer.addChild(specialIcon);
 
 		//setUpBossHealth
 		if(raganos != null && raganos.health>0){
@@ -266,6 +260,7 @@ class GameState extends State {
 				}
 				if(object.type=="fen"){
 					var meguca = new Meguca(object.x,object.y,simulationLayer,megucaCollisions);
+					megucas.push(meguca);
 					addChild(meguca);
 				}
 				if(object.type=="doom"){
@@ -282,10 +277,6 @@ class GameState extends State {
 					}else{
 						player.collision.x = object.x;
 						player.collision.y = object.y;
-					}
-					if(room!="FirstAreaD"){
-						GGD.launcherEnabled = true;
-						GGD.doubleJumpEnabled = true;
 					}
 				}
 				if(object.type=="end"){
@@ -347,7 +338,7 @@ class GameState extends State {
 		pawn.damage(bullet.damage);
 		bullet.die();
 
-		gunHit = new Sprite("gun_hit");
+		var gunHit = new Sprite("gun_hit");
 		gunHit.x = pawn.collision.x;
 		gunHit.y = pawn.collision.y;
 		
@@ -373,7 +364,7 @@ class GameState extends State {
 			p.damage(rocket.damage);
 		}
 
-		explosion = new Sprite("blowing");
+		var explosion = new Sprite("blowing");
 		explosion.x = pawn.collision.x;
 		explosion.y = pawn.collision.y;
 		temporalSprites.push(explosion);
@@ -398,7 +389,8 @@ class GameState extends State {
 			GGD.doubleJumpEnabled = true;
 		}
 		if(dialog.id == 2){
-			GGD.launcherEnabled = true;                                                                           
+			GGD.launcherEnabled = true;    
+			                                                                    
 		}
 	}
 
@@ -415,7 +407,7 @@ class GameState extends State {
 		boss.damage(bullet.damage);
 		bullet.die();
 
-		gunHit = new Sprite("gun_hit");
+		var gunHit = new Sprite("gun_hit");
 		gunHit.x = boss.collision.x;
 		gunHit.y = boss.collision.y;
 		
@@ -433,7 +425,7 @@ class GameState extends State {
 		var x: Float = boss.collision.x;
 		var y: Float = boss.collision.y;
 		
-		explosion = new Sprite("blowing");
+		var explosion = new Sprite("blowing");
 		explosion.x = boss.collision.x;
 		explosion.y = boss.collision.y;
 		temporalSprites.push(explosion);
@@ -487,7 +479,17 @@ class GameState extends State {
 			changeState(new GameOver());
 		}
 		healthDisplay.text = player.health + "";
-		bossDisplay.text = raganos.health + "";
+		if(raganos!=null){
+			bossDisplay.text = raganos.health + "";
+		}
+
+		if(GGD.launcherEnabled){
+			hudLayer.addChild(rocketIcon);   
+		}
+
+		if(GGD.specialEnabled){
+			hudLayer.addChild(specialIcon);
+		}
 	}
 
 	

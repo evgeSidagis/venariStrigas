@@ -40,7 +40,7 @@ class Raganos extends Enemy
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
-        health = 1500;
+        health = 1250;
 		super();
         collisionGroup = col;
 
@@ -80,25 +80,14 @@ class Raganos extends Enemy
 			tripleShotTimer++;
 			checkStage();
 			if(bossStage == 1){
-				if(tripleShotTimer % 180 == 0){
-					tripleShotHorizontal(1);
-					tripleShotHorizontal(-1);
-					tripleShotVertical(1);
-					tripleShotVertical(-1);
-				}
+				stageOneBehavior()
 			}
 			if(bossStage == 2){
-				followShot();
+				stageTwoBehavior();
 			}
 
 			if(bossStage == 3){
-				if(tripleShotTimer % 180 == 0){
-					tripleShotHorizontal(1);
-					tripleShotHorizontal(-1);
-					tripleShotVertical(1);
-					tripleShotVertical(-1);
-				}
-				followShot();
+				stageThreeBehavior();
 			}
 		}
 
@@ -136,6 +125,37 @@ class Raganos extends Enemy
         }
 	}
 
+	
+
+	function checkStage(){
+		if (health<=750&&health>250){
+			bossStage = 2;
+		}
+		if (health<=250){
+			bossStage = 3;
+		}
+	}
+
+	
+
+	function stageOneBehavior(){
+		if(tripleShotTimer % 180 == 0){
+			tripleShotHorizontal(1);
+			tripleShotHorizontal(-1);
+			tripleShotVertical(1);
+			tripleShotVertical(-1);
+		}
+	}
+
+	function stageTwoBehavior(){
+		followShot();
+	}
+
+	function stageThreeBehavior(){
+		stageOneBehavior();
+		stageTwoBehavior();
+	}
+
 	function tripleShotHorizontal(dirX: Float){
 		arm.shoot(originX,originY,dirX,0);
 		arm.shoot(originX,originY,dirX,0.5);
@@ -146,15 +166,6 @@ class Raganos extends Enemy
 		arm.shoot(originX,originY,0,dirY);
 		arm.shoot(originX,originY,0.5,dirY);
 		arm.shoot(originX,originY,-0.5,dirY);
-	}
-
-	function checkStage(){
-		if (health<=1000&&health>500){
-			bossStage = 2;
-		}
-		if (health<=500){
-			bossStage = 3;
-		}
 	}
 
 	function followShot(){

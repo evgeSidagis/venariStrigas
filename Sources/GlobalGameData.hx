@@ -19,6 +19,9 @@ class GlobalGameData {
     public static var doubleJumpEnabled:Bool = false;
     public static var specialEnabled:Bool = false;
 
+    public static var isTimeStopped:Bool = false;
+    public static var timeStopDuration:Int = 240;
+
     public static function destroy() {
         player=null;
         simulationLayer=null;

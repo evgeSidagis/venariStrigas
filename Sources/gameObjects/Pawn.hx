@@ -188,7 +188,7 @@ class Pawn extends Enemy
 			collision.velocityX=dir.x;
 
 			if(target.y < collision.y && canJump){
-				collision.velocityY = -750;
+				collision.velocityY = -1000;
 				canJump = false;
 			}
 			if(!isAttacking && collision.velocityY > 0 && canJump) {

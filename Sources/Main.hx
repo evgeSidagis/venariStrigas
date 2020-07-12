@@ -1,5 +1,6 @@
 package;
 
+import kha.Assets;
 import format.swf.Data.InterpolationMode;
 import kha.WindowMode;
 import kha.FramebufferOptions;

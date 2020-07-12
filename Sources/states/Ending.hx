@@ -15,14 +15,14 @@ class Ending extends State {
     var intro:Sprite;
     override function load(resources:Resources) {
         resources.add(new ImageLoader("Ending"));
-        resources.add(new SoundLoader("KyubeyTheme"));
+        resources.add(new SoundLoader("KyubeyTheme", false));
     }
     public function new() {
         super();
     }
     override function init() {
         intro=new Sprite("Ending");
-        SoundManager.playMusic("KyubeyTheme",false);
+        SoundManager.playMusic("KyubeyTheme", true);
         stage.addChild(intro);
     }
     override function update(dt:Float) {

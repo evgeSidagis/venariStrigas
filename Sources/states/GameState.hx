@@ -112,8 +112,6 @@ class GameState extends State {
 
 	override function load(resources:Resources) {
 		resources.add(new DataLoader(room+"_tmx"));
-		//resources.add(new DataLoader(Assets.blobs.BossArea_tmxName));
-		//resources.add(new DataLoader("SecondAreaD_tmx"));
 	
 		var atlas = new JoinAtlas(2048, 2048);
 
@@ -134,7 +132,7 @@ class GameState extends State {
 		resources.add(new SoundLoader("FirstAreaDM",false));
 		resources.add(new SoundLoader("SecondAreaDM",false));
 		resources.add(new SoundLoader("BossAreaM",false));
-		//resources.add(new SoundLoader("92FS"));
+		resources.add(new SoundLoader("jump"));
 		//resources.add(new SoundLoader("Swoosh"));
 		//resources.add(new SoundLoader("Laugh"));
 		//resources.add(new SoundLoader("AT4"));
@@ -380,7 +378,9 @@ class GameState extends State {
 			if(a.userData != "endScreen"){
 				changeState(new GameState(a.userData,room));
 			}else{
-				changeState(new Ending());
+				if(raganos==null||raganos.health<=0){
+					changeState(new Ending());
+				}
 			}
 		}
 	}
@@ -478,7 +478,7 @@ class GameState extends State {
 			}
 		}
 
-		if(player.health <= 0){
+		if(player.health <= 0 || player.collision.y > worldMap.heightInTiles * 32 + 200){
 			changeState(new GameOver());
 		}
 		healthDisplay.text = player.health + "";

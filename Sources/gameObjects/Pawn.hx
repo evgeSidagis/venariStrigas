@@ -40,6 +40,7 @@ class Pawn extends Enemy
 	var attackCharge: Int = 60;
 
 	var currentCharge: Int = 0;
+	var wasRunning: Bool = false;
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
@@ -78,7 +79,7 @@ class Pawn extends Enemy
 	override function update(dt:Float ):Void
 	{
 		var target:Homura = GGD.player;
-		if(health>0){
+		if(health>0 && !GGD.isTimeStopped){
 			if(isPreparingAttack){
 				collision.velocityX = 0;
 				currentCharge++;
@@ -136,7 +137,7 @@ class Pawn extends Enemy
 				display.scaleX= -1;
 				display.offsetX= 94;
 			}	
-		}else if(notWalking()){
+		}else if(notWalking() && !wasRunning){
 			display.offsetY = 0;
 			display.timeline.playAnimation("stand_");
 			if(dir.x>=0){
@@ -149,7 +150,6 @@ class Pawn extends Enemy
 			}	
 		}else{
 			display.timeline.playAnimation("run_");
-			
 			if(dir.x >= 0){
 				display.scaleX= 1;
 				display.offsetX= -10;
@@ -200,5 +200,19 @@ class Pawn extends Enemy
 			}
 
 		}
+	}
+
+	public function stopTimeline(){
+		if(collision.velocityX !=0){
+			wasRunning = true;
+		}
+		collision.velocityX = 0;
+		collision.velocityY = 0;
+		display.timeline.frameRate = 1/0;
+	}
+
+	public function resetTimeline(){
+		wasRunning = false;
+		display.timeline.frameRate = 1/11;
 	}
 }

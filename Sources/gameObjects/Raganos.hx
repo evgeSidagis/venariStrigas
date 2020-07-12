@@ -76,8 +76,7 @@ class Raganos extends Enemy
 	}
 	override function update(dt:Float ):Void
 	{
-		if(health>0){
-			var target:Homura = GGD.player;
+		if(health>0 && !GGD.isTimeStopped){
 			tripleShotTimer++;
 			checkStage();
 			if(bossStage == 1){
@@ -196,5 +195,15 @@ class Raganos extends Enemy
 				yAngle+=0.05;
 			}
 		}
+	}
+
+	public function stopTimeline(){
+		collision.velocityX = 0;
+		collision.velocityY = 0;
+		display.timeline.frameRate = 1/0;
+	}
+
+	public function resetTimeline(){
+		display.timeline.frameRate = 1/15;
 	}
 }

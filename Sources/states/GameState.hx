@@ -11,9 +11,9 @@ import com.loading.basicResources.ImageLoader;
 import format.tmx.Data.TmxObjectType;
 import com.gEngine.display.Sprite;
 import com.gEngine.shaders.ShRetro;
-import com.gEngine.shaders.ShFilmGrain;
+import com.gEngine.shaders.ShBlurV;
+import com.gEngine.shaders.ShBlurH;
 import com.gEngine.display.Blend;
-import com.gEngine.shaders.ShRgbSplit;
 import com.gEngine.display.Camera;
 import kha.Assets;
 import com.gEngine.display.extra.TileMapDisplay;
@@ -132,10 +132,6 @@ class GameState extends State {
 		resources.add(new SoundLoader("FirstAreaDM",false));
 		resources.add(new SoundLoader("SecondAreaDM",false));
 		resources.add(new SoundLoader("BossAreaM",false));
-		resources.add(new SoundLoader("jump"));
-		//resources.add(new SoundLoader("Swoosh"));
-		//resources.add(new SoundLoader("Laugh"));
-		//resources.add(new SoundLoader("AT4"));
 
 		resources.add(new ImageLoader("gun_hit"));
 		resources.add(new ImageLoader("blowing"));
@@ -493,8 +489,40 @@ class GameState extends State {
 		if(GGD.specialEnabled){
 			hudLayer.addChild(specialIcon);
 		}
+
+		if(GGD.isTimeStopped){
+			stopTime();
+			//stage.defaultCamera().postProcess=new ShRetro(Blend.blendDefault());
+		}else{
+			resumeTime();
+			//stage.defaultCamera().postProcess = null;
+		}
 	}
 
+	function stopTime(){
+		for(p in pawns){
+			p.stopTimeline();
+		}
+		for(m in megucas){
+			m.stopTimeline();
+		}
+		if(raganos!=null){
+			raganos.stopTimeline();
+		}
+	}
+
+	function resumeTime(){
+		for(p in pawns){
+			p.resetTimeline();
+		}
+		for(m in megucas){
+			m.resetTimeline();
+		}
+		if(raganos!=null){
+			raganos.resetTimeline();
+		}
+
+	}
 	
 	#if DEBUGDRAW
 	override function draw(framebuffer:kha.Canvas) {

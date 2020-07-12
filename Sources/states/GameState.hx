@@ -16,7 +16,6 @@ import com.gEngine.display.Blend;
 import com.gEngine.shaders.ShRgbSplit;
 import com.gEngine.display.Camera;
 import kha.Assets;
-import helpers.Tray;
 import com.gEngine.display.extra.TileMapDisplay;
 import com.collision.platformer.Sides;
 import com.framework.utils.XboxJoystick;
@@ -124,14 +123,22 @@ class GameState extends State {
 		atlas.add(new SparrowLoader("pawn","pawn_xml"));
 		atlas.add(new SparrowLoader("meguca","meguca_xml"));
 		atlas.add(new SparrowLoader("witch","witch_xml"));
+
+		
 		resources.add(new ImageLoader("bullet"));
 		resources.add(new ImageLoader("rocket"));
 		resources.add(new ImageLoader("FirstAreaDBg"));
 		resources.add(new ImageLoader("SecondAreaDBg"));
 		resources.add(new ImageLoader("BossAreaBg"));
-		resources.add(new SoundLoader("FirstAreaDM"));
-		resources.add(new SoundLoader("SecondAreaDM"));
-		resources.add(new SoundLoader("BossAreaM"));
+
+		resources.add(new SoundLoader("FirstAreaDM",false));
+		resources.add(new SoundLoader("SecondAreaDM",false));
+		resources.add(new SoundLoader("BossAreaM",false));
+		//resources.add(new SoundLoader("92FS"));
+		//resources.add(new SoundLoader("Swoosh"));
+		//resources.add(new SoundLoader("Laugh"));
+		//resources.add(new SoundLoader("AT4"));
+
 		resources.add(new ImageLoader("gun_hit"));
 		resources.add(new ImageLoader("blowing"));
 		resources.add(new ImageLoader("Swing"));
@@ -144,17 +151,16 @@ class GameState extends State {
 		atlas.add(new FontLoader("Kenney_Pixel",24));
 		atlas.add(new FontLoader(Assets.fonts.Kenney_ThickName, 30));
 		resources.add(atlas);
+		
 	}
 
 	override function init() {
 
 		backgroundLayer = new StaticLayer();
 		background = new Sprite(room+"Bg");
-		//background = new Sprite("BossAreaBg");
 		backgroundLayer.addChild(background);
 		stage.addChild(backgroundLayer);
 		SoundManager.playMusic(room+"M",true);
-		//SoundManager.playMusic("BossAreaM",true);
 
 		stageColor(0.5, .5, 0.5);
 		dialogCollision = new CollisionGroup();
@@ -173,7 +179,6 @@ class GameState extends State {
 		stage.addChild(simulationLayer);
 
 		worldMap = new Tilemap(room+"_tmx", 1);
-		//worldMap = new Tilemap("BossArea_tmx", 1);
 		worldMap.init(function(layerTilemap, tileLayer) {
 			if (!tileLayer.properties.exists("noCollision") && !tileLayer.properties.exists("cCol")) {
 				layerTilemap.createCollisions(tileLayer);
@@ -222,11 +227,9 @@ class GameState extends State {
 		//setUpRocketIcon
 		rocketIcon.x = 80;
 		rocketIcon.y = 590;
-		//hudLayer.addChild(rocketIcon);
 		//setUpSpecialIcon
 		specialIcon.x = 140;
 		specialIcon.y = 590;
-		//hudLayer.addChild(specialIcon);
 
 		//setUpBossHealth
 		if(raganos != null && raganos.health>0){
@@ -494,11 +497,11 @@ class GameState extends State {
 
 	
 	#if DEBUGDRAW
-	/*override function draw(framebuffer:kha.Canvas) {
+	override function draw(framebuffer:kha.Canvas) {
 		super.draw(framebuffer);
 		var camera=stage.defaultCamera();
 		CollisionEngine.renderDebug(framebuffer,camera);
-	}*/
+	}
 	#end
 	override function destroy() {
 		super.destroy();

@@ -8,10 +8,6 @@ import com.framework.utils.Entity;
 import com.gEngine.display.Sprite;
 import kha.math.FastVector2;
 
-/**
- * ...
- * @author 
- */
 class Swing extends Entity
 {
 	public var collision:CollisionBox;
@@ -26,7 +22,7 @@ class Swing extends Entity
 	{
 		super();
 		collision=new CollisionBox();
-		collision.width=90;
+		collision.width=40;
 		collision.height=90;
 		collision.userData=this;
 
@@ -45,7 +41,7 @@ class Swing extends Entity
 	}
 	override function update(dt:Float) {
 		lifeTime+=dt;
-		if(lifeTime>totalLifeTime){
+		if(lifeTime>=totalLifeTime){
 			die();
 		}
 		collision.update(dt);
@@ -54,10 +50,10 @@ class Swing extends Entity
         
         if (direction.x < 0){
 			display.scaleX  = -1;
-			display.offsetX = 50;
+			display.offsetX = 100;
 		}else{
 			display.scaleX  = 1;
-			display.offsetX = 10;
+			display.offsetX = -70;
 		}
 		super.update(dt);
 	}
@@ -65,9 +61,9 @@ class Swing extends Entity
 	{
         lifeTime=0;
         if(dirX >= 0){
-            collision.x=x+20;
+            collision.x=x+80;
         }else{
-            collision.x=x-20;
+            collision.x=x-40;
         }
 		collision.y=y;
 		collision.velocityX = 0.1*dirX;

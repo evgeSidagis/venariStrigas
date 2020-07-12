@@ -9,6 +9,7 @@ import kha.math.FastVector2;
 import com.framework.utils.Entity;
 import com.collision.platformer.CollisionGroup;
 import GlobalGameData.GGD;
+import com.soundLib.SoundManager;
 
 class Raganos extends Enemy
 {
@@ -80,12 +81,11 @@ class Raganos extends Enemy
 			tripleShotTimer++;
 			checkStage();
 			if(bossStage == 1){
-				stageOneBehavior()
+				stageOneBehavior();
 			}
 			if(bossStage == 2){
 				stageTwoBehavior();
 			}
-
 			if(bossStage == 3){
 				stageThreeBehavior();
 			}

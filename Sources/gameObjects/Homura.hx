@@ -11,6 +11,7 @@ import com.gEngine.display.Sprite;
 import kha.math.FastVector2;
 import com.framework.utils.Entity;
 import com.collision.platformer.Sides;
+import com.soundLib.SoundManager;
 
 
 class Homura extends Entity
@@ -278,6 +279,7 @@ class Homura extends Entity
 			pistolRecoil++;
 			shootingPistol = true;
 			gun.shoot(x,y-height*0.65,display.scaleX, 0);
+			//SoundManager.playFx("92FS",false);
 		}
 	}
 	inline function recoilPistol(){
@@ -300,6 +302,7 @@ class Homura extends Entity
 		rocketRecoil++;
 		if(rocketRecoil == 30){
 			rocketLauncher.shoot(x,y-height*0.70,display.scaleX,0);
+			//SoundManager.playFx("AT4",false);
 		}
 		if(rocketRecoil == 45){
 			rocketRecoil = 0;

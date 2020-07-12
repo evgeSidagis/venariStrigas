@@ -12,6 +12,7 @@ import kha.math.FastVector2;
 import com.framework.utils.Entity;
 import com.collision.platformer.Sides;
 import com.collision.platformer.CollisionGroup;
+import com.soundLib.SoundManager;
 
 class Pawn extends Enemy
 {

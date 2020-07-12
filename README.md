@@ -43,3 +43,16 @@ El proposito de esto es crear una atmosfera cada vez mas "falsa" e "irreal", sig
 
 
 
+
+Assets:
+
+Sonidos:
+
+Pistola Beretta 92FS - http://soundbible.com/tags-beretta.html
+Raganos - http://soundbible.com/2052-Creepy-Laugh.html
+AT-4 Rocket Launcher - https://www.freesoundeffects.com/free-sounds/bazooka-10075/
+Espadazo - http://soundbible.com/706-Swoosh-3.html
+
+
+
+

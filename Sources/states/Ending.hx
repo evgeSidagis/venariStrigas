@@ -23,6 +23,7 @@ class Ending extends State {
     override function init() {
         intro=new Sprite("Ending");
         SoundManager.playMusic("KyubeyTheme", true);
+        SoundManager.musicVolume(1);
         stage.addChild(intro);
     }
     override function update(dt:Float) {

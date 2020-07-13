@@ -42,7 +42,7 @@
  <objectgroup id="2" name="Capa de Objetos 1">
   <object id="2" type="boss" x="820" y="286" width="176" height="342"/>
   <object id="3" type="teleport" x="360" y="1021" width="1114" height="3"/>
-  <object id="4" type="dialog" x="125.667" y="350.333" width="69" height="86">
+  <object id="4" type="dialog" x="125.667" y="231.666" width="226.333" height="204.667">
    <properties>
     <property name="text" value="This must be the witch lair"/>
    </properties>
@@ -53,12 +53,12 @@
     <property name="goTo" value="endScreen"/>
    </properties>
   </object>
-  <object id="7" type="dialog" x="1639.33" y="343" width="84" height="99">
+  <object id="7" type="dialog" x="1542.33" y="288" width="181" height="160">
    <properties>
     <property name="text" value="She...is not here"/>
    </properties>
   </object>
-  <object id="8" type="dialog" x="1758.67" y="341.667" width="111" height="94">
+  <object id="8" type="dialog" x="1758.67" y="286.667" width="166" height="160">
    <properties>
     <property name="text">I will free you, Madoka.
 Even if I have to go 

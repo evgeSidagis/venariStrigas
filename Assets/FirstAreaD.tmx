@@ -137,21 +137,23 @@
 </data>
  </layer>
  <objectgroup id="2" name="Capa de Objetos 1">
-  <object id="1" type="dialog" x="1382" y="764.076" width="222" height="246.424">
+  <object id="1" type="dialog" x="1314" y="766.743" width="290" height="243.757">
    <properties>
-    <property name="text">Akemi Homura, from now on 
-you can do a double jump!</property>
+    <property name="text">Homura, you will need to do 
+a double jump to cross this gap</property>
    </properties>
   </object>
-  <object id="5" type="dialog" x="898.125" y="180.546" width="218.425" height="158.788">
+  <object id="5" type="dialog" x="840.792" y="151.213" width="275.758" height="188.121">
    <properties>
-    <property name="text">Akemi Homura, use your rocket 
-launcher! Press X to fire!</property>
+    <property name="text">Homura, you could use your 
+AT4 Rocket Launcher. 
+Press X to fire it!</property>
    </properties>
   </object>
-  <object id="7" type="dialog" x="1869.7" y="176.485" width="256.849" height="159.334">
+  <object id="7" type="dialog" x="1861.7" y="121.818" width="264.849" height="195.334">
    <properties>
-    <property name="text" value="There is something weird around here"/>
+    <property name="text">There is something weird around here
+Go to that door-thing and press ENTER!</property>
    </properties>
   </object>
   <object id="16" type="kyu" x="917.5" y="275" width="31" height="34"/>
@@ -174,13 +176,13 @@ launcher! Press X to fire!</property>
    </properties>
   </object>
   <object id="37" type="start" x="72" y="1510" width="39" height="48"/>
-  <object id="38" type="dialog" x="207.333" y="1459.33" width="159.333" height="99.3333">
+  <object id="38" type="dialog" x="207.333" y="1377.51" width="226" height="181.151">
    <properties>
     <property name="text">Those things..
 are those pawns?</property>
    </properties>
   </object>
-  <object id="39" type="dialog" x="468" y="1462.67" width="148" height="94.6667">
+  <object id="39" type="dialog" x="468" y="1377.34" width="266.667" height="180">
    <properties>
     <property name="text" value="Maybe Madoka is nearby, after all..."/>
    </properties>

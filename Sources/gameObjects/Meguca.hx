@@ -30,17 +30,14 @@ class Meguca extends Enemy
 	
 	var screenWidth:Int;
 	var screenHeight:Int;
-	
-	var isPreparingAttack: Bool = false;
-	var isAttacking: Bool = false;
-	var attackRespite: Int = 0;
-	var attackCharge: Int = 60;
 
 	var currentCharge: Int = 0;
 
 	var changeDirection: Int = 90;
 
 	var changeCounter = 0;
+
+	var oldDirection: Int = 0;
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
@@ -76,8 +73,9 @@ class Meguca extends Enemy
 	}
 	override function update(dt:Float ):Void
 	{
-		move();
-	
+		if(!GGD.isTimeStopped){
+			move();
+		}
 		collision.update(dt);
 		super.update(dt);
 
@@ -117,5 +115,20 @@ class Meguca extends Enemy
 			collision.velocityX= collision.velocityX*-1;
 			changeCounter = 0;
 		}
+		if(collision.velocityX>=0){
+			oldDirection = 1;
+		}else{
+			oldDirection = -1;
+		}
+	}
+
+	public function stopTimeline(){
+		collision.velocityX = 0;
+		display.timeline.frameRate = 1/0;
+	}
+
+	public function resetTimeline(){
+		collision.velocityX = 300*oldDirection;
+		display.timeline.frameRate = 1/10;
 	}
 }

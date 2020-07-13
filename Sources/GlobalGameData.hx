@@ -1,6 +1,9 @@
 import com.gEngine.display.Camera;
 import com.gEngine.display.Layer;
 import gameObjects.Homura;
+import gameObjects.Bullet;
+import gameObjects.Projectile;
+import gameObjects.Rocket;
 import com.collision.platformer.CollisionGroup;
 
 
@@ -21,6 +24,12 @@ class GlobalGameData {
 
     public static var isTimeStopped:Bool = false;
     public static var timeStopDuration:Int = 240;
+
+    public static var bulletList: Array<Bullet> = new Array<Bullet>();
+    public static var rocketList: Array<Rocket> = new Array<Rocket>();
+    public static var projectileList: Array<Projectile> = new Array<Projectile>();
+
+    public static var lap: Int = 0;
 
     public static function destroy() {
         player=null;

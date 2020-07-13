@@ -11,9 +11,9 @@ import com.loading.basicResources.ImageLoader;
 import format.tmx.Data.TmxObjectType;
 import com.gEngine.display.Sprite;
 import com.gEngine.shaders.ShRetro;
-import com.gEngine.shaders.ShFilmGrain;
+import com.gEngine.shaders.ShBlurV;
+import com.gEngine.shaders.ShBlurH;
 import com.gEngine.display.Blend;
-import com.gEngine.shaders.ShRgbSplit;
 import com.gEngine.display.Camera;
 import kha.Assets;
 import com.gEngine.display.extra.TileMapDisplay;
@@ -132,10 +132,6 @@ class GameState extends State {
 		resources.add(new SoundLoader("FirstAreaDM",false));
 		resources.add(new SoundLoader("SecondAreaDM",false));
 		resources.add(new SoundLoader("BossAreaM",false));
-		resources.add(new SoundLoader("jump"));
-		//resources.add(new SoundLoader("Swoosh"));
-		//resources.add(new SoundLoader("Laugh"));
-		//resources.add(new SoundLoader("AT4"));
 
 		resources.add(new ImageLoader("gun_hit"));
 		resources.add(new ImageLoader("blowing"));
@@ -145,6 +141,11 @@ class GameState extends State {
 		resources.add(new ImageLoader("PistolIcon"));
 		resources.add(new ImageLoader("RocketIcon"));
 		resources.add(new ImageLoader("SpecialIcon"));
+
+		resources.add(new SoundLoader("gunshot2"));
+		resources.add(new SoundLoader("swoosh"));
+		resources.add(new SoundLoader("laugh2"));
+		resources.add(new SoundLoader("rpg"));
 
 		atlas.add(new FontLoader("Kenney_Pixel",24));
 		atlas.add(new FontLoader(Assets.fonts.Kenney_ThickName, 30));
@@ -159,6 +160,7 @@ class GameState extends State {
 		backgroundLayer.addChild(background);
 		stage.addChild(backgroundLayer);
 		SoundManager.playMusic(room+"M",true);
+
 
 		stageColor(0.5, .5, 0.5);
 		dialogCollision = new CollisionGroup();
@@ -245,7 +247,8 @@ class GameState extends State {
 			case OTRectangle:
 				if(object.type=="dialog"){
 					var text=object.properties.get("text");
-					var dialog=new Dialog(text,object.x,object.y,object.width,object.height,dialogCounter++);
+					var id = object.id;
+					var dialog=new Dialog(text,object.x,object.y,object.width,object.height,id);
 					dialogCollision.add(dialog.collider);
 					addChild(dialog);
 				}
@@ -351,7 +354,6 @@ class GameState extends State {
 		var pawn: Pawn=cast b.userData;
 		var rocket:Rocket=cast a.userData;
 
-		pawn.damage(rocket.damage);
 		rocket.die();
 
 		var x: Float = pawn.collision.x;
@@ -373,12 +375,14 @@ class GameState extends State {
 	}
 
 	public function homuraVsEnd(a:ICollider,b:ICollider){
-		if(Input.i.isKeyCodePressed(KeyCode.Return)){
-			SoundManager.stopMusic();
+		if(Input.i.isKeyCodePressed(KeyCode.Return)){	
 			if(a.userData != "endScreen"){
+				SoundManager.stopMusic();
 				changeState(new GameState(a.userData,room));
 			}else{
 				if(raganos==null||raganos.health<=0){
+					SoundManager.stopMusic();
+					GGD.lap++;
 					changeState(new Ending());
 				}
 			}
@@ -391,9 +395,11 @@ class GameState extends State {
 		if(dialog.id == 1){
 			GGD.doubleJumpEnabled = true;
 		}
-		if(dialog.id == 2){
-			GGD.launcherEnabled = true;    
-			                                                                    
+		if(dialog.id == 5){
+			GGD.launcherEnabled = true;                                                            
+		}
+		if(dialog.id == 46){
+			GGD.specialEnabled = true;
 		}
 	}
 
@@ -483,7 +489,11 @@ class GameState extends State {
 		}
 		healthDisplay.text = player.health + "";
 		if(raganos!=null){
-			bossDisplay.text = raganos.health + "";
+			if(raganos.health>=0){
+				bossDisplay.text = raganos.health + "";
+			}else{
+				bossDisplay.text = "0";
+			}
 		}
 
 		if(GGD.launcherEnabled){
@@ -493,15 +503,65 @@ class GameState extends State {
 		if(GGD.specialEnabled){
 			hudLayer.addChild(specialIcon);
 		}
+
+		if(GGD.isTimeStopped){
+			stopTime();
+			stage.defaultCamera().postProcess=new ShRetro(Blend.blendDefault());
+		}else{
+			resumeTime();
+			stage.defaultCamera().postProcess = null;
+		}
 	}
 
+	function stopTime(){
+		for(p in pawns){
+			p.stopTimeline();
+		}
+		for(m in megucas){
+			m.stopTimeline();
+		}
+		if(raganos!=null){
+			raganos.stopTimeline();
+		}
+		for(b in GGD.bulletList){
+			b.stopTimeline();
+		}
+		for(b in GGD.rocketList){
+			b.stopTimeline();
+		}
+		for(b in GGD.projectileList){
+			b.stopTimeline();
+		}
+	}
+
+	function resumeTime(){
+		for(p in pawns){
+			p.resetTimeline();
+		}
+		for(m in megucas){
+			m.resetTimeline();
+		}
+		if(raganos!=null){
+			raganos.resetTimeline();
+		}
+		for(b in GGD.bulletList){
+			b.resetTimeline();
+		}
+		for(b in GGD.projectileList){
+			b.resetTimeline();
+		}
+		for(b in GGD.rocketList){
+			b.resetTimeline();
+		}
+
+	}
 	
 	#if DEBUGDRAW
-	override function draw(framebuffer:kha.Canvas) {
+	/*override function draw(framebuffer:kha.Canvas) {
 		super.draw(framebuffer);
 		var camera=stage.defaultCamera();
 		CollisionEngine.renderDebug(framebuffer,camera);
-	}
+	}*/
 	#end
 	override function destroy() {
 		super.destroy();

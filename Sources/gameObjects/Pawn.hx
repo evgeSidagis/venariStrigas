@@ -40,12 +40,13 @@ class Pawn extends Enemy
 	var attackCharge: Int = 60;
 
 	var currentCharge: Int = 0;
+	var wasRunning: Bool = false;
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
 		super();
 		collisionGroup=col;
-		health = 50;
+		health = 50 + 10*GGD.lap;
 
 		screenWidth = GEngine.i.width;
 		screenHeight = GEngine.i.height;
@@ -78,17 +79,12 @@ class Pawn extends Enemy
 	override function update(dt:Float ):Void
 	{
 		var target:Homura = GGD.player;
-		if(health>0){
+		if(health>0 && !GGD.isTimeStopped){
 			if(isPreparingAttack){
-				collision.velocityX = 0;
-				currentCharge++;
+				chargeAttack();
 			}
 			if(currentCharge == attackCharge){
-				isPreparingAttack = false;
-				isAttacking = true;
-				sword.swing(collision.x,collision.y,dir.x,dir.y);
-				attackRespite++;
-				currentCharge = 0;
+				launchAttack();
 			}
 			if(attackRespite>0&&attackRespite<15){
 				attackRespite++;
@@ -98,7 +94,7 @@ class Pawn extends Enemy
 				isAttacking = false;
 			}
 			if((target.y - collision.y <= 200 && target.y - collision.y >= -200) && 
-				(target.x - collision.x <= 400 && target.x - collision.x >= -400) || health < 50)
+				(target.x - collision.x <= 400 && target.x - collision.x >= -400) || health < 30)
 			{
 				move(target);
 			}
@@ -136,7 +132,7 @@ class Pawn extends Enemy
 				display.scaleX= -1;
 				display.offsetX= 94;
 			}	
-		}else if(notWalking()){
+		}else if(notWalking() && !wasRunning){
 			display.offsetY = 0;
 			display.timeline.playAnimation("stand_");
 			if(dir.x>=0){
@@ -149,7 +145,6 @@ class Pawn extends Enemy
 			}	
 		}else{
 			display.timeline.playAnimation("run_");
-			
 			if(dir.x >= 0){
 				display.scaleX= 1;
 				display.offsetX= -10;
@@ -200,5 +195,35 @@ class Pawn extends Enemy
 			}
 
 		}
+	}
+
+	inline function chargeAttack(){
+		collision.velocityX = 0;
+		currentCharge++;
+	}
+
+	inline function launchAttack(){
+		isPreparingAttack = false;
+		isAttacking = true;
+		sword.swing(collision.x,collision.y,dir.x,dir.y);
+		SoundManager.playFx("swoosh",false);
+		attackRespite++;
+		currentCharge = 0;
+	}
+
+	public function stopTimeline(){
+		if(collision.velocityX !=0){
+			wasRunning = true;
+		}
+		collision.accelerationY = 0;
+		collision.velocityX = 0;
+		collision.velocityY = 0;
+		display.timeline.frameRate = 1/0;
+	}
+
+	public function resetTimeline(){
+		wasRunning = false;
+		collision.accelerationY = 2000;
+		display.timeline.frameRate = 1/11;
 	}
 }

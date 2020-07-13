@@ -53,9 +53,19 @@ class Homura extends Entity
 
 	var returnControl: Int = 0;
 
+	public var timeCounter: Int = 0;
+	var playSpecialAnimation: Bool = false;
+	var timeStopCooldown: Int = 1200 - 60*GGD.lap;
+
+	var timeStopReady: Int = 0;
+
 	public function new(X:Float, Y:Float,layer:Layer) 
 	{
 		super();
+		
+		if(timeStopCooldown<600){
+			timeStopCooldown = 600;
+		}
 
 		screenWidth = GEngine.i.width;
 		screenHeight = GEngine.i.height;
@@ -95,6 +105,8 @@ class Homura extends Entity
 	override function update(dt:Float ):Void
 	{
 		checkAlive();
+		checkTimeStopped();
+
 		returnControl++;
 		if(returnControl == 30){
 			returnControl = 0;
@@ -136,6 +148,9 @@ class Homura extends Entity
 			if(shootingRocket)
 			{
 				launchRocket();
+			}
+			if(Input.i.isKeyCodePressed(KeyCode.A) && timeStopReady == 0 && GGD.specialEnabled){
+				specialAbility();
 			}
 		}
 		collision.update(dt);
@@ -216,6 +231,18 @@ class Homura extends Entity
 			}
 			display.timeline.frameRate=1/15;
 		}
+		else if(playSpecialAnimation){
+			display.timeline.playAnimation("spec_");
+			if(direction.x>=0){
+				display.scaleX= 1;
+				display.offsetX= 0;
+				display.offsetY = 4;
+			}else{
+				display.scaleX=- 1;
+				display.offsetX= 94;
+				display.offsetY = 4;
+			}	
+		}
 		else if(notWalking()){
 			display.offsetY = 0;
 			display.timeline.playAnimation("idle_");
@@ -279,7 +306,7 @@ class Homura extends Entity
 			pistolRecoil++;
 			shootingPistol = true;
 			gun.shoot(x,y-height*0.65,display.scaleX, 0);
-			//SoundManager.playFx("92FS",false);
+			SoundManager.playFx("gunshot2",false);
 		}
 	}
 	inline function recoilPistol(){
@@ -302,7 +329,7 @@ class Homura extends Entity
 		rocketRecoil++;
 		if(rocketRecoil == 30){
 			rocketLauncher.shoot(x,y-height*0.70,display.scaleX,0);
-			//SoundManager.playFx("AT4",false);
+			SoundManager.playFx("rpg",false);
 		}
 		if(rocketRecoil == 45){
 			rocketRecoil = 0;
@@ -332,6 +359,27 @@ class Homura extends Entity
 		}
 	}
 
+	inline function specialAbility(){
+		timeStopReady = timeStopCooldown;
+		GGD.isTimeStopped = true;
+		playSpecialAnimation = true;
+	}
+
+	inline function checkTimeStopped(){
+		if (timeStopReady > 0){
+			timeStopReady--;
+		}
+		if(timeCounter == 30){
+			playSpecialAnimation = false;
+		}
+		if(GGD.isTimeStopped){
+			timeCounter++;
+		}
+		if(timeCounter >= GGD.timeStopDuration){
+			GGD.isTimeStopped = false;
+			timeCounter = 0;
+		}
+	}
 
 	public function removeControl(){
 		this.controlEnabled = false;

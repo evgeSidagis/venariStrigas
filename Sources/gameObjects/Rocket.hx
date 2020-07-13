@@ -8,10 +8,6 @@ import com.framework.utils.Entity;
 import com.gEngine.display.Sprite;
 import kha.math.FastVector2;
 
-/**
- * ...
- * @author 
- */
 class Rocket extends Entity
 {
 	public var collision:CollisionBox;
@@ -21,8 +17,11 @@ class Rocket extends Entity
 	var direction:FastVector2;
 	
 	public var damage:Int = 50;
-
 	public var radius:Int = 50;
+	var permanentDir: Float = 0;
+
+	var frameCheck: Float = 4;
+	var framesExisting: Float = 0;
 
 	public function new() 
 	{
@@ -45,20 +44,22 @@ class Rocket extends Entity
 		collision.removeFromParent();
 	}
 	override function update(dt:Float) {
-		lifeTime+=dt;
-		if(lifeTime>=totalLifeTime){
-			die();
-		}
-		collision.update(dt);
-		display.x=collision.x;
-		display.y=collision.y;
-		
-		if (direction.x < 0){
-			display.scaleX  = -0.7;
-			display.offsetX = 50;
-		}else{
-			display.scaleX  = 0.7;
-			display.offsetX = 10;
+		framesExisting++;
+		if(!GGD.isTimeStopped || framesExisting <= frameCheck){
+			lifeTime+=dt;
+			if(lifeTime>=totalLifeTime){
+				die();
+			}
+			collision.update(dt);
+			display.x=collision.x;
+			display.y=collision.y;
+			if (direction.x < 0){
+				display.scaleX  = -0.7;
+				display.offsetX = 50;
+			}else{
+				display.scaleX  = 0.7;
+				display.offsetX = 10;
+			}
 		}
 		super.update(dt);
 	}
@@ -68,11 +69,23 @@ class Rocket extends Entity
 		collision.x=x;
 		collision.y=y;
 		collision.velocityX = 1000*dirX;
+		permanentDir = dirX;
 		collision.velocityY = 0;
 		direction.setFrom(new FastVector2(collision.velocityX,collision.velocityY));
 		direction.setFrom(direction.normalized());
-		GGD.rockets.add(collision);
 		GGD.simulationLayer.addChild(display);
-		
+		GGD.rockets.add(collision);
+		GGD.rocketList.push(this);
+	}
+
+	public function stopTimeline(){
+		if(framesExisting>frameCheck){
+			collision.velocityX = 0;
+			collision.velocityY = 0;
+		}
+	}
+
+	public function resetTimeline(){
+		collision.velocityX = 1000*permanentDir;
 	}
 }

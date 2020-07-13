@@ -38,10 +38,16 @@ class Raganos extends Enemy
 
 	var leftToRightX:Bool = true;
 	var leftToRightY:Bool = true;
+
+	var stage2Threshold:Int = 0;
+	var stage3Threshold:Int = 0;
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
-        health = 1250;
+		health = 1500+500*GGD.lap;
+		stage2Threshold = 1000+ 250*GGD.lap;
+		stage3Threshold = 500 + 125*GGD.lap;
+		
 		super();
         collisionGroup = col;
 
@@ -76,8 +82,7 @@ class Raganos extends Enemy
 	}
 	override function update(dt:Float ):Void
 	{
-		if(health>0){
-			var target:Homura = GGD.player;
+		if(health>0 && !GGD.isTimeStopped){
 			tripleShotTimer++;
 			checkStage();
 			if(bossStage == 1){
@@ -126,13 +131,16 @@ class Raganos extends Enemy
 	}
 
 	
-
 	function checkStage(){
-		if (health<=750&&health>250){
+		if (health<=stage2Threshold&&health>stage3Threshold){
 			bossStage = 2;
 		}
-		if (health<=250){
+		if (health<=stage3Threshold){
 			bossStage = 3;
+		}
+		if( (health>=stage2Threshold-20&&health<=stage2Threshold+20) || 
+			(health>=stage3Threshold-20 && health <= stage3Threshold+20)){
+			SoundManager.playFx("laugh2");
 		}
 	}
 
@@ -196,5 +204,15 @@ class Raganos extends Enemy
 				yAngle+=0.05;
 			}
 		}
+	}
+
+	public function stopTimeline(){
+		collision.velocityX = 0;
+		collision.velocityY = 0;
+		display.timeline.frameRate = 1/0;
+	}
+
+	public function resetTimeline(){
+		display.timeline.frameRate = 1/15;
 	}
 }

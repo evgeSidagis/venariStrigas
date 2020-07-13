@@ -55,7 +55,7 @@ class Homura extends Entity
 
 	public var timeCounter: Int = 0;
 	var playSpecialAnimation: Bool = false;
-	var timeStopCooldown: Int = 600;
+	var timeStopCooldown: Int = 1200;
 
 	var timeStopReady: Int = 0;
 
@@ -145,7 +145,7 @@ class Homura extends Entity
 			{
 				launchRocket();
 			}
-			if(Input.i.isKeyCodePressed(KeyCode.A) && timeStopReady == 0){
+			if(Input.i.isKeyCodePressed(KeyCode.A) && timeStopReady == 0 && GGD.specialEnabled){
 				specialAbility();
 			}
 		}

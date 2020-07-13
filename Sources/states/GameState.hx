@@ -241,7 +241,8 @@ class GameState extends State {
 			case OTRectangle:
 				if(object.type=="dialog"){
 					var text=object.properties.get("text");
-					var dialog=new Dialog(text,object.x,object.y,object.width,object.height,dialogCounter++);
+					var id = object.id;
+					var dialog=new Dialog(text,object.x,object.y,object.width,object.height,id);
 					dialogCollision.add(dialog.collider);
 					addChild(dialog);
 				}
@@ -369,12 +370,13 @@ class GameState extends State {
 	}
 
 	public function homuraVsEnd(a:ICollider,b:ICollider){
-		if(Input.i.isKeyCodePressed(KeyCode.Return)){
-			SoundManager.stopMusic();
+		if(Input.i.isKeyCodePressed(KeyCode.Return)){	
 			if(a.userData != "endScreen"){
+				SoundManager.stopMusic();
 				changeState(new GameState(a.userData,room));
 			}else{
 				if(raganos==null||raganos.health<=0){
+					SoundManager.stopMusic();
 					changeState(new Ending());
 				}
 			}
@@ -387,9 +389,11 @@ class GameState extends State {
 		if(dialog.id == 1){
 			GGD.doubleJumpEnabled = true;
 		}
-		if(dialog.id == 2){
-			GGD.launcherEnabled = true;    
-			                                                                    
+		if(dialog.id == 5){
+			GGD.launcherEnabled = true;                                                            
+		}
+		if(dialog.id == 46){
+			GGD.specialEnabled = true;
 		}
 	}
 
@@ -479,7 +483,11 @@ class GameState extends State {
 		}
 		healthDisplay.text = player.health + "";
 		if(raganos!=null){
-			bossDisplay.text = raganos.health + "";
+			if(raganos.health>=0){
+				bossDisplay.text = raganos.health + "";
+			}else{
+				bossDisplay.text = "0";
+			}
 		}
 
 		if(GGD.launcherEnabled){
@@ -492,10 +500,10 @@ class GameState extends State {
 
 		if(GGD.isTimeStopped){
 			stopTime();
-			//stage.defaultCamera().postProcess=new ShRetro(Blend.blendDefault());
+			stage.defaultCamera().postProcess=new ShRetro(Blend.blendDefault());
 		}else{
 			resumeTime();
-			//stage.defaultCamera().postProcess = null;
+			stage.defaultCamera().postProcess = null;
 		}
 	}
 
@@ -509,6 +517,15 @@ class GameState extends State {
 		if(raganos!=null){
 			raganos.stopTimeline();
 		}
+		for(b in GGD.bulletList){
+			b.stopTimeline();
+		}
+		for(b in GGD.rocketList){
+			b.stopTimeline();
+		}
+		for(b in GGD.projectileList){
+			b.stopTimeline();
+		}
 	}
 
 	function resumeTime(){
@@ -520,6 +537,15 @@ class GameState extends State {
 		}
 		if(raganos!=null){
 			raganos.resetTimeline();
+		}
+		for(b in GGD.bulletList){
+			b.resetTimeline();
+		}
+		for(b in GGD.projectileList){
+			b.resetTimeline();
+		}
+		for(b in GGD.rocketList){
+			b.resetTimeline();
 		}
 
 	}

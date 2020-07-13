@@ -13,6 +13,9 @@ class Projectile extends Entity
 	var lifeTime:Float=0;
 	var totalLifeTime:Float=2;
 
+	var permanentDirX: Float = 0;
+	var permanentDirY: Float = 0;
+
 	public var damage: Int = 10;
 
 	public function new() 
@@ -35,14 +38,15 @@ class Projectile extends Entity
 		collision.removeFromParent();
 	}
 	override function update(dt:Float) {
-		lifeTime+=dt;
-		if(lifeTime>totalLifeTime){
-			die();
+		if(!GGD.isTimeStopped){
+			lifeTime+=dt;
+			if(lifeTime>totalLifeTime){
+				die();
+			}
+			collision.update(dt);
+			display.x=collision.x;
+			display.y=collision.y;
 		}
-		collision.update(dt);
-		display.x=collision.x;
-		display.y=collision.y;
-
 		super.update(dt);
 	}
 	public function shoot(x:Float, y:Float,dirX:Float,dirY:Float):Void
@@ -52,7 +56,20 @@ class Projectile extends Entity
 		collision.y=y;
 		collision.velocityX = 500*dirX;
 		collision.velocityY = 500*dirY;
-		GGD.projectiles.add(collision);
+		permanentDirX = dirX;
+		permanentDirY = dirY;
+		GGD.projectiles.add(collision);	
 		GGD.simulationLayer.addChild(display);
+		GGD.projectileList.push(this);
+	}
+
+	public function stopTimeline(){
+		collision.velocityX = 0;
+		collision.velocityY = 0;
+	}
+
+	public function resetTimeline(){
+		collision.velocityX = 500*permanentDirX;
+		collision.velocityY = 500*permanentDirY;
 	}
 }

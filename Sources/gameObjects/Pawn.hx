@@ -99,7 +99,7 @@ class Pawn extends Enemy
 				isAttacking = false;
 			}
 			if((target.y - collision.y <= 200 && target.y - collision.y >= -200) && 
-				(target.x - collision.x <= 400 && target.x - collision.x >= -400) || health < 50)
+				(target.x - collision.x <= 400 && target.x - collision.x >= -400) || health < 30)
 			{
 				move(target);
 			}
@@ -206,6 +206,7 @@ class Pawn extends Enemy
 		if(collision.velocityX !=0){
 			wasRunning = true;
 		}
+		collision.accelerationY = 0;
 		collision.velocityX = 0;
 		collision.velocityY = 0;
 		display.timeline.frameRate = 1/0;
@@ -213,6 +214,7 @@ class Pawn extends Enemy
 
 	public function resetTimeline(){
 		wasRunning = false;
+		collision.accelerationY = 2000;
 		display.timeline.frameRate = 1/11;
 	}
 }

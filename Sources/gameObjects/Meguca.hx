@@ -128,7 +128,7 @@ class Meguca extends Enemy
 	}
 
 	public function resetTimeline(){
-		collision.velocityX = -300*oldDirection;
+		collision.velocityX = 300*oldDirection;
 		display.timeline.frameRate = 1/10;
 	}
 }

@@ -41,7 +41,7 @@ class Raganos extends Enemy
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
-        health = 1250;
+        health = 1500;
 		super();
         collisionGroup = col;
 
@@ -127,10 +127,10 @@ class Raganos extends Enemy
 	
 
 	function checkStage(){
-		if (health<=750&&health>250){
+		if (health<=1000&&health>500){
 			bossStage = 2;
 		}
-		if (health<=250){
+		if (health<=500){
 			bossStage = 3;
 		}
 	}

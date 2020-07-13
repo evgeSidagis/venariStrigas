@@ -15,7 +15,7 @@ class Intro extends State {
     var intro:Sprite;
     override function load(resources:Resources) {
         resources.add(new ImageLoader("Intro"));
-        resources.add(new SoundLoader("Inevitabilis", true));
+        resources.add(new SoundLoader("Inevitabilis", false));
       
     }
     public function new() {

@@ -17,10 +17,10 @@ import com.loading.Resources;
 import com.framework.utils.State;
 
 class GameOver extends State {
-    var score:String;
-    public function new(score:String="") {
+    var message:String;
+    public function new(message:String="") {
         super();
-        this.score=score;
+        this.message=message;
     }
     override function load(resources:Resources) {
         var atlas:JoinAtlas=new JoinAtlas(1024,1024);
@@ -35,9 +35,9 @@ class GameOver extends State {
         image.y=100;
         stage.addChild(image);
         var scoreDisplay=new Text(Assets.fonts.Kenney_ThickName);
-        scoreDisplay.text="You have failed in your quest to find Madoka.
-        
-        Press Enter to try again.";
+        scoreDisplay.text="You have failed in your quest to find Madoka. \n"
+        + "\n" + message + "\n" +  "\n" +
+        "Press Enter to try again.";
         scoreDisplay.x=GEngine.virtualWidth/2-scoreDisplay.width()*0.5;
         scoreDisplay.y=GEngine.virtualHeight/2;
         scoreDisplay.color=Color.Red;

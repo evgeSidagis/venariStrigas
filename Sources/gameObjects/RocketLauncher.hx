@@ -4,10 +4,6 @@ import com.framework.utils.Entity;
 import com.collision.platformer.CollisionGroup;
 import com.framework.utils.Random;
 
-/**
- * ...
- * @author 
- */
 class RocketLauncher extends Entity
 {
 	public function new() 

@@ -103,7 +103,7 @@ This is the work of a witch!</property>
    </properties>
   </object>
   <object id="30" type="en" x="5051" y="381" width="36" height="53"/>
-  <object id="31" type="kyu" x="5225" y="388" width="43" height="48"/>
+  <object id="31" type="kyu" x="5224.5" y="398" width="43" height="48"/>
   <object id="32" type="dialog" x="5090" y="288" width="180" height="146">
    <properties>
     <property name="text" value="The witch is nearby, come."/>

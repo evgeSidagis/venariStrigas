@@ -406,7 +406,7 @@ class GameState extends State {
 	function doomVsPlayer(doomCollision:ICollider, playerCollision:ICollider) {
 		var doom:Doom=cast doomCollision.userData;
 		doom.showText(simulationLayer);
-		changeState(new GameOver());
+		changeState(new GameOver("You have fallen to ground level.\n\nEasier to reset than to climb back."));
 	}
 
 	public function bulletVsBoss(a:ICollider,b:ICollider) {
@@ -484,8 +484,11 @@ class GameState extends State {
 			}
 		}
 
-		if(player.health <= 0 || player.collision.y > worldMap.heightInTiles * 32 + 200){
+		if(player.health <= 0){
 			changeState(new GameOver());
+		}
+		if(player.collision.y > worldMap.heightInTiles * 32 + 200){
+			changeState(new GameOver("You have left the area. Seems like you\n\n do not care about Madoka that much."));
 		}
 		healthDisplay.text = player.health + "";
 		if(raganos!=null){

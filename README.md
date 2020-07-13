@@ -42,17 +42,68 @@ El proposito de esto es crear una atmosfera cada vez mas "falsa" e "irreal", sig
 
 
 
-
-
 Assets:
 
 Sonidos:
 
 Pistola Beretta 92FS - http://soundbible.com/tags-beretta.html
+
 Raganos - http://soundbible.com/2052-Creepy-Laugh.html
-AT-4 Rocket Launcher - https://www.freesoundeffects.com/free-sounds/bazooka-10075/
+
+AT-4 Rocket Launcher - http://soundbible.com/1151-Grenade.html
+
 Espadazo - http://soundbible.com/706-Swoosh-3.html
 
 
+Fondos del juego, intro y ending:
 
+
+Ending: https://www.pixiv.net/en/artworks/18391722 - Modificado
+
+Intro: https://wallhere.com/es/wallpaper/26735 - Modificado
+
+Area del Jefe: https://papers.co/bb43-paris-dark-purple-city-illustration-art/
+
+Primer Area: https://twitter.com/Scenograph_/status/1256807808328065024
+
+Segunda Area: https://wallpapersden.com/purple-city-wallpaper/2560x1080/
+
+
+Musica:
+
+
+Ending: https://www.youtube.com/watch?v=IHpK1ADX7AI - Kyubey's Theme - Yuki Kajiura
+
+Intro: https://sites.google.com/site/madokaost2/-nipponsei-puella-magi-madoka-magica-original-soundtrack-ii?tmpl=%2Fsystem%2Fapp%2Ftemplates%2Fprint%2F&showPrintDialog=1
+Inevitabilis - Homura's Theme - Yuki Kajiura
+
+Primer Area: https://sites.google.com/site/madokaost2/-nipponsei-puella-magi-madoka-magica-original-soundtrack-ii?tmpl=%2Fsystem%2Fapp%2Ftemplates%2Fprint%2F&showPrintDialog=1
+Pugna Cum Maga - Yuki Kajiura
+
+Segunda Area: https://sites.google.com/site/madokaost2/-nipponsei-puella-magi-madoka-magica-original-soundtrack-ii?tmpl=%2Fsystem%2Fapp%2Ftemplates%2Fprint%2F&showPrintDialog=1
+Venari Strigas - Yuki Kajiura
+
+Area del Jefe: https://www.nhaccuatui.com/bai-hat/numquam-vincar-puella-magi-madoka-magica-ost-va.2nWJaiKqLoFi.html
+Numquam Vincar - Yuki Kajiura
+
+
+Plataformas - Tiles:
+
+
+Todos los mapas - https://opengameart.org/content/2d-32x32-platformer-tileset - Modificado
+
+
+Enemigos:
+
+
+Pawns - https://the-silly-princess-blog.tumblr.com/post/43700452290/sayaka-miki-grief-syndrome-sprites-and-gif - Modificado
+
+Meguca - https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria - Gracias a Stephen Challener (Redshrike) por los sprites originales
+
+Raganos - https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria - Gracias a Stephen Challener (Redshrike) por los sprites originales
+
+
+Homura Akemi:
+
+https://www.deviantart.com/konbe 
 

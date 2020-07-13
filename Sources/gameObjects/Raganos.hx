@@ -125,13 +125,15 @@ class Raganos extends Enemy
 	}
 
 	
-
 	function checkStage(){
 		if (health<=1000&&health>500){
 			bossStage = 2;
 		}
 		if (health<=500){
 			bossStage = 3;
+		}
+		if((health>=980&&health<=1020) || (health>=480 && health <= 520)){
+			SoundManager.playFx("laugh");
 		}
 	}
 

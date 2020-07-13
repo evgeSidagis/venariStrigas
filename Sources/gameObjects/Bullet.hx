@@ -18,6 +18,8 @@ class Bullet extends Entity
 	var display:Sprite;
 	var lifeTime:Float=0;
 	var totalLifeTime:Float=1;
+	var frameCheck: Float = 10;
+	var framesExisting: Float = 0;
 
 	var permanentDir: Float = 0;
 
@@ -43,6 +45,7 @@ class Bullet extends Entity
 		collision.removeFromParent();
 	}
 	override function update(dt:Float) {
+		framesExisting++;
 		if(!GGD.isTimeStopped){
 			lifeTime+=dt;
 			if(lifeTime>=totalLifeTime){
@@ -68,8 +71,10 @@ class Bullet extends Entity
 	}
 
 	public function stopTimeline(){
-		collision.velocityX = 0;
-		collision.velocityY = 0;
+		if(framesExisting>frameCheck){
+			collision.velocityX = 0;
+			collision.velocityY = 0;
+		}
 	}
 
 	public function resetTimeline(){

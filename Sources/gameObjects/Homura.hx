@@ -302,7 +302,7 @@ class Homura extends Entity
 			pistolRecoil++;
 			shootingPistol = true;
 			gun.shoot(x,y-height*0.65,display.scaleX, 0);
-			//SoundManager.playFx("92FS",false);
+			SoundManager.playFx("gunshot",false);
 		}
 	}
 	inline function recoilPistol(){
@@ -325,7 +325,7 @@ class Homura extends Entity
 		rocketRecoil++;
 		if(rocketRecoil == 30){
 			rocketLauncher.shoot(x,y-height*0.70,display.scaleX,0);
-			//SoundManager.playFx("AT4",false);
+			SoundManager.playFx("rpg",false);
 		}
 		if(rocketRecoil == 45){
 			rocketRecoil = 0;

@@ -142,6 +142,11 @@ class GameState extends State {
 		resources.add(new ImageLoader("RocketIcon"));
 		resources.add(new ImageLoader("SpecialIcon"));
 
+		resources.add(new SoundLoader("gunshot"));
+		resources.add(new SoundLoader("swoosh"));
+		resources.add(new SoundLoader("laugh"));
+		resources.add(new SoundLoader("rpg"));
+
 		atlas.add(new FontLoader("Kenney_Pixel",24));
 		atlas.add(new FontLoader(Assets.fonts.Kenney_ThickName, 30));
 		resources.add(atlas);
@@ -155,6 +160,7 @@ class GameState extends State {
 		backgroundLayer.addChild(background);
 		stage.addChild(backgroundLayer);
 		SoundManager.playMusic(room+"M",true);
+		SoundManager.musicVolume(1);
 
 		stageColor(0.5, .5, 0.5);
 		dialogCollision = new CollisionGroup();

@@ -88,6 +88,7 @@ class Pawn extends Enemy
 				isPreparingAttack = false;
 				isAttacking = true;
 				sword.swing(collision.x,collision.y,dir.x,dir.y);
+				SoundManager.playFx("swoosh",false);
 				attackRespite++;
 				currentCharge = 0;
 			}

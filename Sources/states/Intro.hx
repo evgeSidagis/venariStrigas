@@ -16,6 +16,7 @@ class Intro extends State {
     override function load(resources:Resources) {
         resources.add(new ImageLoader("Intro"));
         resources.add(new SoundLoader("Inevitabilis", false));
+      
     }
     public function new() {
         super();
@@ -23,6 +24,7 @@ class Intro extends State {
     override function init() {
         intro=new Sprite("Intro");
         SoundManager.playMusic("Inevitabilis",true);
+        SoundManager.musicVolume(1);
         stage.addChild(intro);
     }
     override function update(dt:Float) {

@@ -13,10 +13,12 @@ Tu personaje esta armado inicialmente con una pistola, alto radio de fuego, anim
 Al correr el primer nivel, desbloquearas una segunda arma, un lanzacohetes. Este tiene area de efecto (no muy grande, pero tiene), radio de fuego lento y mucho daño. Ideal para
 grupos de enemigos, o en momentos donde no hay peligro de ser pegado.
 Tu personaje podra saltar inicialmente una unica vez, pero desbloqueara un doble salto el cual puede ser usado incluso cayendo.
+En el segundo nivel, desbloquearas la ultima habilidad especial de Homura, que es poder detener el flujo de tiempo por un par de segundos.
 
-Si mueres, deberas empezar desde el primer nivel de vuelta. Parte de esta mecanica sera discutida mas adelante.
+Si mueres o dejas el area jugable deberas empezar desde el primer nivel de vuelta.
+Al morir quedan guardadas las armas/habilidades desbloqueadas y la vuelta (lap) donde estas parado.
 
-//continuara
+Ademas, existe un sistema de laps, que aumenta con cada corrida completa. Este sistema aumenta la dificultad linealmente, aumentando el daño de los enemigos y su salud.
 
 Enemigos: 
 
@@ -34,6 +36,8 @@ Historia:
 
 Si bien la historia es relativamente basica, y es contada en formato de dialogo entre Homura y Kyubey, o para si misma, la premisa es simple. Estas buscando a Madoka Kaname, tu
 unica amiga. Incluso descenderas al abismo de ser necesario para ello. Ella es tu guia y tu fuerza. Usala para vencer a lo que tienes adelante!
+
+Es importante prestar atencion a los dialogos durante la primera corrida, proveen un poco de contexto con respecto a las habilidades y la premisa basica de estos 3 niveles.
 
 Mapas: 
 
@@ -90,7 +94,7 @@ Numquam Vincar - Yuki Kajiura
 Plataformas - Tiles:
 
 
-Todos los mapas - https://opengameart.org/content/2d-32x32-platformer-tileset - Modificado
+Todos los mapas - https://opengameart.org/content/2d-32x32-platformer-tileset - Modificado - Gracias a Bojidar Marinov
 
 
 Enemigos:

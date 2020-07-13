@@ -11,8 +11,6 @@ import com.loading.basicResources.ImageLoader;
 import format.tmx.Data.TmxObjectType;
 import com.gEngine.display.Sprite;
 import com.gEngine.shaders.ShRetro;
-import com.gEngine.shaders.ShBlurV;
-import com.gEngine.shaders.ShBlurH;
 import com.gEngine.display.Blend;
 import com.gEngine.display.Camera;
 import kha.Assets;
@@ -77,6 +75,7 @@ class GameState extends State {
 	var pistolIcon:Sprite;
 	var rocketIcon:Sprite;
 	var specialIcon:Sprite;
+	var lapDisplay: Text;
 
 	//enemyArrays
 	var pawns: Array<Pawn> = new Array<Pawn>();
@@ -239,6 +238,12 @@ class GameState extends State {
 			bossDisplay.text = Std.string(raganos.health);
 			hudLayer.addChild(bossDisplay);
 		}
+		//setUpLapDisplay
+		lapDisplay=new Text(Assets.fonts.Kenney_ThickName);
+		lapDisplay.x = 1200;
+		lapDisplay.y = 600;
+		lapDisplay.text = GGD.lap + "";
+		hudLayer.addChild(lapDisplay);
 	}
 
 
@@ -476,13 +481,7 @@ class GameState extends State {
             changeState(new Intro());
         }
 		
-		purgeSprites++;
-		if(purgeSprites == 30){
-			purgeSprites = 0;
-			for(s in temporalSprites){
-				s.removeFromParent();
-			}
-		}
+		purgeTempSprites();
 
 		if(player.health <= 0){
 			changeState(new GameOver());
@@ -490,30 +489,13 @@ class GameState extends State {
 		if(player.collision.y > worldMap.heightInTiles * 32 + 200){
 			changeState(new GameOver("You have left the area. Seems like you\n\n do not care about Madoka that much."));
 		}
+		
 		healthDisplay.text = player.health + "";
-		if(raganos!=null){
-			if(raganos.health>=0){
-				bossDisplay.text = raganos.health + "";
-			}else{
-				bossDisplay.text = "0";
-			}
-		}
+		
+		checkForBossDisplay();
+		checkOtherIcons();
 
-		if(GGD.launcherEnabled){
-			hudLayer.addChild(rocketIcon);   
-		}
-
-		if(GGD.specialEnabled){
-			hudLayer.addChild(specialIcon);
-		}
-
-		if(GGD.isTimeStopped){
-			stopTime();
-			stage.defaultCamera().postProcess=new ShRetro(Blend.blendDefault());
-		}else{
-			resumeTime();
-			stage.defaultCamera().postProcess = null;
-		}
+		checkTimeStoppedThenProcess();
 	}
 
 	function stopTime(){
@@ -557,6 +539,45 @@ class GameState extends State {
 			b.resetTimeline();
 		}
 
+	}
+
+	inline function checkForBossDisplay(){
+		if(raganos!=null){
+			if(raganos.health>=0){
+				bossDisplay.text = raganos.health + "";
+			}else{
+				bossDisplay.text = "0";
+			}
+		}
+	}
+
+	inline function checkOtherIcons(){
+		if(GGD.launcherEnabled){
+			hudLayer.addChild(rocketIcon);   
+		}
+		if(GGD.specialEnabled){
+			hudLayer.addChild(specialIcon);
+		}
+	}
+
+	inline function checkTimeStoppedThenProcess(){
+		if(GGD.isTimeStopped){
+			stopTime();
+			stage.defaultCamera().postProcess=new ShRetro(Blend.blendDefault());
+		}else{
+			resumeTime();
+			stage.defaultCamera().postProcess = null;
+		}
+	}
+
+	inline function purgeTempSprites(){
+		purgeSprites++;
+		if(purgeSprites == 30){
+			purgeSprites = 0;
+			for(s in temporalSprites){
+				s.removeFromParent();
+			}
+		}
 	}
 	
 	#if DEBUGDRAW

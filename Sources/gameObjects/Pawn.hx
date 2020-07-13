@@ -190,7 +190,7 @@ class Pawn extends Enemy
 				collision.velocityY = -1000;
 				canJump = false;
 			}
-			if(!isAttacking && collision.velocityY == 0){
+			if(!isAttacking && collision.isTouching(Sides.BOTTOM)){
 				canJump = true;
 			}
 

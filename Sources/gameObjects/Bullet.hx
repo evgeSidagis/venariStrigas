@@ -47,10 +47,10 @@ class Bullet extends Entity
 			if(lifeTime>=totalLifeTime){
 				die();
 			}
-			collision.update(dt);
-			display.x=collision.x;
-			display.y=collision.y;
 		}
+		collision.update(dt);
+		display.x=collision.x;
+		display.y=collision.y;
 		super.update(dt);
 	}
 	public function shoot(x:Float, y:Float,dirX:Float,dirY:Float):Void

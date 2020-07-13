@@ -16,7 +16,7 @@ import com.collision.platformer.CollisionGroup;
 
 class Meguca extends Enemy
 {
-	static private inline var SPEED:Float = 250;
+	static private inline var SPEED:Float = 300;
 	
 	var display:Sprite;
     public var collision:CollisionBox;
@@ -67,7 +67,7 @@ class Meguca extends Enemy
 		collision.x=X;
 		collision.y=Y;
 
-		collision.velocityX = -300;
+		collision.velocityX = -SPEED;
 
         col.add(collision);
 	}
@@ -115,7 +115,7 @@ class Meguca extends Enemy
 			collision.velocityX= collision.velocityX*-1;
 			changeCounter = 0;
 		}
-		if(collision.velocityX>=0){
+		if(collision.velocityX==SPEED){
 			oldDirection = 1;
 		}else{
 			oldDirection = -1;
@@ -128,7 +128,7 @@ class Meguca extends Enemy
 	}
 
 	public function resetTimeline(){
-		collision.velocityX = 300*oldDirection;
+		collision.velocityX = SPEED*oldDirection;
 		display.timeline.frameRate = 1/10;
 	}
 }

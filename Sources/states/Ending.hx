@@ -28,7 +28,7 @@ class Ending extends State {
     }
     override function update(dt:Float) {
         super.update(dt);
-        if(Input.i.isKeyCodePressed(KeyCode.Space)||Input.i.isMousePressed()){
+        if(Input.i.isKeyCodePressed(KeyCode.Space)||Input.i.isMousePressed()||Input.i.isKeyCodePressed(KeyCode.Return)){
             changeState(new Intro()); 	
         }
     }

@@ -50,9 +50,6 @@ class Rocket extends Entity
 			if(lifeTime>=totalLifeTime){
 				die();
 			}
-			collision.update(dt);
-			display.x=collision.x;
-			display.y=collision.y;
 			if (direction.x < 0){
 				display.scaleX  = -0.7;
 				display.offsetX = 50;
@@ -61,6 +58,9 @@ class Rocket extends Entity
 				display.offsetX = 10;
 			}
 		}
+		collision.update(dt);
+		display.x=collision.x;
+		display.y=collision.y;
 		super.update(dt);
 	}
 	public function shoot(x:Float, y:Float,dirX:Float,dirY:Float):Void

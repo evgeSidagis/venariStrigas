@@ -8,17 +8,13 @@ import com.collision.platformer.CollisionBox;
 import com.framework.utils.Entity;
 import com.gEngine.display.Sprite;
 
-/**
- * ...
- * @author 
- */
 class Bullet extends Entity
 {
 	public var collision:CollisionBox;
 	var display:Sprite;
 	var lifeTime:Float=0;
 	var totalLifeTime:Float=1;
-	var frameCheck: Float = 10;
+	var frameCheck: Float = 4;
 	var framesExisting: Float = 0;
 
 	var permanentDir: Float = 0;
@@ -46,7 +42,7 @@ class Bullet extends Entity
 	}
 	override function update(dt:Float) {
 		framesExisting++;
-		if(!GGD.isTimeStopped){
+		if(!GGD.isTimeStopped || framesExisting <= frameCheck){
 			lifeTime+=dt;
 			if(lifeTime>=totalLifeTime){
 				die();
@@ -71,7 +67,7 @@ class Bullet extends Entity
 	}
 
 	public function stopTimeline(){
-		if(framesExisting>frameCheck){
+		if(framesExisting > frameCheck){
 			collision.velocityX = 0;
 			collision.velocityY = 0;
 		}

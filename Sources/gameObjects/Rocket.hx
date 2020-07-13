@@ -20,6 +20,9 @@ class Rocket extends Entity
 	public var radius:Int = 50;
 	var permanentDir: Float = 0;
 
+	var frameCheck: Float = 4;
+	var framesExisting: Float = 0;
+
 	public function new() 
 	{
 		super();
@@ -41,7 +44,8 @@ class Rocket extends Entity
 		collision.removeFromParent();
 	}
 	override function update(dt:Float) {
-		if(!GGD.isTimeStopped){
+		framesExisting++;
+		if(!GGD.isTimeStopped || framesExisting <= frameCheck){
 			lifeTime+=dt;
 			if(lifeTime>=totalLifeTime){
 				die();
@@ -75,8 +79,10 @@ class Rocket extends Entity
 	}
 
 	public function stopTimeline(){
-		collision.velocityX = 0;
-		collision.velocityY = 0;
+		if(framesExisting>frameCheck){
+			collision.velocityX = 0;
+			collision.velocityY = 0;
+		}
 	}
 
 	public function resetTimeline(){

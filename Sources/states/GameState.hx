@@ -142,9 +142,9 @@ class GameState extends State {
 		resources.add(new ImageLoader("RocketIcon"));
 		resources.add(new ImageLoader("SpecialIcon"));
 
-		resources.add(new SoundLoader("gunshot"));
+		resources.add(new SoundLoader("gunshot2"));
 		resources.add(new SoundLoader("swoosh"));
-		resources.add(new SoundLoader("laugh"));
+		resources.add(new SoundLoader("laugh2"));
 		resources.add(new SoundLoader("rpg"));
 
 		atlas.add(new FontLoader("Kenney_Pixel",24));
@@ -160,7 +160,7 @@ class GameState extends State {
 		backgroundLayer.addChild(background);
 		stage.addChild(backgroundLayer);
 		SoundManager.playMusic(room+"M",true);
-		SoundManager.musicVolume(1);
+
 
 		stageColor(0.5, .5, 0.5);
 		dialogCollision = new CollisionGroup();
@@ -383,6 +383,7 @@ class GameState extends State {
 			}else{
 				if(raganos==null||raganos.health<=0){
 					SoundManager.stopMusic();
+					GGD.lap++;
 					changeState(new Ending());
 				}
 			}
@@ -557,11 +558,11 @@ class GameState extends State {
 	}
 	
 	#if DEBUGDRAW
-	override function draw(framebuffer:kha.Canvas) {
+	/*override function draw(framebuffer:kha.Canvas) {
 		super.draw(framebuffer);
 		var camera=stage.defaultCamera();
 		CollisionEngine.renderDebug(framebuffer,camera);
-	}
+	}*/
 	#end
 	override function destroy() {
 		super.destroy();

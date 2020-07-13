@@ -302,7 +302,7 @@ class Homura extends Entity
 			pistolRecoil++;
 			shootingPistol = true;
 			gun.shoot(x,y-height*0.65,display.scaleX, 0);
-			SoundManager.playFx("gunshot",false);
+			SoundManager.playFx("gunshot2",false);
 		}
 	}
 	inline function recoilPistol(){

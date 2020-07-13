@@ -16,7 +16,7 @@ class Projectile extends Entity
 	var permanentDirX: Float = 0;
 	var permanentDirY: Float = 0;
 
-	public var damage: Int = 10;
+	public var damage: Int = 10 + 5* GGD.lap;
 
 	public function new() 
 	{

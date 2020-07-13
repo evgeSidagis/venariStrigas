@@ -46,7 +46,7 @@ class Pawn extends Enemy
 	{
 		super();
 		collisionGroup=col;
-		health = 50;
+		health = 50 + 5*GGD.lap;
 
 		screenWidth = GEngine.i.width;
 		screenHeight = GEngine.i.height;

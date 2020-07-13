@@ -16,7 +16,7 @@ class Swing extends Entity
     var totalLifeTime:Float=1;
     var direction:FastVector2;
 
-	public var damage: Int = 30;
+	public var damage: Int = 30 + 5*GGD.lap;
 
 	public function new() 
 	{

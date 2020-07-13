@@ -29,6 +29,8 @@ class GlobalGameData {
     public static var rocketList: Array<Rocket> = new Array<Rocket>();
     public static var projectileList: Array<Projectile> = new Array<Projectile>();
 
+    public static var lap: Int = 0;
+
     public static function destroy() {
         player=null;
         simulationLayer=null;

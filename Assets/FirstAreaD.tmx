@@ -145,13 +145,15 @@ a double jump to cross this gap</property>
   </object>
   <object id="5" type="dialog" x="840.792" y="151.213" width="275.758" height="188.121">
    <properties>
-    <property name="text">Akemi Homura, you could use your AT4 Rocket Launcher. 
+    <property name="text">Homura, you could use your 
+AT4 Rocket Launcher. 
 Press X to fire it!</property>
    </properties>
   </object>
   <object id="7" type="dialog" x="1861.7" y="121.818" width="264.849" height="195.334">
    <properties>
-    <property name="text" value="There is something weird around here"/>
+    <property name="text">There is something weird around here
+Go to that door-thing and press ENTER!</property>
    </properties>
   </object>
   <object id="16" type="kyu" x="917.5" y="275" width="31" height="34"/>

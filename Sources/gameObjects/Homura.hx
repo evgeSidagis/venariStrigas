@@ -55,13 +55,17 @@ class Homura extends Entity
 
 	public var timeCounter: Int = 0;
 	var playSpecialAnimation: Bool = false;
-	var timeStopCooldown: Int = 1200;
+	var timeStopCooldown: Int = 1200 - 60*GGD.lap;
 
 	var timeStopReady: Int = 0;
 
 	public function new(X:Float, Y:Float,layer:Layer) 
 	{
 		super();
+		
+		if(timeStopCooldown<600){
+			timeStopCooldown = 600;
+		}
 
 		screenWidth = GEngine.i.width;
 		screenHeight = GEngine.i.height;

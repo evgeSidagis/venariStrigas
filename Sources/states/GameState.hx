@@ -354,7 +354,6 @@ class GameState extends State {
 		var pawn: Pawn=cast b.userData;
 		var rocket:Rocket=cast a.userData;
 
-		pawn.damage(rocket.damage);
 		rocket.die();
 
 		var x: Float = pawn.collision.x;

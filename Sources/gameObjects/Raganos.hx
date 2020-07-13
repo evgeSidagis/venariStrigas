@@ -38,10 +38,15 @@ class Raganos extends Enemy
 
 	var leftToRightX:Bool = true;
 	var leftToRightY:Bool = true;
+
+	var stage2Threshold:Int = 0;
+	var stage3Threshold:Int = 0;
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
-		health = 1500;
+		health = 1500+500*GGD.lap;
+		stage2Threshold = 1000+ 250*GGD.lap;
+		stage3Threshold = 500 + 125*GGD.lap;
 		
 		super();
         collisionGroup = col;
@@ -127,13 +132,14 @@ class Raganos extends Enemy
 
 	
 	function checkStage(){
-		if (health<=1000&&health>500){
+		if (health<=stage2Threshold&&health>stage3Threshold){
 			bossStage = 2;
 		}
-		if (health<=500){
+		if (health<=stage3Threshold){
 			bossStage = 3;
 		}
-		if((health>=980&&health<=1020) || (health>=480 && health <= 520)){
+		if( (health>=stage2Threshold-20&&health<=stage2Threshold+20) || 
+			(health>=stage3Threshold-20 && health <= stage3Threshold+20)){
 			SoundManager.playFx("laugh2");
 		}
 	}

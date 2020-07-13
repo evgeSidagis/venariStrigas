@@ -46,7 +46,7 @@ class Pawn extends Enemy
 	{
 		super();
 		collisionGroup=col;
-		health = 50 + 5*GGD.lap;
+		health = 50 + 10*GGD.lap;
 
 		screenWidth = GEngine.i.width;
 		screenHeight = GEngine.i.height;
@@ -81,16 +81,10 @@ class Pawn extends Enemy
 		var target:Homura = GGD.player;
 		if(health>0 && !GGD.isTimeStopped){
 			if(isPreparingAttack){
-				collision.velocityX = 0;
-				currentCharge++;
+				chargeAttack();
 			}
 			if(currentCharge == attackCharge){
-				isPreparingAttack = false;
-				isAttacking = true;
-				sword.swing(collision.x,collision.y,dir.x,dir.y);
-				SoundManager.playFx("swoosh",false);
-				attackRespite++;
-				currentCharge = 0;
+				launchAttack();
 			}
 			if(attackRespite>0&&attackRespite<15){
 				attackRespite++;
@@ -201,6 +195,20 @@ class Pawn extends Enemy
 			}
 
 		}
+	}
+
+	inline function chargeAttack(){
+		collision.velocityX = 0;
+		currentCharge++;
+	}
+
+	inline function launchAttack(){
+		isPreparingAttack = false;
+		isAttacking = true;
+		sword.swing(collision.x,collision.y,dir.x,dir.y);
+		SoundManager.playFx("swoosh",false);
+		attackRespite++;
+		currentCharge = 0;
 	}
 
 	public function stopTimeline(){

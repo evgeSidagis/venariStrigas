@@ -30,20 +30,23 @@ un breve calentamiento antes de atacar, asi que dodgea. Tienen daño alto.
 Las Megucas son cabezas flotantes a las cuales no se les puede pegar, y su proposito es llevarte puesto. Homura salta automaticamente en caso de ser golpeada, pero pierde el control
 por un tiempo. En sitios cerrados, te empujaran. Cuidado con caer al vacio, porque puede ser el fin.
 
+Raganos es el/la jefe del juego. Es una bruja que seguramente flote en agua si se la tire a ella, y pese lo mismo que un pato. Ni mas, ni menos. Deberia
+convertir a Homura en una salamandra, pero no lo hace (lamentablemente). Ahora hablando de la bruja del juego, los patrones son la solucion a estos problemas.
+
 Historia:
 
-(La historia es un fanfic basado en un anime llamado Puella Magi Madoka Magica)
+La historia es un fanfic basado en un anime llamado Puella Magi Madoka Magica.
 
 Si bien la historia es relativamente basica, y es contada en formato de dialogo entre Homura y Kyubey, o para si misma, la premisa es simple. Estas buscando a Madoka Kaname, tu
 unica amiga. Incluso descenderas al abismo de ser necesario para ello. Ella es tu guia y tu fuerza. Usala para vencer a lo que tienes adelante!
 
 Es importante prestar atencion a los dialogos durante la primera corrida, proveen un poco de contexto con respecto a las habilidades y la premisa basica de estos 3 niveles.
+(Y uno de bonus que es unicamente historia)
 
 Mapas: 
 
 Los mapas ven variaciones tanto en su color como en su diseño general, avanzando lentamente a colores irreales y diseños arquitectonicos similares a la antigua Roma.
 El proposito de esto es crear una atmosfera cada vez mas "falsa" e "irreal", significando que Homura cada vez se encuentra mas cerca de su enemigo, la bruja.
-
 
 
 Assets:
@@ -72,6 +75,8 @@ Primer Area: https://twitter.com/Scenograph_/status/1256807808328065024
 
 Segunda Area: https://wallpapersden.com/purple-city-wallpaper/2560x1080/
 
+Bonus Area: https://www.itl.cat/wallview/iTihiJJ_madoka-magica-wallpaper-witch/
+
 
 Musica:
 
@@ -90,6 +95,8 @@ Venari Strigas - Yuki Kajiura
 Area del Jefe: https://www.nhaccuatui.com/bai-hat/numquam-vincar-puella-magi-madoka-magica-ost-va.2nWJaiKqLoFi.html
 Numquam Vincar - Yuki Kajiura
 
+Bonus Area: https://sites.google.com/site/madokaost1/-nipponsei-puella-magi-madoka-magica-original-soundtrack-i - Puella in Somnio - Yuki Kajiura
+
 
 Plataformas - Tiles:
 
@@ -107,7 +114,6 @@ Meguca - https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-no
 Raganos - https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria - Gracias a Stephen Challener (Redshrike) por los sprites originales
 
 
-Homura Akemi:
-
+Homura Akemi, Kyubey:
 https://www.deviantart.com/konbe 
 

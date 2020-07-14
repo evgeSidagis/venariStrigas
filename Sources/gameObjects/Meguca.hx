@@ -65,7 +65,7 @@ class Meguca extends Enemy
 		collision.x=X;
 		collision.y=Y;
 
-		collision.velocityX = -SPEED;
+		collision.velocityX = SPEED;
 
 		oldDirection = collision.velocityX;
 

@@ -1,5 +1,6 @@
 package states;
 
+import format.tmx.Data.TmxTileLayer;
 import kha.audio2.ResamplingAudioChannel;
 import js.html.audio.ChannelMergerNode;
 import com.collision.platformer.CollisionTileMap;
@@ -184,13 +185,7 @@ class GameState extends State {
 			if (!tileLayer.properties.exists("noCollision") && !tileLayer.properties.exists("cCol")) {
 				layerTilemap.createCollisions(tileLayer);
 			}
-			var spr = new Sprite("level1b");
-			var color:Int = tileLayer.tintColor;
-			var red = (color & 0xFF0000) >> 16;
-			var green = (color & 0x00FF00) >> 8;
-			var blue = (color & 0x0000FF);
-			spr.colorMultiplication(red/255,green/255,blue/255,1);
-
+			var spr = postProcessTileTint(tileLayer);
 			simulationLayer.addChild(layerTilemap.createDisplay(tileLayer,spr));
 		}, parseMapObjects);
 		
@@ -352,12 +347,7 @@ class GameState extends State {
 		pawn.damage(bullet.damage);
 		bullet.die();
 
-		var gunHit = new Sprite("gun_hit");
-		gunHit.x = pawn.collision.x;
-		gunHit.y = pawn.collision.y;
-		
-		temporalSprites.push(gunHit);
-		simulationLayer.addChild(gunHit);
+		createGunHitSprite(pawn.collision.x,pawn.collision.y);
 	}
 
 	public function rocketVsEnemy(a:ICollider,b:ICollider) {
@@ -369,19 +359,8 @@ class GameState extends State {
 		var x: Float = pawn.collision.x;
 		var y: Float = pawn.collision.y;
 		
-		var damagedPawns: Array<Pawn> = pawns.filter(function (f) return
-			f.collision.x <= x+50 && f.collision.x >= x-50 &&
-			f.collision.y <= y+50 && f.collision.y >= y-50);
-
-		for (p in damagedPawns){
-			p.damage(rocket.damage);
-		}
-
-		var explosion = new Sprite("blowing");
-		explosion.x = pawn.collision.x;
-		explosion.y = pawn.collision.y;
-		temporalSprites.push(explosion);
-		simulationLayer.addChild(explosion);
+		rocketAoe(x,y,rocket.damage);
+		createExplosionSprite(x,y);
 	}
 
 	public function homuraVsEnd(a:ICollider,b:ICollider){
@@ -425,12 +404,7 @@ class GameState extends State {
 		boss.damage(bullet.damage);
 		bullet.die();
 
-		var gunHit = new Sprite("gun_hit");
-		gunHit.x = boss.collision.x;
-		gunHit.y = boss.collision.y;
-		
-		temporalSprites.push(gunHit);
-		simulationLayer.addChild(gunHit);
+		createGunHitSprite(boss.collision.x,boss.collision.y);
 	}
 
 	public function rocketVsBoss(a:ICollider,b:ICollider) {
@@ -439,15 +413,8 @@ class GameState extends State {
 
 		boss.damage(rocket.damage);
 		rocket.die();
-
-		var x: Float = boss.collision.x;
-		var y: Float = boss.collision.y;
 		
-		var explosion = new Sprite("blowing");
-		explosion.x = boss.collision.x;
-		explosion.y = boss.collision.y;
-		temporalSprites.push(explosion);
-		simulationLayer.addChild(explosion);
+		createExplosionSprite(boss.collision.x,boss.collision.y);
 	}
 
 	function playerVsProjectile(a:ICollider,b:ICollider){
@@ -459,11 +426,7 @@ class GameState extends State {
 
 	override function update(dt:Float) {
 		super.update(dt);
-		if(room=="BonusArea"){
-			stage.defaultCamera().scale=2;
-		}else{
-			stage.defaultCamera().scale=1;
-		}
+		setupCameraScale();
 	
 		CollisionEngine.collide(player.collision,worldMap.collision);
 		CollisionEngine.collide(enemyCollisions,worldMap.collision);
@@ -546,7 +509,50 @@ class GameState extends State {
 		for(b in GGD.rocketList){
 			b.resetTimeline();
 		}
+	}
 
+	inline function createGunHitSprite(x: Float, y: Float){
+		var gunHit = new Sprite("gun_hit");
+		gunHit.x = x;
+		gunHit.y = y;
+		temporalSprites.push(gunHit);
+		simulationLayer.addChild(gunHit);
+	}
+
+	inline function createExplosionSprite(x: Float, y: Float){
+		var explosion = new Sprite("blowing");
+		explosion.x = x;
+		explosion.y = y;
+		temporalSprites.push(explosion);
+		simulationLayer.addChild(explosion);
+	}
+
+	inline function rocketAoe(x: Float, y: Float, damage: Int){
+		var damagedPawns: Array<Pawn> = pawns.filter(function (f) return
+			f.collision.x <= x+50 && f.collision.x >= x-50 &&
+			f.collision.y <= y+50 && f.collision.y >= y-50);
+
+		for (p in damagedPawns){
+			p.damage(damage);
+		}
+	}
+
+	inline function setupCameraScale(){
+		if(room=="BonusArea"){
+			stage.defaultCamera().scale=2;
+		}else{
+			stage.defaultCamera().scale=1;
+		}
+	}
+
+	inline function postProcessTileTint(tileLayer: TmxTileLayer): Sprite{
+		var spr = new Sprite("level1b");
+		var color:Int = tileLayer.tintColor;
+		var red = (color & 0xFF0000) >> 16;
+		var green = (color & 0x00FF00) >> 8;
+		var blue = (color & 0x0000FF);
+		spr.colorMultiplication(red/255,green/255,blue/255,1);
+		return spr;
 	}
 
 	inline function checkForBossDisplay(){

@@ -93,7 +93,6 @@ class Meguca extends Enemy
 		return collision.height;
 	}
 
-	
 	override function render() {
 		display.x=collision.x;
 		display.y=collision.y;
@@ -108,7 +107,6 @@ class Meguca extends Enemy
 		super.render();
 	}
     
-	
 	inline function move(){
 		changeCounter++;
 		if(changeDirection == changeCounter){

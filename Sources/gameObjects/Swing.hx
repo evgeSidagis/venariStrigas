@@ -35,10 +35,12 @@ class Swing extends Entity
 
 		display.offsetY = 0;
 	}
+	
 	override function limboStart() {
 		display.removeFromParent();
 		collision.removeFromParent();
 	}
+
 	override function update(dt:Float) {
 		lifeTime+=dt;
 		if(lifeTime>=totalLifeTime){
@@ -57,6 +59,7 @@ class Swing extends Entity
 		}
 		super.update(dt);
 	}
+
 	public function swing(x:Float, y:Float,dirX:Float,dirY:Float,swordCollision:CollisionGroup):Void
 	{
         lifeTime=0;

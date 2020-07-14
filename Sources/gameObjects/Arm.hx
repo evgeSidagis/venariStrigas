@@ -16,5 +16,4 @@ class Arm extends Entity
 		var projectile:Projectile=cast recycle(Projectile);
 		projectile.shoot(aX,aY,dirX,dirY);
 	}
-	
 }

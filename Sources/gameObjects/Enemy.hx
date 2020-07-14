@@ -12,11 +12,6 @@ import com.framework.utils.Entity;
 import com.collision.platformer.Sides;
 import com.collision.platformer.CollisionGroup;
 
-
-/**
- * ...
- * @author 
- */
 class Enemy extends Entity
 {
 	static private inline var SPEED:Float = 250;

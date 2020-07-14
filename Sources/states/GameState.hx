@@ -243,7 +243,6 @@ class GameState extends State {
 		hudLayer.addChild(lapDisplay);
 	}
 
-
 	function parseMapObjects(layerTilemap:Tilemap, object:TmxObject) {
 		switch (object.objectType){
 			case OTRectangle:
@@ -340,7 +339,7 @@ class GameState extends State {
 		player.collision.y = 20;
 	}
 
-	public function bulletVsEnemy(a:ICollider,b:ICollider) {
+	function bulletVsEnemy(a:ICollider,b:ICollider) {
 		var pawn: Pawn=cast b.userData;
 		var bullet:Bullet=cast a.userData;
 
@@ -350,7 +349,7 @@ class GameState extends State {
 		createGunHitSprite(pawn.collision.x,pawn.collision.y);
 	}
 
-	public function rocketVsEnemy(a:ICollider,b:ICollider) {
+	function rocketVsEnemy(a:ICollider,b:ICollider) {
 		var pawn: Pawn=cast b.userData;
 		var rocket:Rocket=cast a.userData;
 
@@ -363,7 +362,7 @@ class GameState extends State {
 		createExplosionSprite(x,y);
 	}
 
-	public function homuraVsEnd(a:ICollider,b:ICollider){
+	function homuraVsEnd(a:ICollider,b:ICollider){
 		if(Input.i.isKeyCodePressed(KeyCode.Return)){	
 			if(a.userData != "endScreen"){
 				if(raganos==null||raganos.health<=0){
@@ -397,7 +396,7 @@ class GameState extends State {
 		changeState(new GameOver("You have fallen to ground level.\n\nEasier to reset than to climb back."));
 	}
 
-	public function bulletVsBoss(a:ICollider,b:ICollider) {
+	function bulletVsBoss(a:ICollider,b:ICollider) {
 		var boss:Raganos=cast b.userData;
 		var bullet:Bullet=cast a.userData;
 
@@ -407,7 +406,7 @@ class GameState extends State {
 		createGunHitSprite(boss.collision.x,boss.collision.y);
 	}
 
-	public function rocketVsBoss(a:ICollider,b:ICollider) {
+	function rocketVsBoss(a:ICollider,b:ICollider) {
 		var boss:Raganos=cast b.userData;
 		var rocket:Rocket=cast a.userData;
 

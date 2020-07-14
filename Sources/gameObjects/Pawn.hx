@@ -93,6 +93,7 @@ class Pawn extends Enemy
 				attackRespite = 0;
 				isAttacking = false;
 			}
+			//If Homura is close or she hits them enough, they wake up and start pursuit
 			if((target.y - collision.y <= 200 && target.y - collision.y >= -200) && 
 				(target.x - collision.x <= 400 && target.x - collision.x >= -400) || health < 30)
 			{
@@ -102,7 +103,6 @@ class Pawn extends Enemy
 			
 		collision.update(dt);
 		super.update(dt);
-
 	}
 	public function get_x():Float{
 		return collision.x+collision.width*0.5;
@@ -117,7 +117,6 @@ class Pawn extends Enemy
 		return collision.height;
 	}
 
-	
 	override function render() {
 		display.x=collision.x;
 		display.y=collision.y;

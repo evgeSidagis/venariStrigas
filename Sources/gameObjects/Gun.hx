@@ -17,5 +17,4 @@ class Gun extends Entity
 		var randomAngleY:Float = Random.getRandomIn(-0.05,0.05);
 		bullet.shoot(aX,aY,dirX,randomAngleY);
 	}
-	
 }

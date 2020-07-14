@@ -144,8 +144,6 @@ class Raganos extends Enemy
 		}
 	}
 
-	
-
 	function stageOneBehavior(){
 		if(tripleShotTimer % 180 == 0){
 			tripleShotHorizontal(1);

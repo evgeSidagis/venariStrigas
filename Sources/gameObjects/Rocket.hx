@@ -39,10 +39,12 @@ class Rocket extends Entity
 		display.offsetX = 10;
 		display.offsetY = -10;
 	}
+	
 	override function limboStart() {
 		display.removeFromParent();
 		collision.removeFromParent();
 	}
+
 	override function update(dt:Float) {
 		framesExisting++;
 		if(!GGD.isTimeStopped || framesExisting <= frameCheck){
@@ -63,6 +65,7 @@ class Rocket extends Entity
 		display.y=collision.y;
 		super.update(dt);
 	}
+
 	public function shoot(x:Float, y:Float,dirX:Float,dirY:Float):Void
 	{
 		lifeTime=0;

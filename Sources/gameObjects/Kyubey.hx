@@ -65,7 +65,6 @@ class Kyubey extends Entity
 		return collision.height;
 	}
 
-	
 	override function render() {
 		display.x=collision.x;
 		display.y=collision.y;

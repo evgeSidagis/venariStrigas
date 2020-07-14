@@ -141,4 +141,4 @@ Raganos - https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-n
 Homura Akemi, Kyubey:
 https://www.deviantart.com/konbe 
 
-Con respecto a Homura Akemi, no encontre animaciones con respecto a saltar o hacer doble salto.
+Con respecto a Homura Akemi, no encontre animaciones con respecto a saltar o hacer doble salto. Hubiera estado buena tenerlas, pero bueno, tuve que trabajar con lo que tenia disponible. Por algunos momentos del desarrollo pense en usar otro personaje principal (Seguramente Sayaka Miki) que tenia mas animaciones disponibles, pero me vi persuadido por el hecho de que Homura es mi personaje favorito del anime en particular y uno de mis favoritos en toda forma de historia o media.

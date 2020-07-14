@@ -51,8 +51,12 @@ El proposito de esto es crear una atmosfera cada vez mas "falsa" e "irreal", sig
 Otros datos:
 
 Si disparas a un grupo de enemigos con la pistola desde extremadamente cerca, es posible pegarle a todos con la misma bala.
+
 Entrar a un area nuevo bajo tiempo detenido puede causar cambios en el comportamiento de las megucas.
-Raganos significa "Brujas" en Lituano. "Ragana" seria bruja pero no sonaba tan bien como nombre de jefe )?.
+
+Raganos significa "Brujas" en Lituano. "Ragana" seria bruja pero no sonaba tan bien como nombre de jefe.
+
+El modelo utilizado para los Pawns esta basado en una version oscura de Sabrina Mickey, que a su vez es una version del personaje original de Sayaka Miki.
 
 Assets:
 

@@ -167,7 +167,7 @@ class Pawn extends Enemy
 	}
 	
 	public function attack(){
-		if (attackRespite == 0){
+		if (attackRespite == 0 && collision.isTouching(Sides.BOTTOM)){
 			isPreparingAttack = true;
 		}
 	}

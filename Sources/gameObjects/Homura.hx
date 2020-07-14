@@ -296,7 +296,7 @@ class Homura extends Entity
 	}
 
 	inline function move(speed:Float){
-		if (shootingPistol != true && shootingRocket != true || this.isAir){
+		if (!playSpecialAnimation && !shootingPistol && !shootingRocket || this.isAir ){
 			collision.velocityX = speed;
 		}
 	}
@@ -324,7 +324,6 @@ class Homura extends Entity
 		}
 	}
 
-	
 	inline function launchRocket(){
 		rocketRecoil++;
 		if(rocketRecoil == 30){

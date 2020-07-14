@@ -67,6 +67,12 @@ Obviando los mencionados anteriormente, a veces se pueden ver los pies del perso
 
 La IA de los Pawns es medianamente abusable, mas que nada porque no "entienden" donde no deberian saltar. Ahora saltan y no atacan mientras estan en el aire, lo cual las hace mas dinamicas y menos estaticas.
 
+Diseño: 
+
+Por temas de tiempo no pude implementar una clase padre para todos los proyectiles (dado que tienen comportamientos similares), y de esta forma colocar a todos estos en una unica lista de proyectiles (en GGD) pero manteniendo los collision groups para cada uno de estos. Tambien se me paso por alto implementar dos metodos mas a la clase Enemy (resetTimeline y stopTimeline) dado que todos los hijos de Enemy tienen estos dos metodos. De todas maneras, hubiera mantenido separados estos CollisionGroups de la misma forma que para los proyectiles, dado que tienen formas diferentes de reaccionar a ciertos eventos. 
+
+En estos ultimos dias previos a la entrega, el proyecto vio numerosos cambios en varias cuestiones mas que nada para dar lugar a la habilidad de detener el tiempo (deteniendo todas las colisiones y animaciones, excepto por ciertos casos), lo cual llevo a varios cambios en el diseño general del sistema. Entre ellos usar CollisionGroups en GGD, las listas de objetos en GGD, y alguna que otra cosa mas relacionada a Homura. 
+
 Assets:
 
 Sonidos:

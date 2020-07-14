@@ -65,7 +65,7 @@ Bugs Conocidos:
 
 Obviando los mencionados anteriormente, a veces se pueden ver los pies del personaje por debajo del pasto en los mapas (Por alguna razon esta tomando como primer plano la segunda capa, lo cual causa que cubra al personaje mientras que la primera capa no lo hace).
 
-La IA de los Pawns es medianamente abusable, mas que nada porque no "entienden" donde no deberian saltar (cada tanto se tiran al vacio porque quedan trabadas cargando un ataque)
+La IA de los Pawns es medianamente abusable, mas que nada porque no "entienden" donde no deberian saltar. Ahora saltan y no atacan mientras estan en el aire, lo cual las hace mas dinamicas y menos estaticas.
 
 Assets:
 
@@ -135,3 +135,4 @@ Raganos - https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-n
 Homura Akemi, Kyubey:
 https://www.deviantart.com/konbe 
 
+Con respecto a Homura Akemi, no encontre animaciones con respecto a saltar o hacer doble salto.

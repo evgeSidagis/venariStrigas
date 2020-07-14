@@ -126,6 +126,9 @@ class Meguca extends Enemy
 
 	public function resetTimeline(){
 		collision.velocityX = oldDirection;
+		if(oldDirection == 0){
+			oldDirection = SPEED;
+		}
 		display.timeline.frameRate = 1/10;
 	}
 }

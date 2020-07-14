@@ -103,6 +103,8 @@ class GameState extends State {
 	var enemyCollisions:CollisionGroup;
 	var megucaCollisions:CollisionGroup;
 
+	var deadTimer:Int = 0;
+
 	
 	public function new(room:String, fromRoom:String = null) {
 		super();
@@ -449,18 +451,20 @@ class GameState extends State {
 
 		if(Input.i.isKeyCodePressed(KeyCode.R)){
             changeState(new Intro());
-        }
+		}
 		
+		healthDisplay.text = player.health + "";
+
 		purgeTempSprites();
 
 		if(player.health <= 0){
-			changeState(new GameOver());
+			handleDeath();
 		}
 		if(player.collision.y > worldMap.heightInTiles * 32 + 200){
 			changeState(new GameOver("You have left the area. Seems like you\n\n do not care about Madoka that much."));
 		}
 		
-		healthDisplay.text = player.health + "";
+		
 		
 		checkForBossDisplay();
 		checkOtherIcons();
@@ -507,6 +511,13 @@ class GameState extends State {
 		}
 		for(b in GGD.rocketList){
 			b.resetTimeline();
+		}
+	}
+	inline function handleDeath(){
+		healthDisplay.text = "0";
+		deadTimer++;
+		if(deadTimer>=85){
+			changeState(new GameOver());
 		}
 	}
 

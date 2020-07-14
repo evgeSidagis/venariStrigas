@@ -44,8 +44,8 @@ class Projectile extends Entity
 				die();
 			}
 			collision.update(dt);
-			display.x=collision.x;
-			display.y=collision.y;
+			display.x=collision.x-5;
+			display.y=collision.y-5;
 		}
 		super.update(dt);
 	}

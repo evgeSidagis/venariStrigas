@@ -69,7 +69,7 @@ class Rocket extends Entity
 	public function shoot(x:Float, y:Float,dirX:Float,dirY:Float):Void
 	{
 		lifeTime=0;
-		collision.x=x;
+		setProperStartPoint(x,dirX);
 		collision.y=y;
 		collision.velocityX = 1000*dirX;
 		permanentDir = dirX;
@@ -90,5 +90,13 @@ class Rocket extends Entity
 
 	public function resetTimeline(){
 		collision.velocityX = 1000*permanentDir;
+	}
+
+	inline function setProperStartPoint(x:Float,dirX: Float){
+		if(dirX==1){
+			collision.x=x;
+		}else{
+			collision.x=x-60;
+		}
 	}
 }

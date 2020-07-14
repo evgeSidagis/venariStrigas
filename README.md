@@ -16,7 +16,10 @@ Tu personaje podra saltar inicialmente una unica vez, pero desbloqueara un doble
 En el segundo nivel, desbloquearas la ultima habilidad especial de Homura, que es poder detener el flujo de tiempo por un par de segundos.
 
 Si mueres o dejas el area jugable deberas empezar desde el primer nivel de vuelta.
+
 Al morir quedan guardadas las armas/habilidades desbloqueadas y la vuelta (lap) donde estas parado.
+
+Al pasar de nivel al siguiente la salud se reinicia. Esto es en parte por razones de balance, sobretodo considerando el sistema descrito a continuacion.
 
 Ademas, existe un sistema de laps, que aumenta con cada corrida completa. Este sistema aumenta la dificultad linealmente, aumentando el daño de los enemigos y su salud.
 

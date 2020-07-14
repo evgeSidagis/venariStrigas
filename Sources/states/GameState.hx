@@ -127,10 +127,12 @@ class GameState extends State {
 		resources.add(new ImageLoader("FirstAreaDBg"));
 		resources.add(new ImageLoader("SecondAreaDBg"));
 		resources.add(new ImageLoader("BossAreaBg"));
+		resources.add(new ImageLoader("BonusAreaBg"));
 
 		resources.add(new SoundLoader("FirstAreaDM",false));
 		resources.add(new SoundLoader("SecondAreaDM",false));
 		resources.add(new SoundLoader("BossAreaM",false));
+		resources.add(new SoundLoader("BonusAreaM",false));
 
 		resources.add(new ImageLoader("gun_hit"));
 		resources.add(new ImageLoader("blowing"));
@@ -257,8 +259,11 @@ class GameState extends State {
 					dialogCollision.add(dialog.collider);
 					addChild(dialog);
 				}
-				if(object.type=="kyu"){
+				if(object.type=="kyu" || object.type == "kyu2"){
 					var kyubey = new Kyubey(object.x-10,object.y,simulationLayer);
+					if(object.type == "kyu2"){
+						kyubey.changeDirection();
+					}
 					addChild(kyubey);
 				}
 				if(object.type=="en"){
@@ -382,14 +387,13 @@ class GameState extends State {
 	public function homuraVsEnd(a:ICollider,b:ICollider){
 		if(Input.i.isKeyCodePressed(KeyCode.Return)){	
 			if(a.userData != "endScreen"){
-				SoundManager.stopMusic();
-				changeState(new GameState(a.userData,room));
-			}else{
 				if(raganos==null||raganos.health<=0){
 					SoundManager.stopMusic();
-					GGD.lap++;
-					changeState(new Ending());
+					changeState(new GameState(a.userData,room));
 				}
+			}else{
+				GGD.lap++;
+				changeState(new Ending());
 			}
 		}
 	}
@@ -455,7 +459,11 @@ class GameState extends State {
 
 	override function update(dt:Float) {
 		super.update(dt);
-		stage.defaultCamera().scale=1;
+		if(room=="BonusArea"){
+			stage.defaultCamera().scale=2;
+		}else{
+			stage.defaultCamera().scale=1;
+		}
 	
 		CollisionEngine.collide(player.collision,worldMap.collision);
 		CollisionEngine.collide(enemyCollisions,worldMap.collision);

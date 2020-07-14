@@ -31,13 +31,11 @@ class Meguca extends Enemy
 	var screenWidth:Int;
 	var screenHeight:Int;
 
-	var currentCharge: Int = 0;
-
 	var changeDirection: Int = 90;
 
 	var changeCounter = 0;
 
-	var oldDirection: Int = 0;
+	var oldDirection: Float = 0;
 	
 	public function new(X:Float, Y:Float,layer:Layer, col:CollisionGroup) 
 	{
@@ -69,6 +67,8 @@ class Meguca extends Enemy
 
 		collision.velocityX = -SPEED;
 
+		oldDirection = collision.velocityX;
+
         col.add(collision);
 	}
 	override function update(dt:Float ):Void
@@ -98,7 +98,7 @@ class Meguca extends Enemy
 		display.x=collision.x;
 		display.y=collision.y;
 		display.timeline.playAnimation("Meguca_");	
-		if(collision.velocityX >= 0){
+		if(oldDirection == SPEED){
 			display.scaleX= 0.5;
 			display.offsetX= 0;
 		}else{
@@ -113,22 +113,21 @@ class Meguca extends Enemy
 		changeCounter++;
 		if(changeDirection == changeCounter){
 			collision.velocityX= collision.velocityX*-1;
+			oldDirection = collision.velocityX;
 			changeCounter = 0;
-		}
-		if(collision.velocityX==SPEED){
-			oldDirection = 1;
-		}else{
-			oldDirection = -1;
 		}
 	}
 
 	public function stopTimeline(){
+		if(collision.velocityX !=0){
+			oldDirection = collision.velocityX;
+		}
 		collision.velocityX = 0;
 		display.timeline.frameRate = 1/0;
 	}
 
 	public function resetTimeline(){
-		collision.velocityX = SPEED*oldDirection;
+		collision.velocityX = oldDirection;
 		display.timeline.frameRate = 1/10;
 	}
 }

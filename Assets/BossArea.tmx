@@ -50,7 +50,7 @@
   <object id="5" type="start" x="32.6667" y="353.667" width="63" height="82.3333"/>
   <object id="6" type="end" x="1950.96" y="351.199" width="65.679" height="85.3256" rotation="359.956">
    <properties>
-    <property name="goTo" value="endScreen"/>
+    <property name="goTo" value="BonusArea"/>
    </properties>
   </object>
   <object id="7" type="dialog" x="1542.33" y="288" width="181" height="160">

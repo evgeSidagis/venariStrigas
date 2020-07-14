@@ -10,11 +10,6 @@ import com.gEngine.display.Sprite;
 import kha.math.FastVector2;
 import com.framework.utils.Entity;
 
-
-/**
- * ...
- * @author 
- */
 class Kyubey extends Entity
 {
 	var direction:FastVector2;
@@ -75,5 +70,9 @@ class Kyubey extends Entity
 		display.x=collision.x;
 		display.y=collision.y;
 		super.render();
+	}
+
+	public function changeDirection(){
+		display.scaleX = -1;
 	}
 }

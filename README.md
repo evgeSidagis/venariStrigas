@@ -61,6 +61,12 @@ Raganos significa "Brujas" en Lituano. "Ragana" seria bruja pero no sonaba tan b
 
 El modelo utilizado para los Pawns esta basado en una version oscura de Sabrina Mickey, que a su vez es una version del personaje original de Sayaka Miki.
 
+Bugs Conocidos: 
+
+Obviando los mencionados anteriormente, a veces se pueden ver los pies del personaje por debajo del pasto en los mapas (Por alguna razon esta tomando como primer plano la segunda capa, lo cual causa que cubra al personaje mientras que la primera capa no lo hace).
+
+La IA de los Pawns es medianamente abusable, mas que nada porque no "entienden" donde no deberian saltar (cada tanto se tiran al vacio porque quedan trabadas cargando un ataque)
+
 Assets:
 
 Sonidos:

@@ -1,5 +1,10 @@
 # venariStrigas
 
+
+Cambio del Domingo 19/07/2020
+-Arreglado el problema con los mapas que estaban mal superpuestos. Ahora los pies del personaje son cubiertos en su totalidad en los dos mapas donde se presentaba ese error. Los demas mapas permanecen igual.
+
+
 Bueno, este readme queda para la posteridad explicando un poco elementos basicos del juego, y un poco como funciona. Al final del readme estan los links de los assets utilizados en este juego.
 
 

@@ -1,4 +1,7 @@
-let project = new Project('New Project');
+let project = new Project('Venari Strigas');
+project.windowOptions.width = 1280;
+project.windowOptions.height = 720;
+
 project.addAssets('Assets/**');
 project.addShaders('Shaders/**');
 project.addDefine('debugInfo');

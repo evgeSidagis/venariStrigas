@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:3a6f1b1dec152a6abc861cf418798d5a:fd6e0b1860b949437828d021c1fad91b:a91bae216721cae12b9c262db28f3a5a$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="meguca.png" width="59" height="1440">
+    <SubTexture name="Meguca_0" x="1" y="1" width="57" height="88"/>
+    <SubTexture name="Meguca_1" x="1" y="91" width="57" height="88"/>
+    <SubTexture name="Meguca_2" x="1" y="721" width="57" height="88"/>
+    <SubTexture name="Meguca_3" x="1" y="811" width="57" height="88"/>
+    <SubTexture name="Meguca_4" x="1" y="901" width="57" height="88"/>
+    <SubTexture name="Meguca_5" x="1" y="991" width="57" height="88"/>
+    <SubTexture name="Meguca_6" x="1" y="1081" width="57" height="88"/>
+    <SubTexture name="Meguca_7" x="1" y="1171" width="57" height="88"/>
+    <SubTexture name="Meguca_8" x="1" y="1261" width="57" height="88"/>
+    <SubTexture name="Meguca_9" x="1" y="1351" width="57" height="88"/>
+    <SubTexture name="Meguca_10" x="1" y="181" width="57" height="88"/>
+    <SubTexture name="Meguca_11" x="1" y="271" width="57" height="88"/>
+    <SubTexture name="Meguca_12" x="1" y="361" width="57" height="88"/>
+    <SubTexture name="Meguca_13" x="1" y="451" width="57" height="88"/>
+    <SubTexture name="Meguca_14" x="1" y="541" width="57" height="88"/>
+    <SubTexture name="Meguca_15" x="1" y="631" width="57" height="88"/>
+</TextureAtlas>
